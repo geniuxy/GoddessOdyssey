@@ -8,17 +8,6 @@
 
 AWeapon::AWeapon()
 {
-	PrimaryActorTick.bCanEverTick = true;
-
-	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("WeaponMesh"));
-	SetRootComponent(WeaponMesh);
-	
-	Sphere->SetupAttachment(GetRootComponent());
-	
-	EmbersEffect->SetupAttachment(GetRootComponent());
-
-	// 设置武器的缩放值
-	WeaponMesh->SetRelativeScale3D(FVector(0.75f, 0.75f, 0.75f));
 }
 
 void AWeapon::Equip(USceneComponent* InParent, FName SocketName, AActor* NewOwner, APawn* NewInstigator)
@@ -36,8 +25,5 @@ void AWeapon::Equip(USceneComponent* InParent, FName SocketName, AActor* NewOwne
 void AWeapon::AttachWeaponTo(USceneComponent* InParent, FName SocketName)
 {
 	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
-	WeaponMesh->AttachToComponent(InParent, AttachmentRules, SocketName);
-
-	// 设置武器的缩放值
-	WeaponMesh->SetRelativeScale3D(FVector(0.75f, 0.75f, 0.75f));
+	ItemMesh->AttachToComponent(InParent, AttachmentRules, SocketName);
 }

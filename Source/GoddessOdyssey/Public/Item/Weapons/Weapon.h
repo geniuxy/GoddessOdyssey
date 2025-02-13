@@ -22,8 +22,4 @@ public:
 	void AttachWeaponTo(USceneComponent* InParent, FName SocketName);
 
 protected:
-
-	UPROPERTY(VisibleAnywhere)
-	USkeletalMeshComponent* WeaponMesh;
-	
 };
