@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "Goddess.generated.h"
 
+class USpringArmComponent;
 enum class EGoddessActionState : uint8;
 class AWeapon;
 class AItem;
@@ -33,6 +34,12 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
 	UInputMappingContext* MappingContext;
+
+	UPROPERTY(EditAnywhere)
+	USpringArmComponent* WeaponFloatSpringArm;
+
+	UPROPERTY(EditAnywhere)
+	USceneComponent* WeaponPosition;
 
 	/** 
 	 * Attack

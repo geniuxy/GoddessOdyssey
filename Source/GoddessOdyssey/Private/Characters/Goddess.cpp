@@ -6,11 +6,23 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Characters/GoddessType.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "Item/Weapons/Weapon.h"
 
 AGoddess::AGoddess()
 {
 	PrimaryActorTick.bCanEverTick = false;
+
+	WeaponFloatSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Weapon Float SpringArm"));
+	WeaponFloatSpringArm->SetupAttachment(GetRootComponent());
+	WeaponFloatSpringArm->AddLocalOffset(FVector(0.f, 0.f, 80.f));
+	WeaponFloatSpringArm->TargetArmLength = 60.0f;
+	WeaponFloatSpringArm->bEnableCameraLag = true;
+	WeaponFloatSpringArm->bEnableCameraRotationLag = true;
+
+	WeaponPosition =CreateDefaultSubobject<USceneComponent>(TEXT("Weapon Position"));
+	WeaponPosition->SetupAttachment(WeaponFloatSpringArm);
+	WeaponPosition->SetRelativeRotation(FRotator(340.f, 90.f, 0.f));
 }
 
 void AGoddess::BeginPlay()
@@ -84,7 +96,7 @@ void AGoddess::PlayAttackMontage()
 		// 打印当前攻击次数
 		UE_LOG(LogTemp, Warning, TEXT("AttackCount: %d"), AttackCount);
 
-		FName SectionName = FName(*FString::Printf(TEXT("Attack%d"), AttackCount+1));
+		FName SectionName = FName(*FString::Printf(TEXT("Attack%d"), AttackCount + 1));
 
 		AnimInstance->Montage_JumpToSection(SectionName, AttackMontage);
 	}
