@@ -16,11 +16,11 @@ AGoddess::AGoddess()
 	WeaponFloatSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Weapon Float SpringArm"));
 	WeaponFloatSpringArm->SetupAttachment(GetRootComponent());
 	WeaponFloatSpringArm->AddLocalOffset(FVector(0.f, 0.f, 80.f));
-	WeaponFloatSpringArm->TargetArmLength = 60.0f;
+	WeaponFloatSpringArm->TargetArmLength = 45.0f;
 	WeaponFloatSpringArm->bEnableCameraLag = true;
 	WeaponFloatSpringArm->bEnableCameraRotationLag = true;
 
-	WeaponPosition =CreateDefaultSubobject<USceneComponent>(TEXT("Weapon Position"));
+	WeaponPosition = CreateDefaultSubobject<USceneComponent>(TEXT("Weapon Position"));
 	WeaponPosition->SetupAttachment(WeaponFloatSpringArm);
 	WeaponPosition->SetRelativeRotation(FRotator(340.f, 90.f, 0.f));
 }
@@ -36,6 +36,24 @@ void AGoddess::BeginPlay()
 		{
 			Subsystem->AddMappingContext(MappingContext, 0);
 		}
+	}
+
+	InitFloatingWeapon();
+}
+
+void AGoddess::InitFloatingWeapon()
+{
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		SpawnParams.Instigator = this;
+
+		FloatingWeapon = World->SpawnActor<AWeapon>(FloatingWeaponClass, WeaponPosition->GetComponentLocation(),
+		                                            WeaponPosition->GetComponentRotation(), SpawnParams);
+		// 附加到武器位置，并且设置为保持场景位置
+		FloatingWeapon->AttachToComponent(WeaponPosition, FAttachmentTransformRules::KeepWorldTransform);
 	}
 }
 

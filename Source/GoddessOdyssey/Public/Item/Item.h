@@ -9,6 +9,7 @@
 class USphereComponent;
 class UNiagaraComponent;
 
+UENUM(BlueprintType)
 enum class EItemState : uint8
 {
 	EIS_Hovering UMETA(DisplayName = "Hovering"),
@@ -55,6 +56,7 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* ItemMesh;
 
+	UPROPERTY(BlueprintReadWrite)
 	EItemState ItemState = EItemState::EIS_Hovering;
 
 	UPROPERTY(VisibleAnywhere)

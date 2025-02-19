@@ -29,17 +29,26 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	UPROPERTY(BlueprintReadWrite)
 	EGoddessEquippedState EquippedState = EGoddessEquippedState::EGES_UnEquipped;
 	EGoddessActionState ActionState = EGoddessActionState::EGAS_UnOccupied;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
 	UInputMappingContext* MappingContext;
 
+	virtual void InitFloatingWeapon();
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AWeapon> FloatingWeaponClass;
+	
 	UPROPERTY(EditAnywhere)
 	USpringArmComponent* WeaponFloatSpringArm;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USceneComponent* WeaponPosition;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
+	AWeapon* FloatingWeapon;
 
 	/** 
 	 * Attack
