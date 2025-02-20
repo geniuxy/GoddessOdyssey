@@ -31,6 +31,7 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite)
 	EGoddessEquippedState EquippedState = EGoddessEquippedState::EGES_UnEquipped;
+	UPROPERTY(BlueprintReadWrite)
 	EGoddessActionState ActionState = EGoddessActionState::EGAS_UnOccupied;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
@@ -40,7 +41,7 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AWeapon> FloatingWeaponClass;
-	
+
 	UPROPERTY(EditAnywhere)
 	USpringArmComponent* WeaponFloatSpringArm;
 
@@ -55,7 +56,7 @@ protected:
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
 	UInputAction* AttackAction;
-	
+
 	virtual void Attack();
 
 	int32 AttackCount;
@@ -96,6 +97,15 @@ protected:
 	 */
 	UPROPERTY(EditDefaultsOnly, Category = Montages)
 	UAnimMontage* AttackMontage;
+
+	/**
+	 * Custom Events
+	 */
+	UFUNCTION(BlueprintImplementableEvent, Category = "CustomEvents")
+	void WeaponAttachToHandEvent();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "CustomEvents")
+	void WeaponBackToFloatEvent();
 
 private:
 

@@ -80,6 +80,8 @@ void AGoddess::Attack()
 		PlayAttackMontage();
 		ActionState = EGoddessActionState::EGAS_Attacking;
 	}
+	else
+		WeaponAttachToHandEvent();
 }
 
 void AGoddess::Equip()
