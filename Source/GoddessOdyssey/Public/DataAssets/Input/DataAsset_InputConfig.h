@@ -30,6 +30,7 @@ UCLASS()
 class GODDESSODYSSEY_API UDataAsset_InputConfig : public UDataAsset
 {
 	GENERATED_BODY()
+
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UInputMappingContext* DefaultMappingContext;
@@ -37,5 +38,5 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = ( TitleProperty = "InputTag"))
 	TArray<FGoddessInputActionConfig> NativeInputActions;
 
-	UInputAction* FindNativeInputActionByTag(const FGameplayTag& InInputTag);
+	UInputAction* FindNativeInputActionByTag(const FGameplayTag& InInputTag) const;
 };
