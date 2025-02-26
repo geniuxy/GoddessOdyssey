@@ -3,10 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BaseCharacter.h"
 #include "GoddessType.h"
-#include "GameFramework/Character.h"
 #include "Goddess.generated.h"
 
+class UCameraComponent;
 class USpringArmComponent;
 enum class EGoddessActionState : uint8;
 class AWeapon;
@@ -15,7 +16,7 @@ class UInputAction;
 class UInputMappingContext;
 
 UCLASS()
-class GODDESSODYSSEY_API AGoddess : public ACharacter
+class GODDESSODYSSEY_API AGoddess : public ABaseCharacter
 {
 	GENERATED_BODY()
 
@@ -29,6 +30,22 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+#pragma region Components
+
+	UPROPERTY(EditAnywhere, Category="Camera")
+	USpringArmComponent* CameraBoom;
+
+	UPROPERTY(EditAnywhere, Category="Camera")
+	UCameraComponent* FollowCamera;
+
+	UPROPERTY(EditAnywhere)
+	USpringArmComponent* WeaponFloatSpringArm;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USceneComponent* WeaponPosition;
+
+#pragma endregion
+
 	UPROPERTY(BlueprintReadWrite)
 	EGoddessEquippedState EquippedState = EGoddessEquippedState::EGES_UnEquipped;
 	UPROPERTY(BlueprintReadWrite)
@@ -41,12 +58,6 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AWeapon> FloatingWeaponClass;
-
-	UPROPERTY(EditAnywhere)
-	USpringArmComponent* WeaponFloatSpringArm;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	USceneComponent* WeaponPosition;
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
 	AWeapon* FloatingWeapon;
