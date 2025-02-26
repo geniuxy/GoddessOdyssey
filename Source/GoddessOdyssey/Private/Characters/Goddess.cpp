@@ -5,9 +5,12 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "GoddessGameplayTags.h"
 #include "Camera/CameraComponent.h"
 #include "Characters/GoddessType.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/Input/GoddessInputComponent.h"
+#include "DataAssets/Input/DataAsset_InputConfig.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Item/Weapons/Weapon.h"
 #include "Utils/DebugHelper.h"
@@ -48,16 +51,40 @@ void AGoddess::BeginPlay()
 
 	Debug::Print("Hello World");
 
-	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+	InitFloatingWeapon();
+}
+
+void AGoddess::CallBack_Move(const FInputActionValue& InputActionValue)
+{
+	const FVector2D MoveVector = InputActionValue.Get<FVector2D>();
+
+	// 获取角色控制器的偏航角（Yaw），并将其转换为一个旋转值（FRotator）。
+	// 偏航角是角色在水平方向上的旋转角度，用于确定角色的朝向
+	const FRotator MovementRotation(0.f, Controller->GetControlRotation().Yaw, 0.f);
+
+	if (MoveVector.Y != 0.f)
 	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem =
-			ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
-		{
-			Subsystem->AddMappingContext(MappingContext, 0);
-		}
+		// MovementRotation.RotateVector() 被用来将标准方向向量（如 FVector::ForwardVector 或 FVector::RightVector）旋转到角色的当前朝向。
+		const FVector ForwardVector = MovementRotation.RotateVector(FVector::ForwardVector);
+		AddMovementInput(ForwardVector, MoveVector.Y);
 	}
 
-	InitFloatingWeapon();
+	if (MoveVector.X != 0.f)
+	{
+		const FVector RightVector = MovementRotation.RotateVector(FVector::RightVector);
+		AddMovementInput(RightVector, MoveVector.X);
+	}
+}
+
+void AGoddess::CallBack_Look(const FInputActionValue& InputActionValue)
+{
+	const FVector2D LookAxisVector = InputActionValue.Get<FVector2D>();
+
+	if (LookAxisVector.Y != 0.f)
+		AddControllerPitchInput(LookAxisVector.Y);
+
+	if (LookAxisVector.X != 0.f)
+		AddControllerYawInput(LookAxisVector.X);
 }
 
 void AGoddess::InitFloatingWeapon()
@@ -144,6 +171,21 @@ void AGoddess::PlayAttackMontage()
 void AGoddess::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	checkf(InputConfigDataAsset, TEXT("Forgot to assign a valid data asset as input config"));
+	// 添加MappingContext
+	ULocalPlayer* LocalPlayer = GetController<APlayerController>()->GetLocalPlayer();
+	UEnhancedInputLocalPlayerSubsystem* Subsystem =
+		ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
+	check(Subsystem);
+	Subsystem->AddMappingContext(InputConfigDataAsset->DefaultMappingContext, 0);
+
+	// Bind InputActions
+	UGoddessInputComponent* GoddessInputComponent = CastChecked<UGoddessInputComponent>(PlayerInputComponent);
+	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::InputTag_Move,
+	                                             ETriggerEvent::Triggered, this, &ThisClass::CallBack_Move);
+	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::InputTag_Look,
+	                                             ETriggerEvent::Triggered, this, &ThisClass::CallBack_Look);
 
 	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
 	{

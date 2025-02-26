@@ -7,13 +7,15 @@
 #include "GoddessType.h"
 #include "Goddess.generated.h"
 
+struct FInputActionValue;
+class UDataAsset_InputConfig;
 class UCameraComponent;
 class USpringArmComponent;
-enum class EGoddessActionState : uint8;
 class AWeapon;
 class AItem;
 class UInputAction;
 class UInputMappingContext;
+enum class EGoddessActionState : uint8;
 
 UCLASS()
 class GODDESSODYSSEY_API AGoddess : public ABaseCharacter
@@ -46,15 +48,25 @@ protected:
 
 #pragma endregion
 
+#pragma region Inputs
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData")
+	UDataAsset_InputConfig* InputConfigDataAsset;
+
+	void CallBack_Move(const FInputActionValue& InputActionValue);
+	void CallBack_Look(const FInputActionValue& InputActionValue);
+
+#pragma endregion
+
 	UPROPERTY(BlueprintReadWrite)
 	EGoddessEquippedState EquippedState = EGoddessEquippedState::EGES_UnEquipped;
 	UPROPERTY(BlueprintReadWrite)
 	EGoddessActionState ActionState = EGoddessActionState::EGAS_UnOccupied;
 
+	virtual void InitFloatingWeapon();
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
 	UInputMappingContext* MappingContext;
-
-	virtual void InitFloatingWeapon();
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AWeapon> FloatingWeaponClass;

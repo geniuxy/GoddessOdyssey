@@ -25,9 +25,10 @@ public:
 
 template <class UserObject, typename CallbackFunc>
 void UGoddessInputComponent::BindNativeInputAction(const UDataAsset_InputConfig* InInputConfig,
-	const FGameplayTag& InInputTag, ETriggerEvent TriggerEvent, UserObject* ContextObject, CallbackFunc Func)
+                                                   const FGameplayTag& InInputTag, ETriggerEvent TriggerEvent,
+                                                   UserObject* ContextObject, CallbackFunc Func)
 {
-	checkf(InInputConfig,TEXT("Input Data Asset is null, can not proceed with binding"));
+	checkf(InInputConfig, TEXT("Input Data Asset is null, can not proceed with binding"));
 
 	if (UInputAction* FoundAction = InInputConfig->FindNativeInputActionByTag(InInputTag))
 		BindAction(FoundAction, TriggerEvent, ContextObject, Func);
