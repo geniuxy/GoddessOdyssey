@@ -8,12 +8,13 @@
 #include "Characters/GoddessType.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Item/Weapons/Weapon.h"
+#include "Utils/DebugHelper.h"
 
 AGoddess::AGoddess()
 {
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
-	// 
+	// 将 bReceivesDecals 设置为 false 表示禁用该网格组件接收贴花的功能
 	GetMesh()->bReceivesDecals = false;
 
 	WeaponFloatSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Weapon Float SpringArm"));
@@ -31,6 +32,8 @@ AGoddess::AGoddess()
 void AGoddess::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Debug::Print("Hello World");
 
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{
