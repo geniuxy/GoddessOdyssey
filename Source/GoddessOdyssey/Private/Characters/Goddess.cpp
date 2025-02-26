@@ -12,6 +12,9 @@
 AGoddess::AGoddess()
 {
 	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bStartWithTickEnabled = false;
+	// 
+	GetMesh()->bReceivesDecals = false;
 
 	WeaponFloatSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Weapon Float SpringArm"));
 	WeaponFloatSpringArm->SetupAttachment(GetRootComponent());
