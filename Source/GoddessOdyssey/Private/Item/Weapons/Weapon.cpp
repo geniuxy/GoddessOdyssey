@@ -4,10 +4,14 @@
 #include "Item/Weapons/Weapon.h"
 
 #include "NiagaraComponent.h"
+#include "Components/BoxComponent.h"
 #include "Components/SphereComponent.h"
 
 AWeapon::AWeapon()
 {
+	WeaponCollisionBox =CreateDefaultSubobject<UBoxComponent>(TEXT("WeaponCollisionBox"));
+	WeaponCollisionBox->SetupAttachment(GetRootComponent());
+	WeaponCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void AWeapon::Equip(USceneComponent* InParent, FName SocketName, AActor* NewOwner, APawn* NewInstigator)
