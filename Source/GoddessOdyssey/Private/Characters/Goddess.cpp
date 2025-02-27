@@ -13,7 +13,7 @@
 #include "DataAssets/Input/DataAsset_InputConfig.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Item/Weapons/Weapon.h"
-#include "Utils/DebugHelper.h"
+#include "DebugHelper.h"
 
 AGoddess::AGoddess()
 {
