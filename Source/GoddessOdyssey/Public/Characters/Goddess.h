@@ -32,6 +32,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	virtual void PossessedBy(AController* NewController) override;
+
 #pragma region Components
 
 	UPROPERTY(EditAnywhere, Category="Camera")

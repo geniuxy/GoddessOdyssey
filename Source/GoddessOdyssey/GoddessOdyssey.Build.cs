@@ -16,7 +16,8 @@ public class GoddessOdyssey : ModuleRules
 			"InputCore",
 			"GameplayTags",
 			"Niagara",
-			"EnhancedInput"
+			"EnhancedInput",
+			"GameplayTasks"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });

@@ -14,6 +14,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Item/Weapons/Weapon.h"
 #include "DebugHelper.h"
+#include "AbilitySystems/BaseAbilitySystemComponent.h"
 
 AGoddess::AGoddess()
 {
@@ -49,9 +50,23 @@ void AGoddess::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Debug::Print("Hello World");
-
 	InitFloatingWeapon();
+}
+
+void AGoddess::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (BaseAbilitySystemComponent && BaseAttributeSet)
+	{
+		const FString ASCText = FString::Printf(
+			TEXT("Owner Actor: %s, AvatarActor: %s"),
+			*BaseAbilitySystemComponent->GetOwnerActor()->GetActorLabel(),
+			*BaseAbilitySystemComponent->GetAvatarActor()->GetActorLabel()
+		);
+		Debug::Print(TEXT("Ability System Component valid") + ASCText, FColor::Orange);
+		Debug::Print(TEXT("AttributeSet valid"), FColor::Blue);
+	}
 }
 
 void AGoddess::CallBack_Move(const FInputActionValue& InputActionValue)
