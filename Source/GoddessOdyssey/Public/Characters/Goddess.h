@@ -7,6 +7,7 @@
 #include "GoddessType.h"
 #include "Goddess.generated.h"
 
+class UGoddessCombatComponent;
 struct FInputActionValue;
 class UDataAsset_InputConfig;
 class UCameraComponent;
@@ -47,6 +48,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USceneComponent* WeaponPosition;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+	UGoddessCombatComponent* GoddessCombatComponent;
 
 #pragma endregion
 
@@ -136,4 +140,5 @@ private:
 
 public:
 	FORCEINLINE void SetOverlappingWeapon(AItem* Item) { OverlappingItem = Item; }
+	FORCEINLINE UGoddessCombatComponent* GetGoddessCombatComponent() const { return GoddessCombatComponent;}
 };

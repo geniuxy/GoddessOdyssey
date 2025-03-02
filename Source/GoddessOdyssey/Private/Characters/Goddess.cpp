@@ -15,6 +15,7 @@
 #include "Item/Weapons/Weapon.h"
 #include "DebugHelper.h"
 #include "AbilitySystems/BaseAbilitySystemComponent.h"
+#include "Components/Combat/GoddessCombatComponent.h"
 #include "DataAssets/StartUpData/DataAsset_StartUpData.h"
 
 AGoddess::AGoddess()
@@ -45,6 +46,8 @@ AGoddess::AGoddess()
 	WeaponPosition = CreateDefaultSubobject<USceneComponent>(TEXT("Weapon Position"));
 	WeaponPosition->SetupAttachment(WeaponFloatSpringArm);
 	WeaponPosition->SetRelativeRotation(FRotator(340.f, 90.f, 0.f));
+	
+	GoddessCombatComponent = CreateDefaultSubobject<UGoddessCombatComponent>(TEXT("GoddessCombatComponent"));
 }
 
 void AGoddess::BeginPlay()
