@@ -7,6 +7,7 @@
 #include "AbilitySystemInterface.h"
 #include "BaseCharacter.generated.h"
 
+class UDataAsset_StartUpData;
 class UBaseAttributeSet;
 class UBaseAbilitySystemComponent;
 
@@ -33,6 +34,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
 	UBaseAttributeSet* BaseAttributeSet;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
+	TSoftObjectPtr<UDataAsset_StartUpData> CharacterStartUpData;
 public:
 	FORCEINLINE UBaseAbilitySystemComponent* GetBaseAbilitySystemComponent() const
 	{
