@@ -46,7 +46,7 @@ AGoddess::AGoddess()
 	WeaponPosition = CreateDefaultSubobject<USceneComponent>(TEXT("Weapon Position"));
 	WeaponPosition->SetupAttachment(WeaponFloatSpringArm);
 	WeaponPosition->SetRelativeRotation(FRotator(340.f, 90.f, 0.f));
-	
+
 	GoddessCombatComponent = CreateDefaultSubobject<UGoddessCombatComponent>(TEXT("GoddessCombatComponent"));
 }
 
@@ -99,6 +99,16 @@ void AGoddess::CallBack_Look(const FInputActionValue& InputActionValue)
 
 	if (LookAxisVector.X != 0.f)
 		AddControllerYawInput(LookAxisVector.X);
+}
+
+void AGoddess::CallBack_AbilityInputPressed(FGameplayTag InInputTag)
+{
+	BaseAbilitySystemComponent->OnAbilityInputPressed(InInputTag);
+}
+
+void AGoddess::CallBack_AbilityInputReleased(FGameplayTag InInputTag)
+{
+	BaseAbilitySystemComponent->OnAbilityInputReleased(InInputTag);
 }
 
 void AGoddess::InitFloatingWeapon()
@@ -200,6 +210,9 @@ void AGoddess::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	                                             ETriggerEvent::Triggered, this, &ThisClass::CallBack_Move);
 	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::InputTag_Look,
 	                                             ETriggerEvent::Triggered, this, &ThisClass::CallBack_Look);
+
+	GoddessInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &ThisClass::CallBack_AbilityInputPressed,
+	                                              &ThisClass::CallBack_AbilityInputReleased);
 
 	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
 	{

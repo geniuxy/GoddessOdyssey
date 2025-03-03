@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BaseCharacter.h"
+#include "GameplayTagContainer.h"
 #include "GoddessType.h"
 #include "Goddess.generated.h"
 
@@ -61,6 +62,8 @@ protected:
 
 	void CallBack_Move(const FInputActionValue& InputActionValue);
 	void CallBack_Look(const FInputActionValue& InputActionValue);
+	void CallBack_AbilityInputPressed(FGameplayTag InInputTag);
+	void CallBack_AbilityInputReleased(FGameplayTag InInputTag);
 
 #pragma endregion
 
