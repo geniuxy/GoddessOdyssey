@@ -6,6 +6,8 @@
 #include "Abilities/GameplayAbility.h"
 #include "BaseGameplayAbility.generated.h"
 
+class UBaseCombatComponent;
+
 UENUM(BlueprintType)
 enum class EBaseAbilityActivationPolicy:uint8
 {
@@ -33,4 +35,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="BaseAbility")
 	EBaseAbilityActivationPolicy AbilityActivationPolicy = EBaseAbilityActivationPolicy::OnTrigger;
+
+	// BlueprintPure 函数不会显示执行引脚（白色引脚）
+	// BlueprintPure 函数必须有返回值或输出参数
+	UFUNCTION(BlueprintPure, Category="BaseAbility")
+	UBaseCombatComponent* GetBaseCombatComponent() const;
 };

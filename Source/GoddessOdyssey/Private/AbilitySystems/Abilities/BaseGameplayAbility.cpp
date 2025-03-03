@@ -4,6 +4,7 @@
 #include "AbilitySystems/Abilities/BaseGameplayAbility.h"
 
 #include "AbilitySystemComponent.h"
+#include "Components/Combat/BaseCombatComponent.h"
 
 void UBaseGameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
 {
@@ -28,4 +29,9 @@ void UBaseGameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle,
 		if (ActorInfo)
 			ActorInfo->AbilitySystemComponent->ClearAbility(Handle);
 	}
+}
+
+UBaseCombatComponent* UBaseGameplayAbility::GetBaseCombatComponent() const
+{
+	return GetAvatarActorFromActorInfo()->FindComponentByClass<UBaseCombatComponent>();
 }

@@ -8,4 +8,7 @@ namespace GoddessGameplayTags
 	/** Input Tags **/
 	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Move);
 	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Look);
+
+	/** Character Tags**/
+	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Weapon_Sword);
 }
