@@ -54,7 +54,7 @@ void AGoddess::BeginPlay()
 {
 	Super::BeginPlay();
 
-	InitFloatingWeapon();
+	// InitFloatingWeapon();
 }
 
 void AGoddess::PossessedBy(AController* NewController)
@@ -140,8 +140,8 @@ void AGoddess::Attack()
 		PlayAttackMontage();
 		ActionState = EGoddessActionState::EGAS_Attacking;
 	}
-	else
-		WeaponAttachToHandEvent();
+	// else
+	// 	WeaponAttachToHandEvent();
 }
 
 void AGoddess::Equip()
