@@ -6,6 +6,7 @@
 #include "Abilities/GameplayAbility.h"
 #include "BaseGameplayAbility.generated.h"
 
+class UBaseAbilitySystemComponent;
 class UBaseCombatComponent;
 
 UENUM(BlueprintType)
@@ -39,5 +40,9 @@ protected:
 	// BlueprintPure 函数不会显示执行引脚（白色引脚）
 	// BlueprintPure 函数必须有返回值或输出参数
 	UFUNCTION(BlueprintPure, Category="BaseAbility")
-	UBaseCombatComponent* GetBaseCombatComponent() const;
+	UBaseCombatComponent* GetBaseCombatComponentFromActorInfo() const;
+
+	UFUNCTION(BlueprintPure, Category="BaseAbility")
+	UBaseAbilitySystemComponent* GetBaseAbilitySystemComponentFromActorInfo() const;
+	
 };

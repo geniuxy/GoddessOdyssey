@@ -4,6 +4,7 @@
 #include "AbilitySystems/Abilities/BaseGameplayAbility.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystems/BaseAbilitySystemComponent.h"
 #include "Components/Combat/BaseCombatComponent.h"
 
 void UBaseGameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
@@ -31,7 +32,12 @@ void UBaseGameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle,
 	}
 }
 
-UBaseCombatComponent* UBaseGameplayAbility::GetBaseCombatComponent() const
+UBaseCombatComponent* UBaseGameplayAbility::GetBaseCombatComponentFromActorInfo() const
 {
 	return GetAvatarActorFromActorInfo()->FindComponentByClass<UBaseCombatComponent>();
+}
+
+UBaseAbilitySystemComponent* UBaseGameplayAbility::GetBaseAbilitySystemComponentFromActorInfo() const
+{
+	return Cast<UBaseAbilitySystemComponent>(CurrentActorInfo->AbilitySystemComponent);
 }
