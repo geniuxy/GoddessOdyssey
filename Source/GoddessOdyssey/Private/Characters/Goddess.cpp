@@ -111,21 +111,21 @@ void AGoddess::CallBack_AbilityInputReleased(FGameplayTag InInputTag)
 	BaseAbilitySystemComponent->OnAbilityInputReleased(InInputTag);
 }
 
-void AGoddess::InitFloatingWeapon()
-{
-	UWorld* World = GetWorld();
-	if (World)
-	{
-		FActorSpawnParameters SpawnParams;
-		SpawnParams.Owner = this;
-		SpawnParams.Instigator = this;
-
-		FloatingWeapon = World->SpawnActor<AWeapon>(FloatingWeaponClass, WeaponPosition->GetComponentLocation(),
-		                                            WeaponPosition->GetComponentRotation(), SpawnParams);
-		// 附加到武器位置，并且设置为保持场景位置
-		FloatingWeapon->AttachToComponent(WeaponPosition, FAttachmentTransformRules::KeepWorldTransform);
-	}
-}
+// void AGoddess::InitFloatingWeapon()
+// {
+// 	UWorld* World = GetWorld();
+// 	if (World)
+// 	{
+// 		FActorSpawnParameters SpawnParams;
+// 		SpawnParams.Owner = this;
+// 		SpawnParams.Instigator = this;
+//
+// 		FloatingWeapon = World->SpawnActor<AWeapon>(FloatingWeaponClass, WeaponPosition->GetComponentLocation(),
+// 		                                            WeaponPosition->GetComponentRotation(), SpawnParams);
+// 		// 附加到武器位置，并且设置为保持场景位置
+// 		FloatingWeapon->AttachToComponent(WeaponPosition, FAttachmentTransformRules::KeepWorldTransform);
+// 	}
+// }
 
 void AGoddess::Tick(float DeltaTime)
 {

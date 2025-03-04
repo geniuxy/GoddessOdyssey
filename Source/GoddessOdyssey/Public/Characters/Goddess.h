@@ -72,7 +72,7 @@ protected:
 	UPROPERTY(BlueprintReadWrite)
 	EGoddessActionState ActionState = EGoddessActionState::EGAS_UnOccupied;
 
-	virtual void InitFloatingWeapon();
+	// virtual void InitFloatingWeapon();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
 	UInputMappingContext* MappingContext;
@@ -80,8 +80,8 @@ protected:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AWeapon> FloatingWeaponClass;
 
-	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
-	AWeapon* FloatingWeapon;
+	// UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
+	// AWeapon* FloatingWeapon;
 
 	/** 
 	 * Attack
