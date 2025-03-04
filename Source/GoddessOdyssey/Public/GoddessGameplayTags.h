@@ -13,4 +13,7 @@ namespace GoddessGameplayTags
 
 	/** Character Tags**/
 	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Weapon_Sword);
+	
+	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Event_Equip_Sword);
+	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Event_UnEquip_Sword);
 }
