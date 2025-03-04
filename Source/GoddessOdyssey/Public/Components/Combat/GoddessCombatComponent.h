@@ -6,6 +6,7 @@
 #include "Components/Combat/BaseCombatComponent.h"
 #include "GoddessCombatComponent.generated.h"
 
+class AGoddessWeapon;
 /**
  * 
  */
@@ -13,5 +14,8 @@ UCLASS()
 class GODDESSODYSSEY_API UGoddessCombatComponent : public UBaseCombatComponent
 {
 	GENERATED_BODY()
-	
+
+public:
+	UFUNCTION(BlueprintCallable, Category="Combat")
+	AGoddessWeapon* GetGoddessCarriedWeaponByTag(FGameplayTag InWeaponTagToGet) const;
 };
