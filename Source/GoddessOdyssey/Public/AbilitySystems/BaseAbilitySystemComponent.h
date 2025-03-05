@@ -6,6 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "BaseAbilitySystemComponent.generated.h"
 
+struct FGoddessAbilitySet;
 /**
  * 
  */
@@ -17,4 +18,7 @@ class GODDESSODYSSEY_API UBaseAbilitySystemComponent : public UAbilitySystemComp
 public:
 	void OnAbilityInputPressed(const FGameplayTag& InInputTag);
 	void OnAbilityInputReleased(const FGameplayTag& InInputTag);
+
+	UFUNCTION(BlueprintCallable, Category="Ability", meta=(ApplyLevel = "1"))
+	void GrantGoddessWeaponAbilities(const TArray<FGoddessAbilitySet>& InAbilitiesToGrant, int32 ApplyLevel);
 };
