@@ -3,3 +3,12 @@
 
 #include "Item/Weapons/GoddessWeapon.h"
 
+void AGoddessWeapon::AssignGrantedAbilitySpecHandles(const TArray<FGameplayAbilitySpecHandle>& InSpecHandles)
+{
+	GrantedAbilitySpecHandles = InSpecHandles;
+}
+
+TArray<FGameplayAbilitySpecHandle> AGoddessWeapon::GetGrantedAbilitySpecHandles() const
+{
+	return GrantedAbilitySpecHandles;
+}

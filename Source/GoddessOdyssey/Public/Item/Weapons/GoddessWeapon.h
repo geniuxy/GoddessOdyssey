@@ -19,4 +19,12 @@ class GODDESSODYSSEY_API AGoddessWeapon : public AWeapon
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WeaponData")
 	FGoddessWeaponData GoddessWeaponData;
+
+	UFUNCTION(BlueprintCallable)
+	void AssignGrantedAbilitySpecHandles(const TArray<FGameplayAbilitySpecHandle>& InSpecHandles);
+	
+	UFUNCTION(BlueprintPure)
+	TArray<FGameplayAbilitySpecHandle> GetGrantedAbilitySpecHandles() const;
+private:
+	TArray<FGameplayAbilitySpecHandle> GrantedAbilitySpecHandles;
 };

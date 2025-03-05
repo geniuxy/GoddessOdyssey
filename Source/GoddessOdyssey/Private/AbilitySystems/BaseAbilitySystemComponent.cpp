@@ -22,7 +22,9 @@ void UBaseAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& InI
 }
 
 void UBaseAbilitySystemComponent::GrantGoddessWeaponAbilities(const TArray<FGoddessAbilitySet>& InAbilitiesToGrant,
-                                                              int32 ApplyLevel)
+                                                              int32 ApplyLevel,
+                                                              TArray<FGameplayAbilitySpecHandle>&
+                                                              OutGrantedAbilitySpecHandles)
 {
 	if (InAbilitiesToGrant.IsEmpty()) return;
 
@@ -31,10 +33,24 @@ void UBaseAbilitySystemComponent::GrantGoddessWeaponAbilities(const TArray<FGodd
 		if (!Ability.IsValid()) continue;
 
 		FGameplayAbilitySpec AbilitySpec(Ability.AbilityToGrant);
-		AbilitySpec.SourceObject=GetAvatarActor();
+		AbilitySpec.SourceObject = GetAvatarActor();
 		AbilitySpec.Level = ApplyLevel;
 		AbilitySpec.DynamicAbilityTags.AddTag(Ability.InputTag);
-		
-		GiveAbility(AbilitySpec);
+
+		OutGrantedAbilitySpecHandles.AddUnique(GiveAbility(AbilitySpec));
 	}
+}
+
+void UBaseAbilitySystemComponent::RemoveGrantedGoddessWeaponAbilities(
+	TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove)
+{
+	if (InSpecHandlesToRemove.IsEmpty()) return;
+
+	for (FGameplayAbilitySpecHandle& HandleToRemove : InSpecHandlesToRemove)
+	{
+		if (HandleToRemove.IsValid())
+			ClearAbility(HandleToRemove);
+	}
+
+	InSpecHandlesToRemove.Empty();
 }
