@@ -2,10 +2,11 @@
 
 #pragma once
 #include "GameplayTagContainer.h"
-#include "AbilitySystems/Abilities/BaseGameplayAbility.h"
+#include "AbilitySystems/Abilities/GoddessGameplayAbility.h"
 
 #include "GoddessStructTypes.generated.h"
 
+class UGoddessGameplayAbility;
 class UInputMappingContext;
 class UGoddessLinkedAnimLayer;
 
@@ -18,7 +19,7 @@ struct FGoddessAbilitySet
 	FGameplayTag InputTag;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UBaseGameplayAbility> AbilityToGrant;
+	TSubclassOf<UGoddessGameplayAbility> AbilityToGrant;
 
 	bool IsValid() const
 	{
