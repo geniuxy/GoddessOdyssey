@@ -4,6 +4,7 @@
 #include "DataAssets/StartUpData/DataAsset_GoddessStartUpData.h"
 
 #include "AbilitySystems/BaseAbilitySystemComponent.h"
+#include "GoddessTypes/GoddessStructTypes.h"
 
 void UDataAsset_GoddessStartUpData::GiveToAbilitySystemComponent(UBaseAbilitySystemComponent* InBaseASCToGiven,
                                                                  int32 ApplyLevel)

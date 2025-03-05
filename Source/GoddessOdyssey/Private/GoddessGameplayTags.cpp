@@ -13,6 +13,9 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_UnEquip, "Input.UnEquip");
 
 	/** Character Tags**/
+	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Equip_Sword, "Character.Ability.Equip.Sword");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_UnEquip_Sword, "Character.Ability.UnEquip.Sword");
+	
 	UE_DEFINE_GAMEPLAY_TAG(Character_Weapon_Sword, "Character.Weapon.Sword");
 	
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_Equip_Sword, "Character.Event.Equip.Sword");

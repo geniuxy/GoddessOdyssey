@@ -3,28 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameplayTagContainer.h"
 #include "AbilitySystems/Abilities/BaseGameplayAbility.h"
 #include "DataAssets/StartUpData/DataAsset_StartUpData.h"
 #include "DataAsset_GoddessStartUpData.generated.h"
 
-USTRUCT(BlueprintType)
-struct FGoddessAbilitySet
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(Catagories = "InputTag"))
-	FGameplayTag InputTag;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UBaseGameplayAbility> AbilityToGrant;
-
-	bool IsValid() const
-	{
-		return InputTag.IsValid() && AbilityToGrant;
-	}
-};
-
+struct FGoddessAbilitySet;
 /**
  * 
  */
