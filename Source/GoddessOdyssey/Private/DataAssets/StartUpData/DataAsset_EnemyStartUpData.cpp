@@ -12,7 +12,7 @@ void UDataAsset_EnemyStartUpData::GiveToAbilitySystemComponent(UBaseAbilitySyste
 {
 	Super::GiveToAbilitySystemComponent(InBaseASCToGiven, ApplyLevel);
 
-	for (const TSubclassOf<UEnemyGameplayAbility>& EnemyStartUpAbility : EnemyStartUpAbilities)
+	for (const TSubclassOf<UEnemyGameplayAbility>& EnemyStartUpAbility : EnemyCombatAbilities)
 	{
 		if (!EnemyStartUpAbility) continue;
 

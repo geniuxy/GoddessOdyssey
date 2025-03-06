@@ -13,7 +13,7 @@ namespace GoddessGameplayTags
 	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_LightAttack_Sword);
 	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_HeavyAttack_Sword);
 
-	/** Character Tags**/
+	/** Goddess Tags**/
 	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Ability_Equip_Sword);
 	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Ability_UnEquip_Sword);
 	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Ability_Attack_Light_Sword);
@@ -26,4 +26,8 @@ namespace GoddessGameplayTags
 	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Event_Attack_End);
 	
 	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Status_JumpToFinish);
+
+	/** Enemy Tags**/
+	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Weapon);
+	
 }
