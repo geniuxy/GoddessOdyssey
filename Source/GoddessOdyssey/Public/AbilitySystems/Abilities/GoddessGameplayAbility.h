@@ -25,9 +25,9 @@ public:
 	AGoddessController* GetGoddessControllerFromActorInfo();
 
 	UFUNCTION(BlueprintPure, Category="BaseAbility")
-	UGoddessCombatComponent* GetGoddessCombatComponent();
+	UGoddessCombatComponent* GetGoddessCombatComponentFromActorInfo();
 
 private:
-	TWeakObjectPtr<AGoddess> CashedGoddess;
-	TWeakObjectPtr<AGoddessController> CashedGoddessController;
+	TWeakObjectPtr<AGoddess> CachedGoddess;
+	TWeakObjectPtr<AGoddessController> CachedGoddessController;
 };

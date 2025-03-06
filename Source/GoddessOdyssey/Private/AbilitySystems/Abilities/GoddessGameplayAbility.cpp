@@ -8,21 +8,21 @@
 
 AGoddess* UGoddessGameplayAbility::GetGoddessFromActorInfo()
 {
-	if (!CashedGoddess.IsValid())
-		CashedGoddess = Cast<AGoddess>(CurrentActorInfo->AvatarActor);
+	if (!CachedGoddess.IsValid())
+		CachedGoddess = Cast<AGoddess>(CurrentActorInfo->AvatarActor);
 
-	return CashedGoddess.IsValid() ? CashedGoddess.Get() : nullptr;
+	return CachedGoddess.IsValid() ? CachedGoddess.Get() : nullptr;
 }
 
 AGoddessController* UGoddessGameplayAbility::GetGoddessControllerFromActorInfo()
 {
-	if (!CashedGoddessController.IsValid())
-		CashedGoddessController = Cast<AGoddessController>(CurrentActorInfo->PlayerController);
+	if (!CachedGoddessController.IsValid())
+		CachedGoddessController = Cast<AGoddessController>(CurrentActorInfo->PlayerController);
 
-	return CashedGoddessController.IsValid() ? CashedGoddessController.Get() : nullptr;
+	return CachedGoddessController.IsValid() ? CachedGoddessController.Get() : nullptr;
 }
 
-UGoddessCombatComponent* UGoddessGameplayAbility::GetGoddessCombatComponent()
+UGoddessCombatComponent* UGoddessGameplayAbility::GetGoddessCombatComponentFromActorInfo()
 {
 	return GetGoddessFromActorInfo()->GetGoddessCombatComponent();
 }
