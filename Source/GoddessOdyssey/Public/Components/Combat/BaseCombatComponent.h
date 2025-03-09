@@ -8,6 +8,15 @@
 #include "BaseCombatComponent.generated.h"
 
 class AWeapon;
+
+UENUM(BlueprintType)
+enum class EToggleDamageType:uint8
+{
+	CurrentEquippedWeapon,
+	LeftHand,
+	RightHand
+};
+
 /**
  * 
  */
@@ -24,11 +33,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Combat")
 	AWeapon* GetCarriedWeaponByTag(FGameplayTag InWeaponTagToGet) const;
 
+	UPROPERTY(BlueprintReadWrite, Category="Combat")
+	FGameplayTag CurrentEquippedWeaponTag;
+
 	UFUNCTION(BlueprintCallable, Category="Combat")
 	AWeapon* GetCurrentEquippedWeapon() const;
 
-	UPROPERTY(BlueprintReadWrite, Category="Combat")
-	FGameplayTag CurrentEquippedWeaponTag;
+	UFUNCTION(BlueprintCallable, Category="Combat")
+	void ToggleWeaponCollisionBox(bool bShouldEnable,
+	                              EToggleDamageType ToggleDamageType = EToggleDamageType::CurrentEquippedWeapon);
 
 private:
 	TMap<FGameplayTag, AWeapon*> CarriedWeaponMap;

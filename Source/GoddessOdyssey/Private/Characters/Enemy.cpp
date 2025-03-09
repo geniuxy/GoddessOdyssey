@@ -50,11 +50,7 @@ void AEnemy::InitEnemyStartUpData()
 			[this]()
 			{
 				if (UDataAsset_StartUpData* LoadedData = CharacterStartUpData.Get())
-				{
 					LoadedData->GiveToAbilitySystemComponent(BaseAbilitySystemComponent);
-
-					Debug::Print(TEXT("Enemy Start up data loaded"), FColor::Magenta);
-				}
 			}
 		)
 	);
