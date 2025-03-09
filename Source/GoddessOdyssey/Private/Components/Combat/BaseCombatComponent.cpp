@@ -58,7 +58,10 @@ void UBaseCombatComponent::ToggleWeaponCollisionBox(bool bShouldEnable, EToggleD
 		if (bShouldEnable)
 			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		else
+		{
 			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			OverlappedActors.Empty();	
+		}
 	}
 
 	// Handle body collision boxes

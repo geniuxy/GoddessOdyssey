@@ -2,8 +2,10 @@
 
 
 #include "Components/Combat/GoddessCombatComponent.h"
+
+#include "AbilitySystemBlueprintLibrary.h"
+#include "GoddessGameplayTags.h"
 #include "Item/Weapons/GoddessWeapon.h"
-#include "DebugHelper.h"
 
 
 AGoddessWeapon* UGoddessCombatComponent::GetGoddessCarriedWeaponByTag(FGameplayTag InWeaponTagToGet) const
@@ -13,13 +15,21 @@ AGoddessWeapon* UGoddessCombatComponent::GetGoddessCarriedWeaponByTag(FGameplayT
 
 void UGoddessCombatComponent::OnHitTargetActor(AActor* HitActor)
 {
-	Debug::Print(GetOwningPawn()->GetActorNameOrLabel() + TEXT(" hit ") + HitActor->GetActorNameOrLabel(),
-	             FColor::Green);
+	if (OverlappedActors.Contains(HitActor)) return;
+
+	OverlappedActors.AddUnique(HitActor);
+	
+	FGameplayEventData Data;
+	Data.Instigator = GetOwningPawn();
+	Data.Target = HitActor;
+
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		GetOwningPawn(),
+		GoddessGameplayTags::Shared_Event_MeleeAttack,
+		Data
+	);
 }
 
 void UGoddessCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractedActor)
 {
-	Debug::Print(
-		GetOwningPawn()->GetActorNameOrLabel() + TEXT(" 's weapon pulled from ' ") + InteractedActor->
-		GetActorNameOrLabel(), FColor::Red);
 }
