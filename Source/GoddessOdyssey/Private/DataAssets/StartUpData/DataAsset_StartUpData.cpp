@@ -13,6 +13,22 @@ void UDataAsset_StartUpData::GiveToAbilitySystemComponent(UBaseAbilitySystemComp
 
 	GrantAbilities(ActivateOnGivenAbilities, InBaseASCToGiven, ApplyLevel);
 	GrantAbilities(ReactiveAbilities, InBaseASCToGiven, ApplyLevel);
+
+	if (!StartUpEffects.IsEmpty())
+	{
+		for (const TSubclassOf<UGameplayEffect>& Effect : StartUpEffects)
+		{
+			if (!Effect) continue;
+
+			UGameplayEffect* GameplayEffect = Effect->GetDefaultObject<UGameplayEffect>();
+
+			InBaseASCToGiven->ApplyGameplayEffectToSelf(
+				GameplayEffect,
+				ApplyLevel,
+				InBaseASCToGiven->MakeEffectContext()
+			);
+		}
+	}
 }
 
 void UDataAsset_StartUpData::GrantAbilities(const TArray<TSubclassOf<UBaseGameplayAbility>>& InAbilitiesToGiven,
