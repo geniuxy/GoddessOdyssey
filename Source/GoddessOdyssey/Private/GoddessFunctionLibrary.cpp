@@ -5,6 +5,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameplayTagContainer.h"
 #include "AbilitySystems/BaseAbilitySystemComponent.h"
+#include "Interfaces/CombatComponentInterface.h"
 
 UBaseAbilitySystemComponent* UGoddessFunctionLibrary::NativeGetASCFromActor(AActor* InActor)
 {
@@ -40,4 +41,22 @@ void UGoddessFunctionLibrary::BP_DoesActorHaveTag(AActor* InActor, FGameplayTag 
                                                   EGoddessConfirmType& OutConfirmType)
 {
 	OutConfirmType = NativeDoesActorHaveTag(InActor, TagToCheck) ? EGoddessConfirmType::Yes : EGoddessConfirmType::No;
+}
+
+UBaseCombatComponent* UGoddessFunctionLibrary::NativeGetCombatComponentFromActor(AActor* InActor)
+{
+	check(InActor);
+
+	if (ICombatComponentInterface* CombatComponentInterface = Cast<ICombatComponentInterface>(InActor))
+		return CombatComponentInterface->GetCombatComponentByInterface();
+	return nullptr;
+}
+
+UBaseCombatComponent* UGoddessFunctionLibrary::BP_GetCombatComponentFromActor(AActor* InActor, EGoddessValidType& OutValidType)
+{
+	UBaseCombatComponent* CombatComponent = NativeGetCombatComponentFromActor(InActor);
+
+	OutValidType = CombatComponent ? EGoddessValidType::Valid : EGoddessValidType::Invalid;
+
+	return CombatComponent;
 }

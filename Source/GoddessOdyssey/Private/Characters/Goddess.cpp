@@ -50,6 +50,11 @@ AGoddess::AGoddess()
 	GoddessCombatComponent = CreateDefaultSubobject<UGoddessCombatComponent>(TEXT("GoddessCombatComponent"));
 }
 
+UBaseCombatComponent* AGoddess::GetCombatComponentByInterface() const
+{
+	return GoddessCombatComponent;
+}
+
 void AGoddess::BeginPlay()
 {
 	Super::BeginPlay();

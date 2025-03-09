@@ -18,6 +18,10 @@ class GODDESSODYSSEY_API AEnemy : public ABaseCharacter
 public:
 	AEnemy();
 
+	//~ Begin ICombatComponentInterface Interface.
+	virtual UBaseCombatComponent* GetCombatComponentByInterface() const override;
+	//~ End ICombatComponentInterface Interface
+
 protected:
 	//~ Begin APawn Interface.
 	virtual void PossessedBy(AController* NewController) override;

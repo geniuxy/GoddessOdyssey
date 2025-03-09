@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
+#include "Interfaces/CombatComponentInterface.h"
 #include "BaseCharacter.generated.h"
 
 class UDataAsset_StartUpData;
@@ -12,7 +13,7 @@ class UBaseAttributeSet;
 class UBaseAbilitySystemComponent;
 
 UCLASS()
-class GODDESSODYSSEY_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface
+class GODDESSODYSSEY_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface, public ICombatComponentInterface
 {
 	GENERATED_BODY()
 
@@ -22,6 +23,10 @@ public:
 	//~ Begin IAbilitySystemInterface Interface.
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	//~ End IAbilitySystemInterface Interface
+
+	//~ Begin ICombatComponentInterface Interface.
+	virtual UBaseCombatComponent* GetCombatComponentByInterface() const override;
+	//~ End ICombatComponentInterface Interface
 
 protected:
 	//~ Begin APawn Interface.

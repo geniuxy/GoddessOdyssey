@@ -4,17 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "GoddessTypes/GoddessEnumTypes.h"
 #include "GoddessFunctionLibrary.generated.h"
 
+class UBaseCombatComponent;
 struct FGameplayTag;
 class UBaseAbilitySystemComponent;
-
-UENUM(BlueprintType)
-enum class EGoddessConfirmType:uint8
-{
-	Yes,
-	No
-};
 
 /**
  * 
@@ -40,4 +35,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category="FunctionLibrary",
 		meta =(DisplayName = "Does Actor Have Tag", ExpandEnumAsExecs = "OutConfirmType"))
 	static void BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck, EGoddessConfirmType& OutConfirmType);
+
+	static UBaseCombatComponent* NativeGetCombatComponentFromActor(AActor* InActor);
+
+	UFUNCTION(BlueprintCallable, Category="FunctionLibrary",
+		meta =(DisplayName = "Get Combat Component From Actor", ExpandEnumAsExecs = "OutValidType"))
+	static UBaseCombatComponent* BP_GetCombatComponentFromActor(AActor* InActor, EGoddessValidType& OutValidType);
 };

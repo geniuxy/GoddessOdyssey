@@ -27,6 +27,10 @@ class GODDESSODYSSEY_API AGoddess : public ABaseCharacter
 public:
 	AGoddess();
 
+	//~ Begin ICombatComponentInterface Interface.
+	virtual UBaseCombatComponent* GetCombatComponentByInterface() const override;
+	//~ End ICombatComponentInterface Interface
+
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

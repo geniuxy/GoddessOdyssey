@@ -19,6 +19,11 @@ UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const
 	return GetBaseAbilitySystemComponent();
 }
 
+UBaseCombatComponent* ABaseCharacter::GetCombatComponentByInterface() const
+{
+	return nullptr;
+}
+
 void ABaseCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
