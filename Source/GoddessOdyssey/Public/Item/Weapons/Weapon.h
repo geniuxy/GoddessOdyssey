@@ -7,6 +7,8 @@
 #include "Weapon.generated.h"
 
 class UBoxComponent;
+
+DECLARE_DELEGATE_OneParam(FOnTargetInteractedDelegate, AActor*)
 /**
  * 
  */
@@ -22,6 +24,13 @@ public:
 
 	void AttachWeaponTo(USceneComponent* InParent, FName SocketName);
 
+	FOnTargetInteractedDelegate OnWeaponHitTarget;
+	FOnTargetInteractedDelegate OnWeaponPulledFromTarget;
+
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UBoxComponent* WeaponCollisionBox;
+
 	UFUNCTION()
 	virtual void OnWeaponBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	                                  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
@@ -30,10 +39,6 @@ public:
 	UFUNCTION()
 	virtual void OnWeaponEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	                                UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
-protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UBoxComponent* WeaponCollisionBox;
 
 public:
 	FORCEINLINE UBoxComponent* GetWeaponCollisionBox() const { return WeaponCollisionBox; }

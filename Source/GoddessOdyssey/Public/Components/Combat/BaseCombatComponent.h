@@ -43,6 +43,9 @@ public:
 	void ToggleWeaponCollisionBox(bool bShouldEnable,
 	                              EToggleDamageType ToggleDamageType = EToggleDamageType::CurrentEquippedWeapon);
 
+	virtual void OnHitTargetActor(AActor* HitActor);
+	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor);
+	
 private:
 	TMap<FGameplayTag, AWeapon*> CarriedWeaponMap;
 };

@@ -15,6 +15,10 @@ void UBaseCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegis
 
 	CarriedWeaponMap.Emplace(InWeaponTagToRegister, InWeaponToRegister);
 
+	// 注册武器的时候就将delegate绑定对应的方法
+	InWeaponToRegister->OnWeaponHitTarget.BindUObject(this,&ThisClass::OnHitTargetActor);
+	InWeaponToRegister->OnWeaponPulledFromTarget.BindUObject(this,&ThisClass::OnWeaponPulledFromTargetActor);
+
 	if (bRegisterAsEquippedWeapon)
 		CurrentEquippedWeaponTag = InWeaponTagToRegister;
 
@@ -58,4 +62,12 @@ void UBaseCombatComponent::ToggleWeaponCollisionBox(bool bShouldEnable, EToggleD
 	}
 
 	// Handle body collision boxes
+}
+
+void UBaseCombatComponent::OnHitTargetActor(AActor* HitActor)
+{
+}
+
+void UBaseCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractedActor)
+{
 }
