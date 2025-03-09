@@ -3,7 +3,6 @@
 
 #include "Components/Combat/BaseCombatComponent.h"
 
-#include "DebugHelper.h"
 #include "Components/BoxComponent.h"
 #include "Item/Weapons/Weapon.h"
 
@@ -53,14 +52,10 @@ void UBaseCombatComponent::ToggleWeaponCollisionBox(bool bShouldEnable, EToggleD
 		check(WeaponToToggle);
 
 		if (bShouldEnable)
-		{
 			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-			Debug::Print(WeaponToToggle->GetName() + TEXT(" collision enabled"),FColor::Green);	
-		}
 		else
-		{
 			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			Debug::Print(WeaponToToggle->GetName() + TEXT(" collision disabled"),FColor::Red);	
-		}
 	}
+
+	// Handle body collision boxes
 }
