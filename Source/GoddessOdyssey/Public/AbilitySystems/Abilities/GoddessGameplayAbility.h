@@ -29,8 +29,7 @@ public:
 
 	UFUNCTION(BlueprintPure, Category="BaseAbility")
 	FGameplayEffectSpecHandle MakeGoddessEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, float InBaseDamage,
-	                                                      FGameplayTag InCurrentAttackTypeTag,
-	                                                      int32 InCurrentAttackComboCount);
+	                                                      FGameplayTag InCurrentAttackTypeTag, int32 InUsedComboCount);
 
 private:
 	TWeakObjectPtr<AGoddess> CachedGoddess;

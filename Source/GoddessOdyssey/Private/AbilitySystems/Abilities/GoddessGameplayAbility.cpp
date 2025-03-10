@@ -29,10 +29,9 @@ UGoddessCombatComponent* UGoddessGameplayAbility::GetGoddessCombatComponentFromA
 	return GetGoddessFromActorInfo()->GetGoddessCombatComponent();
 }
 
-FGameplayEffectSpecHandle UGoddessGameplayAbility::MakeGoddessEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass,
-                                                                               float InBaseDamage,
-                                                                               FGameplayTag InCurrentAttackTypeTag,
-                                                                               int32 InCurrentAttackComboCount)
+FGameplayEffectSpecHandle UGoddessGameplayAbility::MakeGoddessEffectSpecHandle(
+	TSubclassOf<UGameplayEffect> EffectClass, float InBaseDamage, FGameplayTag InCurrentAttackTypeTag,
+	int32 InUsedComboCount)
 {
 	check(EffectClass);
 
@@ -47,7 +46,7 @@ FGameplayEffectSpecHandle UGoddessGameplayAbility::MakeGoddessEffectSpecHandle(T
 	EffectSpecHandle.Data->SetSetByCallerMagnitude(GoddessGameplayTags::Shared_SetByCaller_BaseDamage, InBaseDamage);
 
 	if (InCurrentAttackTypeTag.IsValid())
-		EffectSpecHandle.Data->SetSetByCallerMagnitude(InCurrentAttackTypeTag, InCurrentAttackComboCount);
+		EffectSpecHandle.Data->SetSetByCallerMagnitude(InCurrentAttackTypeTag, InUsedComboCount);
 
 	return EffectSpecHandle;
 }

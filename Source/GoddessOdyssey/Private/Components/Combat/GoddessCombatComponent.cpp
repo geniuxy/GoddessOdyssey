@@ -13,6 +13,16 @@ AGoddessWeapon* UGoddessCombatComponent::GetGoddessCarriedWeaponByTag(FGameplayT
 	return Cast<AGoddessWeapon>(GetCarriedWeaponByTag(InWeaponTagToGet));
 }
 
+AGoddessWeapon* UGoddessCombatComponent::GetGoddessCurrentEquippedWeapon() const
+{
+	return Cast<AGoddessWeapon>(GetCurrentEquippedWeapon());
+}
+
+float UGoddessCombatComponent::GetCurrentEquippedWeaponDamageAtLevel(float InLevel) const
+{
+	return GetGoddessCurrentEquippedWeapon()->GoddessWeaponData.WeaponBaseDamage.GetValueAtLevel(InLevel);
+}
+
 void UGoddessCombatComponent::OnHitTargetActor(AActor* HitActor)
 {
 	if (OverlappedActors.Contains(HitActor)) return;

@@ -18,7 +18,13 @@ class GODDESSODYSSEY_API UGoddessCombatComponent : public UBaseCombatComponent
 public:
 	UFUNCTION(BlueprintCallable, Category="Combat")
 	AGoddessWeapon* GetGoddessCarriedWeaponByTag(FGameplayTag InWeaponTagToGet) const;
+	
+	UFUNCTION(BlueprintCallable, Category="Combat")
+	AGoddessWeapon* GetGoddessCurrentEquippedWeapon() const;
 
+	UFUNCTION(BlueprintCallable, Category="Combat")
+	float GetCurrentEquippedWeaponDamageAtLevel(float InLevel) const;
+	
 	virtual void OnHitTargetActor(AActor* HitActor) override;
 	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor) override;
 };
