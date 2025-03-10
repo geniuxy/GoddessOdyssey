@@ -3,9 +3,11 @@
 
 #include "AbilitySystems/Abilities/BaseGameplayAbility.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystems/BaseAbilitySystemComponent.h"
 #include "Components/Combat/BaseCombatComponent.h"
+#include "GoddessTypes/GoddessEnumTypes.h"
 
 void UBaseGameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
 {
@@ -40,4 +42,23 @@ UBaseCombatComponent* UBaseGameplayAbility::GetBaseCombatComponentFromActorInfo(
 UBaseAbilitySystemComponent* UBaseGameplayAbility::GetBaseAbilitySystemComponentFromActorInfo() const
 {
 	return Cast<UBaseAbilitySystemComponent>(CurrentActorInfo->AbilitySystemComponent);
+}
+
+FActiveGameplayEffectHandle UBaseGameplayAbility::NativeApplyEffectSpecHandleToTarget(AActor* TargetActor,
+	const FGameplayEffectSpecHandle& InSpecHandle)
+{
+	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
+	return GetBaseAbilitySystemComponentFromActorInfo()->ApplyGameplayEffectSpecToTarget(*InSpecHandle.Data, TargetASC);
+}
+
+FActiveGameplayEffectHandle UBaseGameplayAbility::BP_ApplyEffectSpecHandleToTarget(AActor* TargetActor,
+	const FGameplayEffectSpecHandle& InSpecHandle, EGoddessSuccessType& OutSuccessType)
+{
+	const FActiveGameplayEffectHandle EffectHandle = NativeApplyEffectSpecHandleToTarget(TargetActor, InSpecHandle);
+
+	OutSuccessType = EffectHandle.WasSuccessfullyApplied()
+		                 ? EGoddessSuccessType::Successful
+		                 : EGoddessSuccessType::Failed;
+
+	return EffectHandle;
 }

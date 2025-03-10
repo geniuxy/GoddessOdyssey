@@ -15,3 +15,10 @@ enum class EGoddessValidType:uint8
 	Valid,
 	Invalid
 };
+
+UENUM()
+enum class EGoddessSuccessType:uint8
+{
+	Successful,
+	Failed
+};
