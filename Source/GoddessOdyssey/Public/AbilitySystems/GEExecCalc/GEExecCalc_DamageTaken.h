@@ -16,5 +16,7 @@ class GODDESSODYSSEY_API UGEExecCalc_DamageTaken : public UGameplayEffectExecuti
 
 public:
 	UGEExecCalc_DamageTaken();
-	
+
+	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+	                                    FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
 };

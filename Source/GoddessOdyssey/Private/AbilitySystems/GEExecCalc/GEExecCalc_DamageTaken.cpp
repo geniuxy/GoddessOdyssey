@@ -3,6 +3,7 @@
 
 #include "AbilitySystems/GEExecCalc/GEExecCalc_DamageTaken.h"
 #include "AbilitySystems/BaseAttributeSet.h"
+#include "GoddessGameplayTags.h"
 
 struct FBaseDamageCapture
 {
@@ -41,4 +42,43 @@ UGEExecCalc_DamageTaken::UGEExecCalc_DamageTaken()
 	/** fast way of doing capture */
 	RelevantAttributesToCapture.Add(GetBaseDamageCapture().AttackPowerDef);
 	RelevantAttributesToCapture.Add(GetBaseDamageCapture().DefensePowerDef);
+}
+
+void UGEExecCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+                                                     FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
+{
+	FGameplayEffectSpec EffectSpec = ExecutionParams.GetOwningSpec();
+
+	/*EffectSpec.GetContext().GetSourceObject();
+	EffectSpec.GetContext().GetAbility();
+	EffectSpec.GetContext().GetInstigator();
+	EffectSpec.GetContext().GetEffectCauser();*/
+
+	FAggregatorEvaluateParameters EvaluateParameters;
+	EvaluateParameters.SourceTags = EffectSpec.CapturedSourceTags.GetAggregatedTags();
+	EvaluateParameters.TargetTags = EffectSpec.CapturedTargetTags.GetAggregatedTags();
+
+	float SourceAttackPower = 0.f;
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetBaseDamageCapture().AttackPowerDef,
+	                                                           EvaluateParameters, SourceAttackPower);
+
+	float BaseDamge = 0.f;
+	int32 UsedLightAttackComboCount = 0;
+	int32 UsedHeavyAttackComboCount = 0;
+	for (const TPair<FGameplayTag, float> TagMagnitude : EffectSpec.SetByCallerTagMagnitudes)
+	{
+		if (TagMagnitude.Key.MatchesTagExact(GoddessGameplayTags::Shared_SetByCaller_BaseDamage))
+			BaseDamge = TagMagnitude.Value;
+		
+		if (TagMagnitude.Key.MatchesTagExact(GoddessGameplayTags::Character_SetByCaller_Attack_Light))
+			UsedLightAttackComboCount = TagMagnitude.Value;
+			
+		if (TagMagnitude.Key.MatchesTagExact(GoddessGameplayTags::Character_SetByCaller_Attack_Heavy))
+			UsedHeavyAttackComboCount = TagMagnitude.Value;
+	}
+
+	float SourceDefensePower = 0.f;
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetBaseDamageCapture().DefensePowerDef,
+															   EvaluateParameters, SourceDefensePower);
+	
 }
