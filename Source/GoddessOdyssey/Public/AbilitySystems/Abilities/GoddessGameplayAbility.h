@@ -27,6 +27,11 @@ public:
 	UFUNCTION(BlueprintPure, Category="BaseAbility")
 	UGoddessCombatComponent* GetGoddessCombatComponentFromActorInfo();
 
+	UFUNCTION(BlueprintPure, Category="BaseAbility")
+	FGameplayEffectSpecHandle MakeGoddessEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, float InBaseDamage,
+	                                                      FGameplayTag InCurrentAttackTypeTag,
+	                                                      int32 InCurrentAttackComboCount);
+
 private:
 	TWeakObjectPtr<AGoddess> CachedGoddess;
 	TWeakObjectPtr<AGoddessController> CachedGoddessController;

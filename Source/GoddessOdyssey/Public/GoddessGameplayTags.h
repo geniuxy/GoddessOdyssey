@@ -33,4 +33,5 @@ namespace GoddessGameplayTags
 	/** Shared Tags**/
 	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_MeleeAttack);
 	
+	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_SetByCaller_BaseDamage);
 }

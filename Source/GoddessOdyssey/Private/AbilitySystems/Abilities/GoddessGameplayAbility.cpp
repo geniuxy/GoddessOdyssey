@@ -3,6 +3,8 @@
 
 #include "AbilitySystems/Abilities/GoddessGameplayAbility.h"
 
+#include "GoddessGameplayTags.h"
+#include "AbilitySystems/BaseAbilitySystemComponent.h"
 #include "Characters/Goddess.h"
 #include "PlayerControllers/GoddessController.h"
 
@@ -25,4 +27,27 @@ AGoddessController* UGoddessGameplayAbility::GetGoddessControllerFromActorInfo()
 UGoddessCombatComponent* UGoddessGameplayAbility::GetGoddessCombatComponentFromActorInfo()
 {
 	return GetGoddessFromActorInfo()->GetGoddessCombatComponent();
+}
+
+FGameplayEffectSpecHandle UGoddessGameplayAbility::MakeGoddessEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass,
+                                                                               float InBaseDamage,
+                                                                               FGameplayTag InCurrentAttackTypeTag,
+                                                                               int32 InCurrentAttackComboCount)
+{
+	check(EffectClass);
+
+	FGameplayEffectContextHandle ContextHandle = GetBaseAbilitySystemComponentFromActorInfo()->MakeEffectContext();
+	ContextHandle.SetAbility(this);
+	ContextHandle.AddSourceObject(GetAvatarActorFromActorInfo());
+	ContextHandle.AddInstigator(GetAvatarActorFromActorInfo(), GetAvatarActorFromActorInfo());
+
+	FGameplayEffectSpecHandle EffectSpecHandle =
+		GetBaseAbilitySystemComponentFromActorInfo()->MakeOutgoingSpec(EffectClass, GetAbilityLevel(), ContextHandle);
+
+	EffectSpecHandle.Data->SetSetByCallerMagnitude(GoddessGameplayTags::Shared_SetByCaller_BaseDamage, InBaseDamage);
+
+	if (InCurrentAttackTypeTag.IsValid())
+		EffectSpecHandle.Data->SetSetByCallerMagnitude(InCurrentAttackTypeTag, InCurrentAttackComboCount);
+
+	return EffectSpecHandle;
 }
