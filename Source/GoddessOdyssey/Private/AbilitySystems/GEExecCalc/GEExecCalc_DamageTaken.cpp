@@ -77,8 +77,8 @@ void UGEExecCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustom
 			UsedHeavyAttackComboCount = TagMagnitude.Value;
 	}
 
-	float SourceDefensePower = 0.f;
+	float TargetDefensePower = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetBaseDamageCapture().DefensePowerDef,
-															   EvaluateParameters, SourceDefensePower);
+															   EvaluateParameters, TargetDefensePower);
 	
 }
