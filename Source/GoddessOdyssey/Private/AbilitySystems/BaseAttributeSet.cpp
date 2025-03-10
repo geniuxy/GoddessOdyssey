@@ -51,9 +51,9 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 
 		Debug::Print(DebugString,FColor::Green);
 
-		//TODO::Notify the UI 
+		// Notify the UI 
 
-		//TODO::Handle character death
+		// Handle character death
 		if (NewCurrentHealth == 0.f)
 		{
 
