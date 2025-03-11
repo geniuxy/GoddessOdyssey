@@ -38,8 +38,19 @@ void UGoddessCombatComponent::OnHitTargetActor(AActor* HitActor)
 		GoddessGameplayTags::Shared_Event_MeleeAttack,
 		Data
 	);
+
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		GetOwningPawn(),
+		GoddessGameplayTags::Character_Event_HitPause,
+		FGameplayEventData()
+	);
 }
 
 void UGoddessCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractedActor)
 {
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		GetOwningPawn(),
+		GoddessGameplayTags::Character_Event_HitPause,
+		FGameplayEventData()
+	);
 }
