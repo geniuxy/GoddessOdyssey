@@ -24,5 +24,5 @@ class GODDESSODYSSEY_API IUIComponentInterface
 
 public:
 	virtual UBaseUIComponent* GetUIComponentByInterface() const = 0;
-	virtual UGoddessUIComponent* GetGoddessUIComponentByInterface() const = 0;
+	virtual UGoddessUIComponent* GetGoddessUIComponentByInterface() const;
 };

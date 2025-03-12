@@ -2,3 +2,8 @@
 
 
 #include "Interfaces/UIComponentInterface.h"
+
+UGoddessUIComponent* IUIComponentInterface::GetGoddessUIComponentByInterface() const
+{
+	return nullptr;
+}
