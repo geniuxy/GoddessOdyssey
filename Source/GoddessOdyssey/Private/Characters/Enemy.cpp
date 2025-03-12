@@ -5,6 +5,7 @@
 
 #include "DebugHelper.h"
 #include "Components/Combat/EnemyCombatComponent.h"
+#include "Components/UI/EnemyUIComponent.h"
 #include "DataAssets/StartUpData/DataAsset_StartUpData.h"
 #include "Engine/AssetManager.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -25,11 +26,18 @@ AEnemy::AEnemy()
 	GetCharacterMovement()->BrakingDecelerationWalking = 1000.f; //设置角色在步行状态下的制动减速率
 
 	EnemyCombatComponent = CreateDefaultSubobject<UEnemyCombatComponent>(TEXT("EnemyCombatComponent"));
+
+	EnemyUIComponent = CreateDefaultSubobject<UEnemyUIComponent>(TEXT("EnemyUIComponent"));
 }
 
 UBaseCombatComponent* AEnemy::GetCombatComponentByInterface() const
 {
 	return EnemyCombatComponent;
+}
+
+UBaseUIComponent* AEnemy::GetUIComponentByInterface() const
+{
+	return EnemyUIComponent;
 }
 
 void AEnemy::PossessedBy(AController* NewController)

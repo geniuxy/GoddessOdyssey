@@ -16,6 +16,7 @@
 #include "DebugHelper.h"
 #include "AbilitySystems/BaseAbilitySystemComponent.h"
 #include "Components/Combat/GoddessCombatComponent.h"
+#include "Components/UI/GoddessUIComponent.h"
 #include "DataAssets/StartUpData/DataAsset_StartUpData.h"
 
 AGoddess::AGoddess()
@@ -48,11 +49,18 @@ AGoddess::AGoddess()
 	WeaponPosition->SetRelativeRotation(FRotator(340.f, 90.f, 0.f));
 
 	GoddessCombatComponent = CreateDefaultSubobject<UGoddessCombatComponent>(TEXT("GoddessCombatComponent"));
+
+	GoddessUIComponent = CreateDefaultSubobject<UGoddessUIComponent>(TEXT("GoddessUIComponent"));
 }
 
 UBaseCombatComponent* AGoddess::GetCombatComponentByInterface() const
 {
 	return GoddessCombatComponent;
+}
+
+UBaseUIComponent* AGoddess::GetUIComponentByInterface() const
+{
+	return GoddessUIComponent;
 }
 
 void AGoddess::BeginPlay()

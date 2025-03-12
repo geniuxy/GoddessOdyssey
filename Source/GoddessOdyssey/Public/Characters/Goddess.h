@@ -8,6 +8,7 @@
 #include "GoddessType.h"
 #include "Goddess.generated.h"
 
+class UGoddessUIComponent;
 class UGoddessCombatComponent;
 struct FInputActionValue;
 class UDataAsset_InputConfig;
@@ -30,6 +31,10 @@ public:
 	//~ Begin ICombatComponentInterface Interface.
 	virtual UBaseCombatComponent* GetCombatComponentByInterface() const override;
 	//~ End ICombatComponentInterface Interface
+
+	//~ Begin IUIComponentInterface Interface.
+	virtual UBaseUIComponent* GetUIComponentByInterface() const override;
+	//~ End IUIComponentInterface Interface
 
 	virtual void Tick(float DeltaTime) override;
 
@@ -56,6 +61,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	UGoddessCombatComponent* GoddessCombatComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+	UGoddessUIComponent* GoddessUIComponent;
 
 #pragma endregion
 

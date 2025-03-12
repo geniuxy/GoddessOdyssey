@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "Interfaces/CombatComponentInterface.h"
+#include "Interfaces/UIComponentInterface.h"
 #include "BaseCharacter.generated.h"
 
 class UDataAsset_StartUpData;
@@ -13,7 +14,8 @@ class UBaseAttributeSet;
 class UBaseAbilitySystemComponent;
 
 UCLASS()
-class GODDESSODYSSEY_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface, public ICombatComponentInterface
+class GODDESSODYSSEY_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface,
+                                          public ICombatComponentInterface, public IUIComponentInterface
 {
 	GENERATED_BODY()
 
@@ -28,6 +30,10 @@ public:
 	virtual UBaseCombatComponent* GetCombatComponentByInterface() const override;
 	//~ End ICombatComponentInterface Interface
 
+	//~ Begin IUIComponentInterface Interface.
+	virtual UBaseUIComponent* GetUIComponentByInterface() const override;
+	//~ End IUIComponentInterface Interface
+
 protected:
 	//~ Begin APawn Interface.
 	virtual void PossessedBy(AController* NewController) override;
@@ -41,6 +47,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData")
 	TSoftObjectPtr<UDataAsset_StartUpData> CharacterStartUpData;
+
 public:
 	FORCEINLINE UBaseAbilitySystemComponent* GetBaseAbilitySystemComponent() const
 	{
