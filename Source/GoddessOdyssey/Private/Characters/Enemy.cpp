@@ -40,6 +40,11 @@ UBaseUIComponent* AEnemy::GetUIComponentByInterface() const
 	return EnemyUIComponent;
 }
 
+UEnemyUIComponent* AEnemy::GetEnemyUIComponentByInterface() const
+{
+	return EnemyUIComponent;
+}
+
 void AEnemy::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);

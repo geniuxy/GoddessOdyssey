@@ -15,3 +15,16 @@ void UBaseWidget::NativeOnInitialized()
 			BP_OnOwningGoddessUIComponentInitialized(GoddessUIComponent);
 	}
 }
+
+void UBaseWidget::InitEnemyCreatedWidget(AActor* OwningEnemyActor)
+{
+	if (IUIComponentInterface* UIComponentInterface = Cast<IUIComponentInterface>(OwningEnemyActor))
+	{
+		UEnemyUIComponent* EnemyUIComponent = UIComponentInterface->GetEnemyUIComponentByInterface();
+
+		checkf(EnemyUIComponent,
+		       TEXT("Failed to extrac an EnemyUIComponent from %s"), *OwningEnemyActor->GetActorNameOrLabel());
+
+		BP_OnOwningEnemyUIComponentInitialized(EnemyUIComponent);
+	}
+}

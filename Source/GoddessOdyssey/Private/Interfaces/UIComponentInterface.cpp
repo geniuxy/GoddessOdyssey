@@ -7,3 +7,8 @@ UGoddessUIComponent* IUIComponentInterface::GetGoddessUIComponentByInterface() c
 {
 	return nullptr;
 }
+
+UEnemyUIComponent* IUIComponentInterface::GetEnemyUIComponentByInterface() const
+{
+	return nullptr;
+}

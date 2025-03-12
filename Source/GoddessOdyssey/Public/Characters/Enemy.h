@@ -25,6 +25,7 @@ public:
 
 	//~ Begin IUIComponentInterface Interface.
 	virtual UBaseUIComponent* GetUIComponentByInterface() const override;
+	virtual UEnemyUIComponent* GetEnemyUIComponentByInterface() const override;
 	//~ End IUIComponentInterface Interface
 
 protected:

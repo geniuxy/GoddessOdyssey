@@ -6,6 +6,7 @@
 #include "UObject/Interface.h"
 #include "UIComponentInterface.generated.h"
 
+class UEnemyUIComponent;
 class UBaseUIComponent;
 class UGoddessUIComponent;
 // This class does not need to be modified.
@@ -25,4 +26,5 @@ class GODDESSODYSSEY_API IUIComponentInterface
 public:
 	virtual UBaseUIComponent* GetUIComponentByInterface() const = 0;
 	virtual UGoddessUIComponent* GetGoddessUIComponentByInterface() const;
+	virtual UEnemyUIComponent* GetEnemyUIComponentByInterface() const;
 };
