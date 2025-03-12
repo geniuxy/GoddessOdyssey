@@ -5,6 +5,8 @@
 #include "GameplayEffectExtension.h"
 
 #include "DebugHelper.h"
+#include "GoddessFunctionLibrary.h"
+#include "GoddessGameplayTags.h"
 
 UBaseAttributeSet::UBaseAttributeSet()
 {
@@ -49,14 +51,15 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 			NewCurrentHealth
 		);
 
-		Debug::Print(DebugString,FColor::Green);
+		Debug::Print(DebugString, FColor::Green);
 
 		// Notify the UI 
 
 		// Handle character death
 		if (NewCurrentHealth == 0.f)
 		{
-
+			UGoddessFunctionLibrary::AddGameplayTagToActorIfNone(
+				Data.Target.GetAvatarActor(), GoddessGameplayTags::Shared_Status_Death);
 		}
 	}
 }
