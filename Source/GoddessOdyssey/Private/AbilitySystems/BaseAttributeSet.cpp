@@ -7,6 +7,9 @@
 #include "DebugHelper.h"
 #include "GoddessFunctionLibrary.h"
 #include "GoddessGameplayTags.h"
+#include "Components/UI/BaseUIComponent.h"
+#include "Components/UI/GoddessUIComponent.h"
+#include "Interfaces/UIComponentInterface.h"
 
 UBaseAttributeSet::UBaseAttributeSet()
 {
@@ -20,12 +23,22 @@ UBaseAttributeSet::UBaseAttributeSet()
 
 void UBaseAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data)
 {
+	if (!CachedBaseUIInterface.IsValid())
+		CachedBaseUIInterface = TWeakInterfacePtr<IUIComponentInterface>(Data.Target.GetAvatarActor());
+	checkf(CachedBaseUIInterface.IsValid(),
+	       TEXT("%s didn't implement IPawnUIInterface"), *Data.Target.GetAvatarActor()->GetActorNameOrLabel());
+	UBaseUIComponent* BaseUIComponent = CachedBaseUIInterface->GetUIComponentByInterface();
+	checkf(BaseUIComponent,
+	       TEXT("Couldn't extract a PawnUIComponent from %s"), *Data.Target.GetAvatarActor()->GetActorNameOrLabel());
+
 	// GameplayEffectExtension include 之后，才能有Data.EvaluatedData
 	if (Data.EvaluatedData.Attribute == GetCurrentHealthAttribute())
 	{
 		const float NewCurrentHealth = FMath::Clamp(GetCurrentHealth(), 0.f, GetMaxHealth());
 
 		SetCurrentHealth(NewCurrentHealth);
+
+		BaseUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
 	}
 
 	if (Data.EvaluatedData.Attribute == GetCurrentRageAttribute())
@@ -33,6 +46,9 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 		const float NewCurrentRage = FMath::Clamp(GetCurrentRage(), 0.f, GetMaxRage());
 
 		SetCurrentHealth(NewCurrentRage);
+
+		if (UGoddessUIComponent* GoddessUIComponent = CachedBaseUIInterface->GetGoddessUIComponentByInterface())
+			GoddessUIComponent->OnCurrentRageChanged.Broadcast(GetCurrentRage() / GetMaxRage());
 	}
 
 	if (Data.EvaluatedData.Attribute == GetDamageTakenAttribute())
@@ -53,7 +69,8 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 
 		Debug::Print(DebugString, FColor::Green);
 
-		// Notify the UI 
+		// Notify the UI
+		BaseUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
 
 		// Handle character death
 		if (NewCurrentHealth == 0.f)

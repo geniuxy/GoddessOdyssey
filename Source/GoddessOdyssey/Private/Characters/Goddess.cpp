@@ -63,6 +63,11 @@ UBaseUIComponent* AGoddess::GetUIComponentByInterface() const
 	return GoddessUIComponent;
 }
 
+UGoddessUIComponent* AGoddess::GetGoddessUIComponentByInterface() const
+{
+	return GoddessUIComponent;
+}
+
 void AGoddess::BeginPlay()
 {
 	Super::BeginPlay();

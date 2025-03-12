@@ -13,6 +13,7 @@ GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
+class IUIComponentInterface;
 /**
  * 
  */
@@ -33,7 +34,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category="Health")
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, MaxHealth)
-	
+
 	UPROPERTY(BlueprintReadOnly, Category="Rage")
 	FGameplayAttributeData CurrentRage;
 	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, CurrentRage)
@@ -53,4 +54,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category="Damage")
 	FGameplayAttributeData DamageTaken;
 	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, DamageTaken)
+
+private:
+	TWeakInterfacePtr<IUIComponentInterface> CachedBaseUIInterface;
 };

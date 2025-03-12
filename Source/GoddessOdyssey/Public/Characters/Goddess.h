@@ -34,6 +34,7 @@ public:
 
 	//~ Begin IUIComponentInterface Interface.
 	virtual UBaseUIComponent* GetUIComponentByInterface() const override;
+	virtual UGoddessUIComponent* GetGoddessUIComponentByInterface() const override;
 	//~ End IUIComponentInterface Interface
 
 	virtual void Tick(float DeltaTime) override;

@@ -7,6 +7,7 @@
 #include "UIComponentInterface.generated.h"
 
 class UBaseUIComponent;
+class UGoddessUIComponent;
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
 class UUIComponentInterface : public UInterface
@@ -22,5 +23,6 @@ class GODDESSODYSSEY_API IUIComponentInterface
 	GENERATED_BODY()
 
 public:
-	virtual UBaseUIComponent* GetUIComponentByInterface() const;
+	virtual UBaseUIComponent* GetUIComponentByInterface() const = 0;
+	virtual UGoddessUIComponent* GetGoddessUIComponentByInterface() const = 0;
 };
