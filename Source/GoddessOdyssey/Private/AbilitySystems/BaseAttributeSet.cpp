@@ -75,6 +75,7 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 		// Handle character death
 		if (GetCurrentHealth() == 0.f)
 		{
+			// 这里我觉得可以修改成SendGameplayEventToActor，实现死前面朝玩家
 			UGoddessFunctionLibrary::AddGameplayTagToActorIfNone(
 				Data.Target.GetAvatarActor(), GoddessGameplayTags::Shared_Status_Death);
 		}
