@@ -4,11 +4,13 @@
 #include "Characters/Enemy.h"
 
 #include "DebugHelper.h"
+#include "Components/WidgetComponent.h"
 #include "Components/Combat/EnemyCombatComponent.h"
 #include "Components/UI/EnemyUIComponent.h"
 #include "DataAssets/StartUpData/DataAsset_StartUpData.h"
 #include "Engine/AssetManager.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Widgets/BaseWidget.h"
 
 AEnemy::AEnemy()
 {
@@ -28,6 +30,9 @@ AEnemy::AEnemy()
 	EnemyCombatComponent = CreateDefaultSubobject<UEnemyCombatComponent>(TEXT("EnemyCombatComponent"));
 
 	EnemyUIComponent = CreateDefaultSubobject<UEnemyUIComponent>(TEXT("EnemyUIComponent"));
+
+	EnemyHealthWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("EnemyHealthWidgetComponent"));
+	EnemyHealthWidgetComponent->SetupAttachment(GetMesh());
 }
 
 UBaseCombatComponent* AEnemy::GetCombatComponentByInterface() const
@@ -43,6 +48,14 @@ UBaseUIComponent* AEnemy::GetUIComponentByInterface() const
 UEnemyUIComponent* AEnemy::GetEnemyUIComponentByInterface() const
 {
 	return EnemyUIComponent;
+}
+
+void AEnemy::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (UBaseWidget* Widget = Cast<UBaseWidget>(EnemyHealthWidgetComponent->GetUserWidgetObject()))
+		Widget->InitEnemyCreatedWidget(this);
 }
 
 void AEnemy::PossessedBy(AController* NewController)

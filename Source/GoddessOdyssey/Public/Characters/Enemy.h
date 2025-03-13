@@ -6,6 +6,7 @@
 #include "Characters/BaseCharacter.h"
 #include "Enemy.generated.h"
 
+class UWidgetComponent;
 class UEnemyUIComponent;
 class UEnemyCombatComponent;
 /**
@@ -29,6 +30,8 @@ public:
 	//~ End IUIComponentInterface Interface
 
 protected:
+	virtual void BeginPlay() override;
+	
 	//~ Begin APawn Interface.
 	virtual void PossessedBy(AController* NewController) override;
 	//~ End APawn Interface
@@ -36,9 +39,11 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Combat")
 	UEnemyCombatComponent* EnemyCombatComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Combat")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="UI")
 	UEnemyUIComponent* EnemyUIComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="UI")
+	UWidgetComponent* EnemyHealthWidgetComponent;
 private:	
 	void InitEnemyStartUpData();
 
