@@ -45,7 +45,7 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 	{
 		const float NewCurrentRage = FMath::Clamp(GetCurrentRage(), 0.f, GetMaxRage());
 
-		SetCurrentHealth(NewCurrentRage);
+		SetCurrentRage(NewCurrentRage);
 
 		if (UGoddessUIComponent* GoddessUIComponent = CachedBaseUIInterface->GetGoddessUIComponentByInterface())
 			GoddessUIComponent->OnCurrentRageChanged.Broadcast(GetCurrentRage() / GetMaxRage());
