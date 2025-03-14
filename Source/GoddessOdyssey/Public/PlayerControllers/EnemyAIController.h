@@ -17,7 +17,10 @@ class GODDESSODYSSEY_API AEnemyAIController : public AAIController
 	GENERATED_BODY()
 public:
 	AEnemyAIController(const FObjectInitializer& ObjectInitializer);
-
+	
+	//~ Begin IGenericTeamAgentInterface Interface.
+	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const;
+	//~ End IGenericTeamAgentInterface Interface
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UAIPerceptionComponent* EnemyPerceptionComponent; // 允许 AI 通过不同的感官（如视觉、听觉、触觉等）感知周围环境中的刺激源

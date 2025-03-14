@@ -3,3 +3,12 @@
 
 #include "PlayerControllers/GoddessController.h"
 
+AGoddessController::AGoddessController()
+{
+	GoddessTeamId = FGenericTeamId(0);
+}
+
+FGenericTeamId AGoddessController::GetGenericTeamId() const
+{
+	return GoddessTeamId;
+}
