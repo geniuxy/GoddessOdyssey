@@ -26,9 +26,12 @@ AEnemyAIController::AEnemyAIController(const FObjectInitializer& ObjectInitializ
 	EnemySenseConfig_Sight->PeripheralVisionAngleDegrees = 360.f; // 设置 AI 的视野角度
 
 	EnemyPerceptionComponent = CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("EnemyPerceptionComponent"));
+	// ConfigureSense 将视觉感知配置（EnemySenseConfig_Sight）应用到感知组件中，使 AI 控制器具备视觉感知能力。
 	EnemyPerceptionComponent->ConfigureSense(*EnemySenseConfig_Sight);
+	// SetDominantSense 设置视觉感知（UAISenseConfig_Sight）为主要的感知方式。
 	EnemyPerceptionComponent->SetDominantSense(UAISenseConfig_Sight::StaticClass());
-	EnemyPerceptionComponent->OnTargetPerceptionUpdated.AddUniqueDynamic(this, &AEnemyAIController::OnEnemyPerceptionUpdated);
+	EnemyPerceptionComponent->OnTargetPerceptionUpdated.AddUniqueDynamic(
+		this, &AEnemyAIController::OnEnemyPerceptionUpdated);
 }
 
 void AEnemyAIController::OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
