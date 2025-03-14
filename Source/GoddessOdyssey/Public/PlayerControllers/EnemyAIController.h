@@ -15,13 +15,16 @@ UCLASS()
 class GODDESSODYSSEY_API AEnemyAIController : public AAIController
 {
 	GENERATED_BODY()
+
 public:
 	AEnemyAIController(const FObjectInitializer& ObjectInitializer);
-	
+
 	//~ Begin IGenericTeamAgentInterface Interface.
 	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;
 	//~ End IGenericTeamAgentInterface Interface
 protected:
+	virtual void BeginPlay() override;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UAIPerceptionComponent* EnemyPerceptionComponent; // 允许 AI 通过不同的感官（如视觉、听觉、触觉等）感知周围环境中的刺激源
 
@@ -30,5 +33,17 @@ protected:
 
 	UFUNCTION()
 	virtual void OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
+
+private:
+	UPROPERTY(EditDefaultsOnly, Category="Detour Crowd Avoidance Config")
+	bool bEnableDetourCrowdAvoidance = true;
+
+	UPROPERTY(EditDefaultsOnly, Category="Detour Crowd Avoidance Config",
+		meta=(EditCondition="bEnableDetourCrowdAvoidance", UIMin=1, UIMax=4))
+	int32 DetourCrowdAvoidanceQuality = 4;
+
+	UPROPERTY(EditDefaultsOnly, Category="Detour Crowd Avoidance Config",
+		meta=(EditCondition="bEnableDetourCrowdAvoidance"))
+	float CrowdCollisionQueryRange = 600.f;
 	
 };
