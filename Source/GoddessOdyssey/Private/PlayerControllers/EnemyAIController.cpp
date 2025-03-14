@@ -4,6 +4,7 @@
 #include "PlayerControllers/EnemyAIController.h"
 
 #include "DebugHelper.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "Navigation/CrowdFollowingComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
@@ -50,5 +51,10 @@ ETeamAttitude::Type AEnemyAIController::GetTeamAttitudeTowards(const AActor& Oth
 void AEnemyAIController::OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
 	if (Stimulus.WasSuccessfullySensed() && Actor)
-		Debug::Print(Actor->GetActorNameOrLabel() + TEXT("was sensed"), FColor::Blue);
+	{
+		if (UBlackboardComponent* BlackboardComponent = GetBlackboardComponent())
+		{
+			BlackboardComponent->SetValueAsObject(FName("TargetActor"), Actor);
+		}
+	}
 }
