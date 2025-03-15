@@ -13,5 +13,7 @@ UCLASS()
 class GODDESSODYSSEY_API UEnemyCombatComponent : public UBaseCombatComponent
 {
 	GENERATED_BODY()
-	
+
+public:
+	virtual void OnHitTargetActor(AActor* HitActor) override;
 };

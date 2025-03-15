@@ -4,6 +4,7 @@
 #include "GoddessFunctionLibrary.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameplayTagContainer.h"
+#include "GenericTeamAgentInterface.h"
 #include "AbilitySystems/BaseAbilitySystemComponent.h"
 #include "Interfaces/CombatComponentInterface.h"
 
@@ -52,11 +53,25 @@ UBaseCombatComponent* UGoddessFunctionLibrary::NativeGetCombatComponentFromActor
 	return nullptr;
 }
 
-UBaseCombatComponent* UGoddessFunctionLibrary::BP_GetCombatComponentFromActor(AActor* InActor, EGoddessValidType& OutValidType)
+UBaseCombatComponent* UGoddessFunctionLibrary::BP_GetCombatComponentFromActor(
+	AActor* InActor, EGoddessValidType& OutValidType)
 {
 	UBaseCombatComponent* CombatComponent = NativeGetCombatComponentFromActor(InActor);
 
 	OutValidType = CombatComponent ? EGoddessValidType::Valid : EGoddessValidType::Invalid;
 
 	return CombatComponent;
+}
+
+bool UGoddessFunctionLibrary::IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn)
+{
+	check(QueryPawn && TargetPawn);
+
+	IGenericTeamAgentInterface* QueryTeamAgent = Cast<IGenericTeamAgentInterface>(QueryPawn->GetController());
+	IGenericTeamAgentInterface* TargetTeamAgent = Cast<IGenericTeamAgentInterface>(TargetPawn->GetController());
+
+	if (QueryTeamAgent && TargetTeamAgent)
+		return QueryTeamAgent->GetGenericTeamId() != TargetTeamAgent->GetGenericTeamId();
+
+	return false;
 }

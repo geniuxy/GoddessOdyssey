@@ -7,6 +7,7 @@
 #include "Components/BoxComponent.h"
 #include "Components/SphereComponent.h"
 #include "DebugHelper.h"
+#include "GoddessFunctionLibrary.h"
 
 AWeapon::AWeapon()
 {
@@ -42,14 +43,12 @@ void AWeapon::OnWeaponBeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 
 	checkf(WeaponOwningPawn,TEXT("Forgot to assign an instiagtor as the owning pawn for the weapon: %s"),*GetName());
 
+	
+	
 	if (APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		if (WeaponOwningPawn != HitPawn)
-		{
+		if (UGoddessFunctionLibrary::IsTargetPawnHostile(WeaponOwningPawn, HitPawn))
 			OnWeaponHitTarget.ExecuteIfBound(OtherActor);
-		}
-
-		// Implement hit check for enemy characters
 	}
 }
 
@@ -62,11 +61,7 @@ void AWeapon::OnWeaponEndOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 
 	if (APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		if (WeaponOwningPawn != HitPawn)
-		{
+		if (UGoddessFunctionLibrary::IsTargetPawnHostile(WeaponOwningPawn, HitPawn))
 			OnWeaponPulledFromTarget.ExecuteIfBound(OtherActor);
-		}
-
-		// Implement hit check for enemy characters
 	}
 }
