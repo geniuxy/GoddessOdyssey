@@ -18,7 +18,8 @@ public class GoddessOdyssey : ModuleRules
 			"Niagara",
 			"EnhancedInput",
 			"GameplayTasks",
-			"AIModule"
+			"AIModule",
+			"AnimGraphRuntime"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });

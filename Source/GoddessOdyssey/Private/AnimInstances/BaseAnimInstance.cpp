@@ -3,3 +3,12 @@
 
 #include "AnimInstances/BaseAnimInstance.h"
 
+#include "GameplayTagContainer.h"
+#include "GoddessFunctionLibrary.h"
+
+bool UBaseAnimInstance::DoesActorHaveTag(FGameplayTag TagToCheck)
+{
+	if (APawn* OwningPawn  = TryGetPawnOwner())
+		return UGoddessFunctionLibrary::NativeDoesActorHaveTag(OwningPawn , TagToCheck);
+	return false;
+}
