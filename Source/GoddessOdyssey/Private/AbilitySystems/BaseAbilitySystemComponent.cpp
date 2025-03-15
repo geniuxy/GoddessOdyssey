@@ -54,3 +54,22 @@ void UBaseAbilitySystemComponent::RemoveGrantedGoddessWeaponAbilities(
 
 	InSpecHandlesToRemove.Empty();
 }
+
+bool UBaseAbilitySystemComponent::TryActivateAbilityByTag(FGameplayTag TagToActivate)
+{
+	check(TagToActivate.IsValid());
+	TArray<FGameplayAbilitySpec*> FoundAbilitySpecs;
+	GetActivatableGameplayAbilitySpecsByAllMatchingTags(TagToActivate.GetSingleTagContainer(), FoundAbilitySpecs);
+
+	if (!FoundAbilitySpecs.IsEmpty())
+	{
+		const int32 RandomAbilityIndex = FMath::RandRange(0, FoundAbilitySpecs.Num() - 1);
+		FGameplayAbilitySpec* SpecToActivate = FoundAbilitySpecs[RandomAbilityIndex];
+
+		check(SpecToActivate);
+
+		if (!SpecToActivate->IsActive())
+			return TryActivateAbility(SpecToActivate->Handle);
+	}
+	return false;
+}

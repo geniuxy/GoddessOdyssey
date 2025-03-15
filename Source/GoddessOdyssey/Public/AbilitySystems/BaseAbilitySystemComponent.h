@@ -27,4 +27,7 @@ public:
 	//通过 UPARAM(ref)，你可以将参数标记为引用传递，这样在蓝图中调用该函数时，蓝图可以传递一个变量的引用，而不是复制该变量的值。
 	UFUNCTION(BlueprintCallable, Category="Ability")
 	void RemoveGrantedGoddessWeaponAbilities(UPARAM(ref) TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove);
+	
+	UFUNCTION(BlueprintCallable, Category="Ability")
+	bool TryActivateAbilityByTag(FGameplayTag TagToActivate);
 };
