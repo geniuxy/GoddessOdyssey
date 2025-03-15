@@ -12,6 +12,7 @@
 class UDataAsset_StartUpData;
 class UBaseAttributeSet;
 class UBaseAbilitySystemComponent;
+class UMotionWarpingComponent;
 
 UCLASS()
 class GODDESSODYSSEY_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface,
@@ -45,6 +46,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
 	UBaseAttributeSet* BaseAttributeSet;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MotionWarping")
+	UMotionWarpingComponent* MotionWarpingComponent;
+		
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData")
 	TSoftObjectPtr<UDataAsset_StartUpData> CharacterStartUpData;
 
