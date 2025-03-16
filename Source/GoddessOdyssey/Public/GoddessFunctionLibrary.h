@@ -7,8 +7,9 @@
 #include "GoddessTypes/GoddessEnumTypes.h"
 #include "GoddessFunctionLibrary.generated.h"
 
-class UBaseCombatComponent;
+struct FScalableFloat;
 struct FGameplayTag;
+class UBaseCombatComponent;
 class UBaseAbilitySystemComponent;
 
 /**
@@ -41,7 +42,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category="FunctionLibrary",
 		meta =(DisplayName = "Get Combat Component From Actor", ExpandEnumAsExecs = "OutValidType"))
 	static UBaseCombatComponent* BP_GetCombatComponentFromActor(AActor* InActor, EGoddessValidType& OutValidType);
-	
+
 	UFUNCTION(BlueprintCallable, Category="FunctionLibrary")
 	static bool IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn);
+
+	UFUNCTION(BlueprintPure, Category="FunctionLibrary", meta=(CompactNodeTitle="Get Value At Level"))
+	static float GetScalableFloatValueAtLevel(const FScalableFloat& InScalableFloat, float InLevel = 1.0f);
+
 };
