@@ -11,6 +11,7 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look, "Input.Look");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Equip, "Input.Equip");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_UnEquip, "Input.UnEquip");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Roll, "Input.Roll");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_LightAttack_Sword, "Input.LightAttack.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_HeavyAttack_Sword, "Input.HeavyAttack.Sword");
 
@@ -20,6 +21,7 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Attack_Light_Sword, "Character.Ability.Attack.Light.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Attack_Heavy_Sword, "Character.Ability.Attack.Heavy.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_HitPause, "Character.Ability.HitPause");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Roll, "Character.Ability.Roll");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_Weapon_Sword, "Character.Weapon.Sword");
 
@@ -29,6 +31,7 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_HitPause, "Character.Event.HitPause");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_Status_JumpToFinish, "Character.Status.JumpToFinish");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Status_Roll, "Character.Status.Roll");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_SetByCaller_Attack_Light, "Character.SetByCaller.Attack.Light");
 	UE_DEFINE_GAMEPLAY_TAG(Character_SetByCaller_Attack_Heavy, "Character.SetByCaller.Attack.Heavy");
