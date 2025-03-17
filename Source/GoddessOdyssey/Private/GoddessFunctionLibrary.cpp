@@ -5,6 +5,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameplayTagContainer.h"
 #include "GenericTeamAgentInterface.h"
+#include "GoddessGameplayTags.h"
 #include "AbilitySystems/BaseAbilitySystemComponent.h"
 #include "Interfaces/CombatComponentInterface.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -98,5 +99,13 @@ FGameplayTag UGoddessFunctionLibrary::ComputeHitReactDirectionTag(AActor* InAtta
 	if (CrossResult.Z < 0)
 		OutAngleDiff *= -1;
 
-	return FGameplayTag();
+	if (OutAngleDiff >= -45.f && OutAngleDiff < 45.f)
+		return GoddessGameplayTags::Shared_Status_HitReact_Front;
+	if (OutAngleDiff >= -135.f && OutAngleDiff < -45.f)
+		return GoddessGameplayTags::Shared_Status_HitReact_Left;
+	if (OutAngleDiff >= 45.f && OutAngleDiff < 135.f)
+		return GoddessGameplayTags::Shared_Status_HitReact_Right;
+	if (OutAngleDiff < -135.f || OutAngleDiff > 135.f)
+		return GoddessGameplayTags::Shared_Status_HitReact_Back;
+	return GoddessGameplayTags::Shared_Status_HitReact_Front;
 }
