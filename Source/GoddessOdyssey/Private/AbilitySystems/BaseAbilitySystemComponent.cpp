@@ -3,6 +3,7 @@
 
 #include "AbilitySystems/BaseAbilitySystemComponent.h"
 
+#include "GoddessGameplayTags.h"
 #include "GoddessTypes/GoddessStructTypes.h"
 
 void UBaseAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InInputTag)
@@ -19,6 +20,14 @@ void UBaseAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InIn
 
 void UBaseAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& InInputTag)
 {
+	if (!InInputTag.IsValid() || !InInputTag.MatchesTag(GoddessGameplayTags::Input_MustBeHeld)) return;
+
+
+	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InInputTag) && AbilitySpec.IsActive())
+			CancelAbilityHandle(AbilitySpec.Handle);
+	}
 }
 
 void UBaseAbilitySystemComponent::GrantGoddessWeaponAbilities(const TArray<FGoddessAbilitySet>& InAbilitiesToGrant,

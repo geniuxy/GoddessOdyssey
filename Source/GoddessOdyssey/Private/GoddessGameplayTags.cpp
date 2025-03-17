@@ -7,13 +7,15 @@
 namespace GoddessGameplayTags
 {
 	/** Input Tags **/
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_Move, "Input.Move");
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look, "Input.Look");
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_Equip, "Input.Equip");
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_UnEquip, "Input.UnEquip");
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_Roll, "Input.Roll");
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_LightAttack_Sword, "Input.LightAttack.Sword");
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_HeavyAttack_Sword, "Input.HeavyAttack.Sword");
+	UE_DEFINE_GAMEPLAY_TAG(Input_Move, "Input.Move");
+	UE_DEFINE_GAMEPLAY_TAG(Input_Look, "Input.Look");
+	UE_DEFINE_GAMEPLAY_TAG(Input_Equip, "Input.Equip");
+	UE_DEFINE_GAMEPLAY_TAG(Input_UnEquip, "Input.UnEquip");
+	UE_DEFINE_GAMEPLAY_TAG(Input_Roll, "Input.Roll");
+	UE_DEFINE_GAMEPLAY_TAG(Input_LightAttack_Sword, "Input.LightAttack.Sword");
+	UE_DEFINE_GAMEPLAY_TAG(Input_HeavyAttack_Sword, "Input.HeavyAttack.Sword");
+	UE_DEFINE_GAMEPLAY_TAG(Input_MustBeHeld, "Input.MustBeHeld");
+	UE_DEFINE_GAMEPLAY_TAG(Input_MustBeHeld_Block, "Input.MustBeHeld.Block");
 
 	/** Goddess Tags**/
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Equip_Sword, "Character.Ability.Equip.Sword");
@@ -22,6 +24,7 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Attack_Heavy_Sword, "Character.Ability.Attack.Heavy.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_HitPause, "Character.Ability.HitPause");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Roll, "Character.Ability.Roll");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Block, "Character.Ability.Block");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_Weapon_Sword, "Character.Weapon.Sword");
 
@@ -32,6 +35,7 @@ namespace GoddessGameplayTags
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_Status_JumpToFinish, "Character.Status.JumpToFinish");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Status_Rolling, "Character.Status.Rolling");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Status_Blocking, "Character.Status.Blocking");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_SetByCaller_Attack_Light, "Character.SetByCaller.Attack.Light");
 	UE_DEFINE_GAMEPLAY_TAG(Character_SetByCaller_Attack_Heavy, "Character.SetByCaller.Attack.Heavy");

@@ -224,9 +224,9 @@ void AGoddess::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	// Bind InputActions
 	UGoddessInputComponent* GoddessInputComponent = CastChecked<UGoddessInputComponent>(PlayerInputComponent);
-	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::InputTag_Move,
+	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_Move,
 	                                             ETriggerEvent::Triggered, this, &ThisClass::CallBack_Move);
-	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::InputTag_Look,
+	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_Look,
 	                                             ETriggerEvent::Triggered, this, &ThisClass::CallBack_Look);
 
 	GoddessInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &ThisClass::CallBack_AbilityInputPressed,
