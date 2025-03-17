@@ -60,14 +60,14 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 
 		SetCurrentHealth(NewCurrentHealth);
 
-		const FString DebugString = FString::Printf(
-			TEXT("Old Health: %f, Damage Done: %f, NewCurrentHealth: %f"),
-			OldHealth,
-			Damage,
-			NewCurrentHealth
-		);
-
-		Debug::Print(DebugString, FColor::Green);
+		// const FString DebugString = FString::Printf(
+		// 	TEXT("Old Health: %f, Damage Done: %f, NewCurrentHealth: %f"),
+		// 	OldHealth,
+		// 	Damage,
+		// 	NewCurrentHealth
+		// );
+		//
+		// Debug::Print(DebugString, FColor::Green);
 
 		// Notify the UI
 		BaseUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
