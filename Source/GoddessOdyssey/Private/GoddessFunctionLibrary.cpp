@@ -3,6 +3,7 @@
 
 #include "GoddessFunctionLibrary.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "DebugHelper.h"
 #include "GameplayTagContainer.h"
 #include "GenericTeamAgentInterface.h"
 #include "GoddessGameplayTags.h"
@@ -108,4 +109,18 @@ FGameplayTag UGoddessFunctionLibrary::ComputeHitReactDirectionTag(AActor* InAtta
 	if (OutAngleDiff < -135.f || OutAngleDiff > 135.f)
 		return GoddessGameplayTags::Shared_Status_HitReact_Back;
 	return GoddessGameplayTags::Shared_Status_HitReact_Front;
+}
+
+bool UGoddessFunctionLibrary::IsValidBlock(AActor* InAttacker, AActor* InDefender)
+{
+	check(InAttacker && InDefender);
+
+	const float DotResult =
+		FVector::DotProduct(InAttacker->GetActorForwardVector(), InDefender->GetActorForwardVector());
+	const FString result = FString::Printf(TEXT("Dot result: %f , %s"), DotResult,
+	                                       DotResult < -0.3f ? TEXT("Valid") : TEXT("Invalid"));
+
+	Debug::Print(result, DotResult < -0.3f ? FColor::Green : FColor::Red);
+
+	return DotResult < -0.3f;
 }

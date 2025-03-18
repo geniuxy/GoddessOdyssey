@@ -4,6 +4,7 @@
 #include "Components/Combat/EnemyCombatComponent.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "GoddessFunctionLibrary.h"
 #include "GoddessGameplayTags.h"
 #include "Abilities/GameplayAbilityTypes.h"
 
@@ -13,20 +14,21 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 
 	OverlappedActors.AddUnique(HitActor);
 
-	// TODO block logic
+	// block logic
 	bool bIsValidBlock = false;
-	const bool bIsPlayerBlocking = false;
+	const bool bIsPlayerBlocking =
+		UGoddessFunctionLibrary::NativeDoesActorHaveTag(HitActor, GoddessGameplayTags::Character_Status_Blocking);
 	const bool bIsMyAttackUnblockable = false;
 
 	if (bIsPlayerBlocking && !bIsMyAttackUnblockable)
 	{
-		//TODO::check if the block is valid
+		bIsValidBlock = UGoddessFunctionLibrary::IsValidBlock(GetOwningPawn(), HitActor);
 	}
 
 	FGameplayEventData Data;
 	Data.Instigator = GetOwningPawn();
 	Data.Target = HitActor;
-	
+
 	if (bIsValidBlock)
 	{
 		//TODO::Handle successful block
