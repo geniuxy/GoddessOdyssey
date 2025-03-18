@@ -31,7 +31,11 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 
 	if (bIsValidBlock)
 	{
-		//TODO::Handle successful block
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+			HitActor,
+			GoddessGameplayTags::Character_Status_Blocking,
+			Data
+		);
 	}
 	else
 	{
