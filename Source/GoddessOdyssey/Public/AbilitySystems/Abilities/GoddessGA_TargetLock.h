@@ -30,4 +30,22 @@ public:
 		bool bWasCancelled
 	) override;
 	//~ End UGameplayAbility Interface.
+private:
+	void TryLockOnTarget();
+	void GetAvailableActorsToLock();
+
+	UPROPERTY(EditDefaultsOnly, Category="TargetLock")
+	float BoxTraceDistance = 2000.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="TargetLock")
+	FVector TraceBoxSize = FVector(2000.f, 2000.f, 300.f);
+
+	UPROPERTY(EditDefaultsOnly, Category="TargetLock")
+	TArray<TEnumAsByte<EObjectTypeQuery>> BoxTraceChannels;
+
+	UPROPERTY(EditDefaultsOnly, Category="TargetLock")
+	bool bShowPersistentDebugShape = false;
+
+	UPROPERTY()
+	TArray<AActor*> AvailableActorsToLock;
 };
