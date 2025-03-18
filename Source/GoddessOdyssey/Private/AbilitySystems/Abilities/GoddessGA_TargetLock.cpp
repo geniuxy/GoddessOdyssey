@@ -6,6 +6,7 @@
 #include "DebugHelper.h"
 #include "Animation/AnimInstanceProxy.h"
 #include "Characters/Goddess.h"
+#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
 
@@ -27,12 +28,30 @@ void UGoddessGA_TargetLock::EndAbility(
 	bool bReplicateEndAbility,
 	bool bWasCancelled)
 {
+	CleanUp();
+	
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 }
 
 void UGoddessGA_TargetLock::TryLockOnTarget()
 {
 	GetAvailableActorsToLock();
+
+	if (AvailableActorsToLock.IsEmpty())
+	{
+		CancelTargetLockAbility();
+		return;
+	}
+
+	AActor* NearestTarget = GetNearestTargetFromAvailableActors(AvailableActorsToLock);
+
+	if (NearestTarget)
+	{
+		// CurrentLockedActor = NearestTarget;
+		Debug::Print(NearestTarget->GetActorNameOrLabel());	
+	}
+	else
+		CancelTargetLockAbility();
 }
 
 void UGoddessGA_TargetLock::GetAvailableActorsToLock()
@@ -60,11 +79,26 @@ void UGoddessGA_TargetLock::GetAvailableActorsToLock()
 		if (AActor* HitActor = TraceHit.GetActor())
 		{
 			if (HitActor != Goddess)
-			{
 				AvailableActorsToLock.AddUnique(HitActor);
-
-				Debug::Print(HitActor->GetActorNameOrLabel());
-			}
 		}
 	}
+}
+
+AActor* UGoddessGA_TargetLock::GetNearestTargetFromAvailableActors(const TArray<AActor*>& InAvailableActors)
+{
+	float Distance = 0.f;
+	return UGameplayStatics::FindNearestActor(
+		GetGoddessFromActorInfo()->GetActorLocation(), InAvailableActors, Distance);
+}
+
+void UGoddessGA_TargetLock::CancelTargetLockAbility()
+{
+	CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
+}
+
+void UGoddessGA_TargetLock::CleanUp()
+{
+	AvailableActorsToLock.Empty();
+
+	CurrentLockedActor = nullptr;
 }
