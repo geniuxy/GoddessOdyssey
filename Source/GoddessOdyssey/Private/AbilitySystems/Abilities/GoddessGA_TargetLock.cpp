@@ -3,6 +3,7 @@
 
 #include "AbilitySystems/Abilities/GoddessGA_TargetLock.h"
 
+#include "EnhancedInputSubsystems.h"
 #include "GoddessFunctionLibrary.h"
 #include "GoddessGameplayTags.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
@@ -24,6 +25,7 @@ void UGoddessGA_TargetLock::ActivateAbility(
 {
 	TryLockOnTarget();
 	InitTargetLockMovement();
+	InitTargetLockMappingContext();
 
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
@@ -36,6 +38,7 @@ void UGoddessGA_TargetLock::EndAbility(
 	bool bWasCancelled)
 {
 	ResetTargetLockMovement();
+	ResetTargetLockMappingContext();
 	CleanUp();
 
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
@@ -191,6 +194,19 @@ void UGoddessGA_TargetLock::InitTargetLockMovement()
 	GetGoddessFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = TargetLockWalkSpeed;
 }
 
+void UGoddessGA_TargetLock::InitTargetLockMappingContext()
+{
+	ULocalPlayer* LocalPlayer = GetGoddessControllerFromActorInfo()->GetLocalPlayer();
+
+	UEnhancedInputLocalPlayerSubsystem* Subsystem =
+		ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
+
+	check(Subsystem);
+
+	// 优先级定的高，IA_Look的输入就会被IA_SwichTarget Override，占用
+	Subsystem->AddMappingContext(TargetLockMappingContext, 3);
+}
+
 void UGoddessGA_TargetLock::CancelTargetLockAbility()
 {
 	CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
@@ -216,4 +232,18 @@ void UGoddessGA_TargetLock::ResetTargetLockMovement()
 {
 	if (CachedDefaultMaxWalkSpeed > 0.f)
 		GetGoddessFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = CachedDefaultMaxWalkSpeed;
+}
+
+void UGoddessGA_TargetLock::ResetTargetLockMappingContext()
+{
+	if (!GetGoddessControllerFromActorInfo()) return;
+
+	ULocalPlayer* LocalPlayer = GetGoddessControllerFromActorInfo()->GetLocalPlayer();
+
+	UEnhancedInputLocalPlayerSubsystem* Subsystem =
+		ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
+
+	check(Subsystem);
+
+	Subsystem->RemoveMappingContext(TargetLockMappingContext);
 }

@@ -6,6 +6,7 @@
 #include "AbilitySystems/Abilities/GoddessGameplayAbility.h"
 #include "GoddessGA_TargetLock.generated.h"
 
+class UInputMappingContext;
 class UBaseWidget;
 /**
  * 
@@ -42,10 +43,12 @@ private:
 	void CreateTargetLockPointer();
 	void SetTargetLockWidgetPosition();
 	void InitTargetLockMovement();
+	void InitTargetLockMappingContext();
 	
 	void CancelTargetLockAbility();
 	void CleanUp();
 	void ResetTargetLockMovement();
+	void ResetTargetLockMappingContext();
 
 	UPROPERTY(EditDefaultsOnly, Category="TargetLock")
 	float BoxTraceDistance = 2000.f;
@@ -67,6 +70,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category="TargetLock")
 	float TargetLockWalkSpeed = 150.f;
+	
+	UPROPERTY(EditDefaultsOnly, Category="TargetLock")
+	UInputMappingContext* TargetLockMappingContext;
 	
 	UPROPERTY()
 	TArray<AActor*> AvailableActorsToLock;
