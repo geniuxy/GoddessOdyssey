@@ -9,6 +9,7 @@
 #include "Blueprint/WidgetTree.h"
 #include "Characters/Goddess.h"
 #include "Components/SizeBox.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
@@ -22,6 +23,7 @@ void UGoddessGA_TargetLock::ActivateAbility(
 	const FGameplayEventData* TriggerEventData)
 {
 	TryLockOnTarget();
+	InitTargetLockMovement();
 
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
@@ -33,6 +35,7 @@ void UGoddessGA_TargetLock::EndAbility(
 	bool bReplicateEndAbility,
 	bool bWasCancelled)
 {
+	ResetTargetLockMovement();
 	CleanUp();
 
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
@@ -181,6 +184,13 @@ void UGoddessGA_TargetLock::SetTargetLockWidgetPosition()
 	DrawnTargetLockWidget->SetPositionInViewport(ScreenPosition, false);
 }
 
+void UGoddessGA_TargetLock::InitTargetLockMovement()
+{
+	CachedDefaultMaxWalkSpeed = GetGoddessFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed;
+
+	GetGoddessFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = TargetLockWalkSpeed;
+}
+
 void UGoddessGA_TargetLock::CancelTargetLockAbility()
 {
 	CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
@@ -198,4 +208,12 @@ void UGoddessGA_TargetLock::CleanUp()
 	DrawnTargetLockWidget = nullptr;
 
 	TargetLockWidgetSize = FVector2D::ZeroVector;
+
+	CachedDefaultMaxWalkSpeed = 0.f;
+}
+
+void UGoddessGA_TargetLock::ResetTargetLockMovement()
+{
+	if (CachedDefaultMaxWalkSpeed > 0.f)
+		GetGoddessFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = CachedDefaultMaxWalkSpeed;
 }

@@ -17,6 +17,6 @@ class GODDESSODYSSEY_API UBaseAnimInstance : public UAnimInstance
 
 public:
 	UFUNCTION(BlueprintPure,meta=(BlueprintThreadSafe))
-	bool DoesActorHaveTag(FGameplayTag TagToCheck);
+	bool DoesActorHaveTag(FGameplayTag TagToCheck) const;
 	
 };

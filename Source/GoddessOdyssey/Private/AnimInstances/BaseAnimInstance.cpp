@@ -6,7 +6,7 @@
 #include "GameplayTagContainer.h"
 #include "GoddessFunctionLibrary.h"
 
-bool UBaseAnimInstance::DoesActorHaveTag(FGameplayTag TagToCheck)
+bool UBaseAnimInstance::DoesActorHaveTag(FGameplayTag TagToCheck) const
 {
 	if (APawn* OwningPawn  = TryGetPawnOwner())
 		return UGoddessFunctionLibrary::NativeDoesActorHaveTag(OwningPawn , TagToCheck);
