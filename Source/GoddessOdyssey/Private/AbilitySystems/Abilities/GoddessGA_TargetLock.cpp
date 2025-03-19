@@ -81,6 +81,25 @@ void UGoddessGA_TargetLock::OnTargetLockTick(float DeltaTime)
 	}
 }
 
+void UGoddessGA_TargetLock::SwitchTarget(const FGameplayTag& InSwitchDirectionTag)
+{
+	GetAvailableActorsToLock();
+
+	TArray<AActor*> ActorsOnLeft;
+	TArray<AActor*> ActorsOnRight;
+	AActor* NewTargetToLock = nullptr;
+
+	GetAvailableActorsAroundTarget(ActorsOnLeft, ActorsOnRight);
+
+	if (InSwitchDirectionTag == GoddessGameplayTags::Character_Event_SwitchTarget_Left)
+		NewTargetToLock = GetNearestTargetFromAvailableActors(ActorsOnLeft);
+	else
+		NewTargetToLock = GetNearestTargetFromAvailableActors(ActorsOnRight);
+
+	if (NewTargetToLock)
+		CurrentLockedActor = NewTargetToLock;
+}
+
 void UGoddessGA_TargetLock::TryLockOnTarget()
 {
 	GetAvailableActorsToLock();
@@ -105,6 +124,8 @@ void UGoddessGA_TargetLock::TryLockOnTarget()
 
 void UGoddessGA_TargetLock::GetAvailableActorsToLock()
 {
+	AvailableActorsToLock.Empty();
+
 	AGoddess* Goddess = GetGoddessFromActorInfo();
 
 	TArray<FHitResult> BoxTraceHits;
@@ -139,6 +160,33 @@ AActor* UGoddessGA_TargetLock::GetNearestTargetFromAvailableActors(const TArray<
 	return UGameplayStatics::FindNearestActor(
 		GetGoddessFromActorInfo()->GetActorLocation(), InAvailableActors, Distance);
 }
+
+void UGoddessGA_TargetLock::GetAvailableActorsAroundTarget(TArray<AActor*>& OutActorsOnLeft,
+                                                           TArray<AActor*>& OutActorsOnRight)
+{
+	if (!CurrentLockedActor || AvailableActorsToLock.IsEmpty())
+	{
+		CancelTargetLockAbility();
+		return;
+	}
+
+	const FVector PlayerLocation = GetGoddessFromActorInfo()->GetActorLocation();
+	const FVector ToCurrentTargetNormalized = (CurrentLockedActor->GetActorLocation() - PlayerLocation).GetSafeNormal();
+
+	for (AActor* AvailableActor : AvailableActorsToLock)
+	{
+		if (!AvailableActor || AvailableActor == CurrentLockedActor) continue;
+
+		const FVector ToActorNormalized = (AvailableActor->GetActorLocation() - PlayerLocation).GetSafeNormal();
+		const FVector CrossRot = FVector::CrossProduct(ToCurrentTargetNormalized, ToActorNormalized);
+
+		if (CrossRot.Z > 0.f)
+			OutActorsOnRight.AddUnique(AvailableActor);
+		else
+			OutActorsOnLeft.AddUnique(AvailableActor);
+	}
+}
+
 
 void UGoddessGA_TargetLock::CreateTargetLockPointer()
 {

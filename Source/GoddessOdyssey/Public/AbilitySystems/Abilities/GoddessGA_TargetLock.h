@@ -36,15 +36,21 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void OnTargetLockTick(float DeltaTime);
 
+	UFUNCTION(BlueprintCallable)
+	void SwitchTarget(const FGameplayTag& InSwitchDirectionTag);
+
 private:
 	void TryLockOnTarget();
 	void GetAvailableActorsToLock();
+	
 	AActor* GetNearestTargetFromAvailableActors(const TArray<AActor*>& InAvailableActors);
+	void GetAvailableActorsAroundTarget(TArray<AActor*>& OutActorsOnLeft, TArray<AActor*>& OutActorsOnRight);
+	
 	void CreateTargetLockPointer();
 	void SetTargetLockWidgetPosition();
 	void InitTargetLockMovement();
 	void InitTargetLockMappingContext();
-	
+
 	void CancelTargetLockAbility();
 	void CleanUp();
 	void ResetTargetLockMovement();
@@ -64,16 +70,16 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category="TargetLock")
 	TSubclassOf<UBaseWidget> TargetLockWidgetClass;
-	
+
 	UPROPERTY(EditDefaultsOnly, Category="TargetLock")
 	float TargetLockRotationInterpSpeed = 5.f;
 
 	UPROPERTY(EditDefaultsOnly, Category="TargetLock")
 	float TargetLockWalkSpeed = 150.f;
-	
+
 	UPROPERTY(EditDefaultsOnly, Category="TargetLock")
 	UInputMappingContext* TargetLockMappingContext;
-	
+
 	UPROPERTY()
 	TArray<AActor*> AvailableActorsToLock;
 
@@ -85,7 +91,7 @@ private:
 
 	UPROPERTY()
 	FVector2D TargetLockWidgetSize = FVector2D::ZeroVector;
-	
+
 	UPROPERTY()
 	float CachedDefaultMaxWalkSpeed;
 };

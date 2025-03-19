@@ -14,9 +14,8 @@
 AEnemyAIController::AEnemyAIController(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer.SetDefaultSubobjectClass<UCrowdFollowingComponent>("PathFollowingComponent"))
 {
-	if (UCrowdFollowingComponent* CrowdFollowingComponent = Cast<UCrowdFollowingComponent>(GetPathFollowingComponent()))
-		Debug::Print(TEXT("Path Following Component Valid"), FColor::Green);
-
+	// if (UCrowdFollowingComponent* CrowdFollowingComponent = Cast<UCrowdFollowingComponent>(GetPathFollowingComponent()))
+	// 	Debug::Print(TEXT("Path Following Component Valid"), FColor::Green);
 
 	EnemySenseConfig_Sight = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("EnemySenseConfig_Sight"));
 	EnemySenseConfig_Sight->DetectionByAffiliation.bDetectEnemies = true;

@@ -133,7 +133,7 @@ void AGoddess::CallBack_SwitchTargetCompleted(const FInputActionValue& InputActi
 		                       : GoddessGameplayTags::Character_Event_SwitchTarget_Left;
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(this, SendTag, Data);
 
-	Debug::Print("Switch Direction: " + SendTag.ToString());
+	// Debug::Print("Switch Direction: " + SendTag.ToString());
 }
 
 void AGoddess::CallBack_AbilityInputPressed(FGameplayTag InInputTag)
