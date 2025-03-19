@@ -36,6 +36,7 @@ private:
 	void GetAvailableActorsToLock();
 	AActor* GetNearestTargetFromAvailableActors(const TArray<AActor*>& InAvailableActors);
 	void CreateTargetLockPointer();
+	void SetTargetLockWidgetPosition();
 	void CancelTargetLockAbility();
 	void CleanUp();
 
@@ -59,7 +60,10 @@ private:
 
 	UPROPERTY()
 	AActor* CurrentLockedActor;
-	
+
 	UPROPERTY()
 	UBaseWidget* DrawnTargetLockWidget;
+
+	UPROPERTY()
+	FVector2D TargetLockWidgetSize;
 };

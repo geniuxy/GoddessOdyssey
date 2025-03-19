@@ -3,7 +3,10 @@
 
 #include "AbilitySystems/Abilities/GoddessGA_TargetLock.h"
 
+#include "Blueprint/WidgetLayoutLibrary.h"
+#include "Blueprint/WidgetTree.h"
 #include "Characters/Goddess.h"
+#include "Components/SizeBox.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "PlayerControllers/GoddessController.h"
@@ -47,6 +50,8 @@ void UGoddessGA_TargetLock::TryLockOnTarget()
 	if (CurrentLockedActor)
 	{
 		CreateTargetLockPointer();
+
+		SetTargetLockWidgetPosition();
 	}
 	else
 		CancelTargetLockAbility();
@@ -100,6 +105,37 @@ void UGoddessGA_TargetLock::CreateTargetLockPointer()
 		check(DrawnTargetLockWidget);
 		DrawnTargetLockWidget->AddToViewport();
 	}
+}
+
+void UGoddessGA_TargetLock::SetTargetLockWidgetPosition()
+{
+	if (!DrawnTargetLockWidget || !CurrentLockedActor)
+	{
+		CancelTargetLockAbility();
+		return;
+	}
+
+	FVector2D ScreenPosition;
+	UWidgetLayoutLibrary::ProjectWorldLocationToWidgetPosition(
+		GetGoddessControllerFromActorInfo(),
+		CurrentLockedActor->GetActorLocation(),
+		ScreenPosition,
+		true
+	);
+
+	DrawnTargetLockWidget->WidgetTree->ForEachWidget(
+		[this](UWidget* FoundWidget)
+		{
+			if (USizeBox* FoundSizeBox = Cast<USizeBox>(FoundWidget))
+			{
+				TargetLockWidgetSize.X = FoundSizeBox->GetWidthOverride();
+				TargetLockWidgetSize.Y = FoundSizeBox->GetHeightOverride();
+			}
+		}
+	);
+
+	ScreenPosition -= TargetLockWidgetSize / 2.f;
+	DrawnTargetLockWidget->SetPositionInViewport(ScreenPosition, false);
 }
 
 void UGoddessGA_TargetLock::CancelTargetLockAbility()
