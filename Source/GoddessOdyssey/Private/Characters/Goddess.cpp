@@ -119,6 +119,14 @@ void AGoddess::CallBack_Look(const FInputActionValue& InputActionValue)
 		AddControllerYawInput(LookAxisVector.X);
 }
 
+void AGoddess::CallBack_SwitchTargetTriggered(const FInputActionValue& InputActionValue)
+{
+}
+
+void AGoddess::CallBack_SwitchTargetCompleted(const FInputActionValue& InputActionValue)
+{
+}
+
 void AGoddess::CallBack_AbilityInputPressed(FGameplayTag InInputTag)
 {
 	BaseAbilitySystemComponent->OnAbilityInputPressed(InInputTag);
@@ -228,6 +236,13 @@ void AGoddess::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	                                             ETriggerEvent::Triggered, this, &ThisClass::CallBack_Move);
 	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_Look,
 	                                             ETriggerEvent::Triggered, this, &ThisClass::CallBack_Look);
+
+	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_SwitchTarget,
+	                                             ETriggerEvent::Triggered, this,
+	                                             &ThisClass::CallBack_SwitchTargetTriggered);
+	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_SwitchTarget,
+	                                             ETriggerEvent::Completed, this,
+	                                             &ThisClass::CallBack_SwitchTargetCompleted);
 
 	GoddessInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &ThisClass::CallBack_AbilityInputPressed,
 	                                              &ThisClass::CallBack_AbilityInputReleased);
