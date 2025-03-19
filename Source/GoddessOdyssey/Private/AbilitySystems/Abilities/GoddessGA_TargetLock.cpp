@@ -10,6 +10,7 @@
 #include "Characters/Goddess.h"
 #include "Components/SizeBox.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "PlayerControllers/GoddessController.h"
 #include "Widgets/BaseWidget.h"
@@ -39,21 +40,39 @@ void UGoddessGA_TargetLock::EndAbility(
 
 void UGoddessGA_TargetLock::OnTargetLockTick(float DeltaTime)
 {
-	bool bCantLockOnTarget =
-		!CurrentLockedActor ||
-		UGoddessFunctionLibrary::NativeDoesActorHaveTag(
-			CurrentLockedActor,
-			GoddessGameplayTags::Shared_Status_Death) ||
-		UGoddessFunctionLibrary::NativeDoesActorHaveTag(
-			GetGoddessFromActorInfo(),
-			GoddessGameplayTags::Shared_Status_Death
-		);
-	if (bCantLockOnTarget)
+	const bool bCanLockTarget = CurrentLockedActor &&
+		!UGoddessFunctionLibrary::NativeDoesActorHaveTag(CurrentLockedActor, GoddessGameplayTags::Shared_Status_Death)
+		&&
+		!UGoddessFunctionLibrary::NativeDoesActorHaveTag(GetGoddessFromActorInfo(),
+		                                                 GoddessGameplayTags::Shared_Status_Death);
+	if (!bCanLockTarget)
 	{
 		CancelTargetLockAbility();
+		return;
 	}
 
 	SetTargetLockWidgetPosition();
+
+	const bool bShouldOverrideRotation =
+		!UGoddessFunctionLibrary::NativeDoesActorHaveTag(GetGoddessFromActorInfo(),
+		                                                 GoddessGameplayTags::Character_Status_Blocking) &&
+		!UGoddessFunctionLibrary::NativeDoesActorHaveTag(GetGoddessFromActorInfo(),
+		                                                 GoddessGameplayTags::Character_Status_Rolling);
+
+	if (bShouldOverrideRotation)
+	{
+		const FRotator LookAtRot = UKismetMathLibrary::FindLookAtRotation(
+			GetGoddessFromActorInfo()->GetActorLocation(),
+			CurrentLockedActor->GetActorLocation()
+		);
+
+		const FRotator CurrentControlRot = GetGoddessControllerFromActorInfo()->GetControlRotation();
+		const FRotator TargetRot =
+			FMath::RInterpTo(CurrentControlRot, LookAtRot, DeltaTime, TargetLockRotationInterpSpeed);
+
+		GetGoddessControllerFromActorInfo()->SetControlRotation(FRotator(TargetRot.Pitch, TargetRot.Yaw, 0.f));
+		GetGoddessFromActorInfo()->SetActorRotation(FRotator(0.f, TargetRot.Yaw, 0.f));
+	}
 }
 
 void UGoddessGA_TargetLock::TryLockOnTarget()
