@@ -80,6 +80,10 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="TargetLock")
 	UInputMappingContext* TargetLockMappingContext;
 
+	// 可以用来调整Lock锁定的视角方向
+	// UPROPERTY(EditDefaultsOnly, Category="TargetLock")
+	// float TargetLockCameraOffsetDistance = 20.f;
+	
 	UPROPERTY()
 	TArray<AActor*> AvailableActorsToLock;
 

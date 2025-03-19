@@ -67,10 +67,13 @@ void UGoddessGA_TargetLock::OnTargetLockTick(float DeltaTime)
 
 	if (bShouldOverrideRotation)
 	{
-		const FRotator LookAtRot = UKismetMathLibrary::FindLookAtRotation(
+		FRotator LookAtRot = UKismetMathLibrary::FindLookAtRotation(
 			GetGoddessFromActorInfo()->GetActorLocation(),
 			CurrentLockedActor->GetActorLocation()
 		);
+
+		// 可以用来调整Lock锁定的视角方向
+		// LookAtRot -= FRotator(TargetLockCameraOffsetDistance,0.f,0.f);
 
 		const FRotator CurrentControlRot = GetGoddessControllerFromActorInfo()->GetControlRotation();
 		const FRotator TargetRot =
