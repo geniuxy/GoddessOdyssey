@@ -3,6 +3,8 @@
 
 #include "AbilitySystems/Abilities/GoddessGA_TargetLock.h"
 
+#include "GoddessFunctionLibrary.h"
+#include "GoddessGameplayTags.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Blueprint/WidgetTree.h"
 #include "Characters/Goddess.h"
@@ -33,6 +35,25 @@ void UGoddessGA_TargetLock::EndAbility(
 	CleanUp();
 
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
+}
+
+void UGoddessGA_TargetLock::OnTargetLockTick(float DeltaTime)
+{
+	bool bCantLockOnTarget =
+		!CurrentLockedActor ||
+		UGoddessFunctionLibrary::NativeDoesActorHaveTag(
+			CurrentLockedActor,
+			GoddessGameplayTags::Shared_Status_Death) ||
+		UGoddessFunctionLibrary::NativeDoesActorHaveTag(
+			GetGoddessFromActorInfo(),
+			GoddessGameplayTags::Shared_Status_Death
+		);
+	if (bCantLockOnTarget)
+	{
+		CancelTargetLockAbility();
+	}
+
+	SetTargetLockWidgetPosition();
 }
 
 void UGoddessGA_TargetLock::TryLockOnTarget()
@@ -123,16 +144,19 @@ void UGoddessGA_TargetLock::SetTargetLockWidgetPosition()
 		true
 	);
 
-	DrawnTargetLockWidget->WidgetTree->ForEachWidget(
-		[this](UWidget* FoundWidget)
-		{
-			if (USizeBox* FoundSizeBox = Cast<USizeBox>(FoundWidget))
+	if (TargetLockWidgetSize == FVector2D::ZeroVector)
+	{
+		DrawnTargetLockWidget->WidgetTree->ForEachWidget(
+			[this](UWidget* FoundWidget)
 			{
-				TargetLockWidgetSize.X = FoundSizeBox->GetWidthOverride();
-				TargetLockWidgetSize.Y = FoundSizeBox->GetHeightOverride();
+				if (USizeBox* FoundSizeBox = Cast<USizeBox>(FoundWidget))
+				{
+					TargetLockWidgetSize.X = FoundSizeBox->GetWidthOverride();
+					TargetLockWidgetSize.Y = FoundSizeBox->GetHeightOverride();
+				}
 			}
-		}
-	);
+		);
+	}
 
 	ScreenPosition -= TargetLockWidgetSize / 2.f;
 	DrawnTargetLockWidget->SetPositionInViewport(ScreenPosition, false);
@@ -151,4 +175,8 @@ void UGoddessGA_TargetLock::CleanUp()
 
 	if (DrawnTargetLockWidget)
 		DrawnTargetLockWidget->RemoveFromParent();
+
+	DrawnTargetLockWidget = nullptr;
+
+	TargetLockWidgetSize = FVector2D::ZeroVector;
 }
