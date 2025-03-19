@@ -33,7 +33,7 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 	{
 		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
 			HitActor,
-			GoddessGameplayTags::Character_Status_Blocking,
+			GoddessGameplayTags::Character_Event_SuccessfulBlock,
 			Data
 		);
 	}

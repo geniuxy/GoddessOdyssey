@@ -3,6 +3,7 @@
 
 #include "Characters/Goddess.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "GoddessGameplayTags.h"
@@ -121,10 +122,18 @@ void AGoddess::CallBack_Look(const FInputActionValue& InputActionValue)
 
 void AGoddess::CallBack_SwitchTargetTriggered(const FInputActionValue& InputActionValue)
 {
+	TargetSwitchDirection = InputActionValue.Get<FVector2D>();
 }
 
 void AGoddess::CallBack_SwitchTargetCompleted(const FInputActionValue& InputActionValue)
 {
+	FGameplayEventData Data;
+	FGameplayTag SendTag = TargetSwitchDirection.X > 0.f
+		                       ? GoddessGameplayTags::Character_Event_SwitchTarget_Right
+		                       : GoddessGameplayTags::Character_Event_SwitchTarget_Left;
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(this, SendTag, Data);
+
+	Debug::Print("Switch Direction: " + SendTag.ToString());
 }
 
 void AGoddess::CallBack_AbilityInputPressed(FGameplayTag InInputTag)

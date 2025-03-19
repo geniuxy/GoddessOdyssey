@@ -75,8 +75,12 @@ protected:
 
 	void CallBack_Move(const FInputActionValue& InputActionValue);
 	void CallBack_Look(const FInputActionValue& InputActionValue);
+
 	void CallBack_SwitchTargetTriggered(const FInputActionValue& InputActionValue);
 	void CallBack_SwitchTargetCompleted(const FInputActionValue& InputActionValue);
+
+	FVector2D TargetSwitchDirection = FVector2D::ZeroVector;
+
 	void CallBack_AbilityInputPressed(FGameplayTag InInputTag);
 	void CallBack_AbilityInputReleased(FGameplayTag InInputTag);
 
@@ -158,5 +162,5 @@ private:
 
 public:
 	FORCEINLINE void SetOverlappingWeapon(AItem* Item) { OverlappingItem = Item; }
-	FORCEINLINE UGoddessCombatComponent* GetGoddessCombatComponent() const { return GoddessCombatComponent;}
+	FORCEINLINE UGoddessCombatComponent* GetGoddessCombatComponent() const { return GoddessCombatComponent; }
 };
