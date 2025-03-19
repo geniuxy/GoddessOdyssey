@@ -3,12 +3,11 @@
 
 #include "AbilitySystems/Abilities/GoddessGA_TargetLock.h"
 
-#include "DebugHelper.h"
-#include "Animation/AnimInstanceProxy.h"
 #include "Characters/Goddess.h"
 #include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "PlayerControllers/GoddessController.h"
+#include "Widgets/BaseWidget.h"
 
 void UGoddessGA_TargetLock::ActivateAbility(
 	const FGameplayAbilitySpecHandle Handle,
@@ -29,7 +28,7 @@ void UGoddessGA_TargetLock::EndAbility(
 	bool bWasCancelled)
 {
 	CleanUp();
-	
+
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 }
 
@@ -43,12 +42,11 @@ void UGoddessGA_TargetLock::TryLockOnTarget()
 		return;
 	}
 
-	AActor* NearestTarget = GetNearestTargetFromAvailableActors(AvailableActorsToLock);
+	CurrentLockedActor = GetNearestTargetFromAvailableActors(AvailableActorsToLock);
 
-	if (NearestTarget)
+	if (CurrentLockedActor)
 	{
-		// CurrentLockedActor = NearestTarget;
-		Debug::Print(NearestTarget->GetActorNameOrLabel());	
+		CreateTargetLockPointer();
 	}
 	else
 		CancelTargetLockAbility();
@@ -91,6 +89,19 @@ AActor* UGoddessGA_TargetLock::GetNearestTargetFromAvailableActors(const TArray<
 		GetGoddessFromActorInfo()->GetActorLocation(), InAvailableActors, Distance);
 }
 
+void UGoddessGA_TargetLock::CreateTargetLockPointer()
+{
+	if (!DrawnTargetLockWidget)
+	{
+		checkf(TargetLockWidgetClass, TEXT("Forgot to assign a valid widget class in Blueprint"));
+		// 这里注意要在include里加上Controller的h头文件，不然会报错
+		DrawnTargetLockWidget = CreateWidget<UBaseWidget>(GetGoddessControllerFromActorInfo(), TargetLockWidgetClass);
+
+		check(DrawnTargetLockWidget);
+		DrawnTargetLockWidget->AddToViewport();
+	}
+}
+
 void UGoddessGA_TargetLock::CancelTargetLockAbility()
 {
 	CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
@@ -101,4 +112,7 @@ void UGoddessGA_TargetLock::CleanUp()
 	AvailableActorsToLock.Empty();
 
 	CurrentLockedActor = nullptr;
+
+	if (DrawnTargetLockWidget)
+		DrawnTargetLockWidget->RemoveFromParent();
 }

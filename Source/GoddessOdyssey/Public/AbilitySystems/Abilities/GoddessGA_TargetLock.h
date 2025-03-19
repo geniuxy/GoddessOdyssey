@@ -6,6 +6,7 @@
 #include "AbilitySystems/Abilities/GoddessGameplayAbility.h"
 #include "GoddessGA_TargetLock.generated.h"
 
+class UBaseWidget;
 /**
  * 
  */
@@ -34,6 +35,7 @@ private:
 	void TryLockOnTarget();
 	void GetAvailableActorsToLock();
 	AActor* GetNearestTargetFromAvailableActors(const TArray<AActor*>& InAvailableActors);
+	void CreateTargetLockPointer();
 	void CancelTargetLockAbility();
 	void CleanUp();
 
@@ -49,9 +51,15 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="TargetLock")
 	bool bShowPersistentDebugShape = false;
 
+	UPROPERTY(EditDefaultsOnly, Category="TargetLock")
+	TSubclassOf<UBaseWidget> TargetLockWidgetClass;
+
 	UPROPERTY()
 	TArray<AActor*> AvailableActorsToLock;
 
 	UPROPERTY()
 	AActor* CurrentLockedActor;
+	
+	UPROPERTY()
+	UBaseWidget* DrawnTargetLockWidget;
 };
