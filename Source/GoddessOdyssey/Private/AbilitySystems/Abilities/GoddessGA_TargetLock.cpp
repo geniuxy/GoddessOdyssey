@@ -24,8 +24,11 @@ void UGoddessGA_TargetLock::ActivateAbility(
 	const FGameplayEventData* TriggerEventData)
 {
 	TryLockOnTarget();
-	InitTargetLockMovement();
-	InitTargetLockMappingContext();
+	if (CurrentLockedActor)
+	{
+		InitTargetLockMovement();
+		InitTargetLockMappingContext();
+	}
 
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
