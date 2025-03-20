@@ -25,6 +25,25 @@ class GODDESSODYSSEY_API AProjectileBase : public AActor
 public:
 	AProjectileBase();
 
+	UFUNCTION()
+	virtual void OnProjectileHit(
+		UPrimitiveComponent* HitComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		FVector NormalImpulse,
+		const FHitResult& Hit
+	);
+
+	UFUNCTION()
+	virtual void OnProjectileBeginOverlap(
+		UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int OtherBodyIndex,
+		bool bFromSweep,
+		const FHitResult& SweepResult
+	);
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -39,4 +58,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Projectile")
 	EProjectileDamagePolicy ProjectileDamagePolicy = EProjectileDamagePolicy::OnHit;
+
+	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName="On Spawn Projectile Hit FX"))
+	void BP_OnSpawnProjectileHitFX(const FVector& HitLocation);
 };

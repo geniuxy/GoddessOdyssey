@@ -76,7 +76,7 @@ void UGoddessGA_TargetLock::OnTargetLockTick(float DeltaTime)
 		);
 
 		// 可以用来调整Lock锁定的视角方向
-		// LookAtRot -= FRotator(TargetLockCameraOffsetDistance,0.f,0.f);
+		LookAtRot -= FRotator(TargetLockCameraOffsetDistance,0.f,0.f);
 
 		const FRotator CurrentControlRot = GetGoddessControllerFromActorInfo()->GetControlRotation();
 		const FRotator TargetRot =
