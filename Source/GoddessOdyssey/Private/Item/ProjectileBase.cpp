@@ -108,7 +108,7 @@ void AProjectileBase::HandleApplyProjectileDamage(APawn* InHitPawn, const FGamep
 	if (bWasApplied)
 	{
 		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
-			this,
+			InHitPawn,
 			GoddessGameplayTags::Shared_Event_HitReact,
 			InPayLoad
 		);
