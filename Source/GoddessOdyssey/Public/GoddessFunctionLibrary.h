@@ -7,6 +7,7 @@
 #include "GoddessTypes/GoddessEnumTypes.h"
 #include "GoddessFunctionLibrary.generated.h"
 
+struct FGameplayEffectSpecHandle;
 struct FScalableFloat;
 struct FGameplayTag;
 class UBaseCombatComponent;
@@ -51,7 +52,11 @@ public:
 
 	UFUNCTION(BlueprintPure, Category="FunctionLibrary")
 	static FGameplayTag ComputeHitReactDirectionTag(AActor* InAttacker, AActor* InVictim, float& OutAngleDiff);
-	
+
 	UFUNCTION(BlueprintPure, Category="FunctionLibrary")
 	static bool IsValidBlock(AActor* InAttacker, AActor* InDefender);
+
+	UFUNCTION(BlueprintCallable, Category="FunctionLibrary")
+	static bool ApplyGameplayEffectSpecHandleToTargetActor(AActor* InInstigator, AActor* InTargetActor,
+	                                                       const FGameplayEffectSpecHandle& InSpecHandle);
 };

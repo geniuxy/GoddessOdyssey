@@ -124,3 +124,15 @@ bool UGoddessFunctionLibrary::IsValidBlock(AActor* InAttacker, AActor* InDefende
 
 	return DotResult < -0.3f;
 }
+
+bool UGoddessFunctionLibrary::ApplyGameplayEffectSpecHandleToTargetActor(AActor* InInstigator, AActor* InTargetActor,
+                                                                         const FGameplayEffectSpecHandle& InSpecHandle)
+{
+	UBaseAbilitySystemComponent* SourceASC = NativeGetASCFromActor(InInstigator);
+	UBaseAbilitySystemComponent* TargetASC = NativeGetASCFromActor(InTargetActor);
+
+	FActiveGameplayEffectHandle ActiveGameplayEffectHandle =
+		SourceASC->ApplyGameplayEffectSpecToTarget(*InSpecHandle.Data, TargetASC);
+
+	return ActiveGameplayEffectHandle.WasSuccessfullyApplied();
+}

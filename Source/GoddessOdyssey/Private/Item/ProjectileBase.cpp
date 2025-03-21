@@ -44,7 +44,7 @@ void AProjectileBase::OnProjectileHit(
 	const FHitResult& Hit)
 {
 	BP_OnSpawnProjectileHitFX(Hit.ImpactPoint);
-	
+
 	APawn* HitPawn = Cast<APawn>(OtherActor);
 	if (!HitPawn || !UGoddessFunctionLibrary::IsTargetPawnHostile(GetInstigator(), HitPawn))
 	{
@@ -74,7 +74,7 @@ void AProjectileBase::OnProjectileHit(
 	}
 	else
 	{
-		// Handle Damage
+		HandleApplyProjectileDamage(HitPawn, Data);
 	}
 
 	Destroy();
@@ -96,4 +96,21 @@ void AProjectileBase::BeginPlay()
 
 	if (ProjectileDamagePolicy == EProjectileDamagePolicy::OnBeginOverlay)
 		ProjectileBoxComponent->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+}
+
+void AProjectileBase::HandleApplyProjectileDamage(APawn* InHitPawn, const FGameplayEventData& InPayLoad)
+{
+	checkf(ProjectileDamageEffectSpecHandle.IsValid(),
+	       TEXT("Forgot to assign a valid spec handle to the projectile: %s"), *GetActorNameOrLabel());
+	
+	bool bWasApplied = UGoddessFunctionLibrary::ApplyGameplayEffectSpecHandleToTargetActor(
+		GetInstigator(), InHitPawn, ProjectileDamageEffectSpecHandle);
+	if (bWasApplied)
+	{
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+			this,
+			GoddessGameplayTags::Shared_Event_HitReact,
+			InPayLoad
+		);
+	}
 }
