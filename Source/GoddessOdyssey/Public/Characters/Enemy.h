@@ -6,6 +6,7 @@
 #include "Characters/BaseCharacter.h"
 #include "Enemy.generated.h"
 
+class UBoxComponent;
 class UWidgetComponent;
 class UEnemyUIComponent;
 class UEnemyCombatComponent;
@@ -31,22 +32,41 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-	
+
 	//~ Begin APawn Interface.
 	virtual void PossessedBy(AController* NewController) override;
 	//~ End APawn Interface
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Combat")
 	UEnemyCombatComponent* EnemyCombatComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Combat")
+	UBoxComponent* LeftHandCollisionBox;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Combat")
+	UBoxComponent* RightHandCollisionBox;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="UI")
 	UEnemyUIComponent* EnemyUIComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="UI")
 	UWidgetComponent* EnemyHealthWidgetComponent;
-private:	
+
+	UFUNCTION()
+	void OnBodyCollisionBoxBeginOverlap(
+		UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex,
+		bool bFromSweep,
+		const FHitResult& SweepResult
+	);
+
+private:
 	void InitEnemyStartUpData();
 
 public:
 	FORCEINLINE UEnemyCombatComponent* GetEnemyCombatComponent() const { return EnemyCombatComponent; }
+	FORCEINLINE UBoxComponent* GetLeftHandCollisionBox() const { return LeftHandCollisionBox; }
+	FORCEINLINE UBoxComponent* GetRightHandCollisionBox() const { return RightHandCollisionBox; }
 };

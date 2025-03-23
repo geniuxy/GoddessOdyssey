@@ -4,6 +4,7 @@
 #include "Characters/Enemy.h"
 
 #include "DebugHelper.h"
+#include "Components/BoxComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Components/Combat/EnemyCombatComponent.h"
 #include "Components/UI/EnemyUIComponent.h"
@@ -33,6 +34,16 @@ AEnemy::AEnemy()
 
 	EnemyHealthWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("EnemyHealthWidgetComponent"));
 	EnemyHealthWidgetComponent->SetupAttachment(GetMesh());
+
+	LeftHandCollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("LeftHandCollisionBox"));
+	LeftHandCollisionBox->SetupAttachment(GetMesh());
+	LeftHandCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	LeftHandCollisionBox->OnComponentBeginOverlap.AddUniqueDynamic(this, &AEnemy::OnBodyCollisionBoxBeginOverlap);
+
+	RightHandCollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("RightHandCollisionBox"));
+	RightHandCollisionBox->SetupAttachment(GetMesh());
+	RightHandCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	RightHandCollisionBox->OnComponentBeginOverlap.AddUniqueDynamic(this, &AEnemy::OnBodyCollisionBoxBeginOverlap);
 }
 
 UBaseCombatComponent* AEnemy::GetCombatComponentByInterface() const
@@ -63,6 +74,16 @@ void AEnemy::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 
 	InitEnemyStartUpData();
+}
+
+void AEnemy::OnBodyCollisionBoxBeginOverlap(
+	UPrimitiveComponent* OverlappedComponent,
+	AActor* OtherActor,
+	UPrimitiveComponent* OtherComp,
+	int32 OtherBodyIndex,
+	bool bFromSweep,
+	const FHitResult& SweepResult)
+{
 }
 
 void AEnemy::InitEnemyStartUpData()
