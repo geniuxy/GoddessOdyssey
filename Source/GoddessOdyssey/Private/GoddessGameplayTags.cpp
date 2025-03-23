@@ -43,6 +43,7 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_SwitchTarget_Right, "Character.Event.SwitchTarget.Right");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_Status_JumpToFinish, "Character.Status.JumpToFinish");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Status_Parry, "Character.Status.Parry");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Status_Rolling, "Character.Status.Rolling");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Status_Blocking, "Character.Status.Blocking");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Status_TargetLock, "Character.Status.TargetLock");
