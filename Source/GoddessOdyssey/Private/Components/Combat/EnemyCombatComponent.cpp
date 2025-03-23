@@ -18,9 +18,10 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 	bool bIsValidBlock = false;
 	const bool bIsPlayerBlocking =
 		UGoddessFunctionLibrary::NativeDoesActorHaveTag(HitActor, GoddessGameplayTags::Character_Status_Blocking);
-	const bool bIsMyAttackUnblockable = false;
+	const bool bIsAttackUnblockable =
+		UGoddessFunctionLibrary::NativeDoesActorHaveTag(GetOwningPawn(), GoddessGameplayTags::Enemy_Status_UnBlockable);
 
-	if (bIsPlayerBlocking && !bIsMyAttackUnblockable)
+	if (bIsPlayerBlocking && !bIsAttackUnblockable)
 	{
 		bIsValidBlock = UGoddessFunctionLibrary::IsValidBlock(GetOwningPawn(), HitActor);
 	}
