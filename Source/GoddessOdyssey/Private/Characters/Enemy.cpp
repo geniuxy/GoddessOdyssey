@@ -4,6 +4,7 @@
 #include "Characters/Enemy.h"
 
 #include "DebugHelper.h"
+#include "GoddessFunctionLibrary.h"
 #include "Components/BoxComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Components/Combat/EnemyCombatComponent.h"
@@ -111,6 +112,11 @@ void AEnemy::OnBodyCollisionBoxBeginOverlap(
 	bool bFromSweep,
 	const FHitResult& SweepResult)
 {
+	if (APawn* HitPawn = Cast<APawn>(OtherActor))
+	{
+		if (UGoddessFunctionLibrary::IsTargetPawnHostile(this, HitPawn))
+			EnemyCombatComponent->OnHitTargetActor(HitPawn);
+	}
 }
 
 void AEnemy::InitEnemyStartUpData()

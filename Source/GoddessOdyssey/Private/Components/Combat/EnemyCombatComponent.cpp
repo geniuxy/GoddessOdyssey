@@ -7,6 +7,8 @@
 #include "GoddessFunctionLibrary.h"
 #include "GoddessGameplayTags.h"
 #include "Abilities/GameplayAbilityTypes.h"
+#include "Characters/Enemy.h"
+#include "Components/BoxComponent.h"
 
 void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 {
@@ -46,4 +48,33 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 			Data
 		);
 	}
+}
+
+void UEnemyCombatComponent::ToggleBodyCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType)
+{
+	AEnemy* Enemy = GetOwningPawn<AEnemy>();
+
+	check(Enemy);
+
+	UBoxComponent* LeftHandCollisionBox = Enemy->GetLeftHandCollisionBox();
+	UBoxComponent* RightHandCollisionBox = Enemy->GetRightHandCollisionBox();
+
+	check(LeftHandCollisionBox && RightHandCollisionBox);
+
+	switch (ToggleDamageType)
+	{
+	case EToggleDamageType::LeftHand:
+		LeftHandCollisionBox->SetCollisionEnabled(
+			bShouldEnable ? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision);
+		break;
+	case EToggleDamageType::RightHand:
+		RightHandCollisionBox->SetCollisionEnabled(
+			bShouldEnable ? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision);
+		break;
+	default:
+		break;
+	}
+
+	if (!bShouldEnable)
+		OverlappedActors.Empty();
 }

@@ -16,4 +16,7 @@ class GODDESSODYSSEY_API UEnemyCombatComponent : public UBaseCombatComponent
 
 public:
 	virtual void OnHitTargetActor(AActor* HitActor) override;
+
+protected:
+	virtual void ToggleBodyCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType) override;
 };

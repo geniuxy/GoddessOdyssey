@@ -16,8 +16,8 @@ void UBaseCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegis
 	CarriedWeaponMap.Emplace(InWeaponTagToRegister, InWeaponToRegister);
 
 	// 注册武器的时候就将delegate绑定对应的方法
-	InWeaponToRegister->OnWeaponHitTarget.BindUObject(this,&ThisClass::OnHitTargetActor);
-	InWeaponToRegister->OnWeaponPulledFromTarget.BindUObject(this,&ThisClass::OnWeaponPulledFromTargetActor);
+	InWeaponToRegister->OnWeaponHitTarget.BindUObject(this, &ThisClass::OnHitTargetActor);
+	InWeaponToRegister->OnWeaponPulledFromTarget.BindUObject(this, &ThisClass::OnWeaponPulledFromTargetActor);
 
 	if (bRegisterAsEquippedWeapon)
 		CurrentEquippedWeaponTag = InWeaponTagToRegister;
@@ -47,24 +47,36 @@ AWeapon* UBaseCombatComponent::GetCurrentEquippedWeapon() const
 	return GetCarriedWeaponByTag(CurrentEquippedWeaponTag);
 }
 
-void UBaseCombatComponent::ToggleWeaponCollisionBox(bool bShouldEnable, EToggleDamageType ToggleDamageType)
+void UBaseCombatComponent::ToggleDamageCollisionBox(bool bShouldEnable, EToggleDamageType ToggleDamageType)
 {
 	if (ToggleDamageType == EToggleDamageType::CurrentEquippedWeapon)
 	{
-		AWeapon* WeaponToToggle = GetCurrentEquippedWeapon();
-
-		check(WeaponToToggle);
-
-		if (bShouldEnable)
-			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-		else
-		{
-			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			OverlappedActors.Empty();	
-		}
+		ToggleCurrentEquippedWeaponCollision(bShouldEnable);
 	}
+	else
+	{
+		// Handle body collision boxes
+		ToggleBodyCollision(bShouldEnable, ToggleDamageType);
+	}
+}
 
-	// Handle body collision boxes
+void UBaseCombatComponent::ToggleCurrentEquippedWeaponCollision(bool bShouldEnable)
+{
+	AWeapon* WeaponToToggle = GetCurrentEquippedWeapon();
+
+	check(WeaponToToggle);
+
+	if (bShouldEnable)
+		WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	else
+	{
+		WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		OverlappedActors.Empty();
+	}
+}
+
+void UBaseCombatComponent::ToggleBodyCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType)
+{
 }
 
 void UBaseCombatComponent::OnHitTargetActor(AActor* HitActor)

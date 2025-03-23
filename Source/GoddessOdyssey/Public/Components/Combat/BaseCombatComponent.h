@@ -40,7 +40,7 @@ public:
 	AWeapon* GetCurrentEquippedWeapon() const;
 
 	UFUNCTION(BlueprintCallable, Category="Combat")
-	void ToggleWeaponCollisionBox(bool bShouldEnable,
+	void ToggleDamageCollisionBox(bool bShouldEnable,
 	                              EToggleDamageType ToggleDamageType = EToggleDamageType::CurrentEquippedWeapon);
 
 	virtual void OnHitTargetActor(AActor* HitActor);
@@ -49,6 +49,9 @@ public:
 protected:
 	TArray<AActor*> OverlappedActors;
 
+	virtual void ToggleCurrentEquippedWeaponCollision(bool bShouldEnable);
+	virtual void ToggleBodyCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType);
+	
 private:
 	TMap<FGameplayTag, AWeapon*> CarriedWeaponMap;
 };
