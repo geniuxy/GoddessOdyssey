@@ -36,6 +36,9 @@ AEnemy::AEnemy()
 	EnemyHealthWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("EnemyHealthWidgetComponent"));
 	EnemyHealthWidgetComponent->SetupAttachment(GetMesh());
 
+	UnBlockableAttackWarningComponent = CreateDefaultSubobject<USceneComponent>(TEXT("UnBlockableAttackWarningComp"));
+	UnBlockableAttackWarningComponent->SetupAttachment(GetMesh());
+
 	LeftHandCollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("LeftHandCollisionBox"));
 	LeftHandCollisionBox->SetupAttachment(GetMesh());
 	LeftHandCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
