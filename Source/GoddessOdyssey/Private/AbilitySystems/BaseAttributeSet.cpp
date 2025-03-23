@@ -31,7 +31,7 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 	checkf(BaseUIComponent,
 	       TEXT("Couldn't extract a PawnUIComponent from %s"), *Data.Target.GetAvatarActor()->GetActorNameOrLabel());
 
-	// GameplayEffectExtension include 之后，才能有Data.EvaluatedData
+	// #include "GameplayEffectExtension.h" 之后，才能有Data.EvaluatedData
 	if (Data.EvaluatedData.Attribute == GetCurrentHealthAttribute())
 	{
 		const float NewCurrentHealth = FMath::Clamp(GetCurrentHealth(), 0.f, GetMaxHealth());
