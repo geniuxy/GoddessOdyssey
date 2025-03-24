@@ -21,7 +21,7 @@ class GODDESSODYSSEY_API UAbilityTask_WaitSpawnEnemies : public UAbilityTask
 public:
 	UFUNCTION(BlueprintCallable, Category = "AbilityTasks",
 		meta=(DisplayName = "Wait Gameplay Event And Spawn Enemies", HidePin="OwningAbility", DefaultToSelf=
-			"OwningAbility", BlueprintInternalUseOnly="true", NumToSpawn="1", RandomRadius="200"))
+			"OwningAbility", BlueprintInternalUseOnly="true", NumToSpawn="1", RandomSpawnRadius="200.f"))
 	static UAbilityTask_WaitSpawnEnemies* WaitSpawnEnemies(
 		UGameplayAbility* OwningAbility,
 		FGameplayTag EventTag,
@@ -38,6 +38,12 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FWaitSpawnEnemiesDelegate DidNotSpawn;
 
+	//~ Begin UGameplayTask Interface
+	// 用于手动实现Wait Gameplay Event的效果
+	virtual void Activate() override;
+	virtual void OnDestroy(bool bInOwnerFinished) override;
+	//~ End UGameplayTask Interface
+
 private:
 	FGameplayTag CachedEventTag;
 	TSoftClassPtr<AEnemy> CachedSoftEnemyClassToSpawn;
@@ -45,4 +51,8 @@ private:
 	FVector CachedSpawnOrigin;
 	float CachedRandomSpawnRadius;
 	FRotator CachedSpawnRotation;
+
+	FDelegateHandle DelegateHandle;
+
+	void OnGameplayEventReceived(const FGameplayEventData* InPayload);
 };
