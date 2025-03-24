@@ -14,8 +14,7 @@ UAbilityTask_WaitSpawnEnemies* UAbilityTask_WaitSpawnEnemies::WaitSpawnEnemies(
 	TSoftClassPtr<AEnemy> SoftEnemyClassToSpawn,
 	int32 NumToSpawn,
 	const FVector& SpawnOrigin,
-	float RandomSpawnRadius,
-	const FRotator& SpawnRotation)
+	float RandomSpawnRadius)
 {
 	UAbilityTask_WaitSpawnEnemies* Node = NewAbilityTask<UAbilityTask_WaitSpawnEnemies>(OwningAbility);
 
@@ -24,7 +23,6 @@ UAbilityTask_WaitSpawnEnemies* UAbilityTask_WaitSpawnEnemies::WaitSpawnEnemies(
 	Node->CachedNumToSpawn = NumToSpawn;
 	Node->CachedSpawnOrigin = SpawnOrigin;
 	Node->CachedRandomSpawnRadius = RandomSpawnRadius;
-	Node->CachedSpawnRotation = SpawnRotation;
 
 	return Node;
 }
@@ -98,7 +96,10 @@ void UAbilityTask_WaitSpawnEnemies::OnEnemyClassLoaded()
 		// 为了不让生成的敌人在地里
 		RandomLocation += FVector(0.f, 0.f, 150.f);
 
-		AEnemy* SpawnEnemy = World->SpawnActor<AEnemy>(LoadClass, RandomLocation, CachedSpawnRotation, SpawnParameters);
+		const FRotator SpawnFacingRotation =
+			AbilitySystemComponent->GetAvatarActor()->GetActorForwardVector().ToOrientationRotator();
+
+		AEnemy* SpawnEnemy = World->SpawnActor<AEnemy>(LoadClass, RandomLocation, SpawnFacingRotation, SpawnParameters);
 		if (SpawnEnemy)
 			SpawnEnemies.Add(SpawnEnemy);
 	}
