@@ -99,7 +99,7 @@ void UGoddessGA_TargetLock::SwitchTarget(const FGameplayTag& InSwitchDirectionTa
 
 	if (InSwitchDirectionTag == GoddessGameplayTags::Character_Event_SwitchTarget_Left)
 		NewTargetToLock = GetNearestTargetFromAvailableActors(ActorsOnLeft);
-	else
+	else if (InSwitchDirectionTag == GoddessGameplayTags::Character_Event_SwitchTarget_Right)
 		NewTargetToLock = GetNearestTargetFromAvailableActors(ActorsOnRight);
 
 	if (NewTargetToLock)
