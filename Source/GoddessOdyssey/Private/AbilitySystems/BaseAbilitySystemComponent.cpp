@@ -46,6 +46,7 @@ void UBaseAbilitySystemComponent::GrantGoddessWeaponAbilities(const TArray<FGodd
 		FGameplayAbilitySpec AbilitySpec(Ability.AbilityToGrant);
 		AbilitySpec.SourceObject = GetAvatarActor();
 		AbilitySpec.Level = ApplyLevel;
+		// Ability.InputTag作为一个标识或触发条件，帮助游戏逻辑在适当的时候激活Ability.AbilityToGrant
 		AbilitySpec.DynamicAbilityTags.AddTag(Ability.InputTag);
 
 		OutGrantedAbilitySpecHandles.AddUnique(GiveAbility(AbilitySpec));
