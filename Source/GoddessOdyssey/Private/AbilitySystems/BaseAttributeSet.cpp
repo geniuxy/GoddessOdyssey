@@ -47,6 +47,32 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 
 		SetCurrentRage(NewCurrentRage);
 
+		if (GetCurrentRage() == GetMaxRage())
+		{
+			UGoddessFunctionLibrary::AddGameplayTagToActorIfNone(
+				Data.Target.GetAvatarActor(),
+				GoddessGameplayTags::Character_Status_Rage_Full
+			);
+		}
+		else if (GetCurrentRage() == 0.f)
+		{
+			UGoddessFunctionLibrary::AddGameplayTagToActorIfNone(
+				Data.Target.GetAvatarActor(),
+				GoddessGameplayTags::Character_Status_Rage_None
+			);
+		}
+		else
+		{
+			UGoddessFunctionLibrary::RemoveGameplayTagFromActorIfFound(
+				Data.Target.GetAvatarActor(),
+				GoddessGameplayTags::Character_Status_Rage_Full
+			);
+			UGoddessFunctionLibrary::RemoveGameplayTagFromActorIfFound(
+				Data.Target.GetAvatarActor(),
+				GoddessGameplayTags::Character_Status_Rage_None
+			);
+		}
+
 		if (UGoddessUIComponent* GoddessUIComponent = CachedBaseUIInterface->GetGoddessUIComponentByInterface())
 			GoddessUIComponent->OnCurrentRageChanged.Broadcast(GetCurrentRage() / GetMaxRage());
 	}
