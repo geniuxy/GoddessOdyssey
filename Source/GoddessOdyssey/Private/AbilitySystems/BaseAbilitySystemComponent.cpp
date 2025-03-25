@@ -14,25 +14,17 @@ void UBaseAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InIn
 	{
 		if (!AbilitySpec.DynamicAbilityTags.HasTagExact(InInputTag)) continue;
 
-		if (InInputTag.MatchesTag(GoddessGameplayTags::Input_Toggleable))
-		{
-			if (AbilitySpec.IsActive())
-				CancelAbilityHandle(AbilitySpec.Handle);
-			else
-				TryActivateAbility(AbilitySpec.Handle);
-		}
+		if (InInputTag.MatchesTag(GoddessGameplayTags::Input_Toggleable) && AbilitySpec.IsActive())
+			CancelAbilityHandle(AbilitySpec.Handle);
 		else
-		{
 			TryActivateAbility(AbilitySpec.Handle);
-		}
 	}
 }
 
 void UBaseAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& InInputTag)
 {
 	if (!InInputTag.IsValid() || !InInputTag.MatchesTag(GoddessGameplayTags::Input_MustBeHeld)) return;
-
-
+	
 	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
 		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InInputTag) && AbilitySpec.IsActive())

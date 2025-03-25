@@ -21,6 +21,7 @@ namespace GoddessGameplayTags
 
 	UE_DEFINE_GAMEPLAY_TAG(Input_Toggleable, "Input.Toggleable");
 	UE_DEFINE_GAMEPLAY_TAG(Input_Toggleable_TargetLock, "Input.Toggleable.TargetLock");
+	UE_DEFINE_GAMEPLAY_TAG(Input_Toggleable_Rage, "Input.Toggleable.Rage");
 
 	/** Goddess Tags**/
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Equip_Sword, "Character.Ability.Equip.Sword");
@@ -31,6 +32,7 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Roll, "Character.Ability.Roll");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Block, "Character.Ability.Block");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_TargetLock, "Character.Ability.TargetLock");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Rage, "Character.Ability.Rage");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_Weapon_Sword, "Character.Weapon.Sword");
 
@@ -47,6 +49,10 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Character_Status_Rolling, "Character.Status.Rolling");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Status_Blocking, "Character.Status.Blocking");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Status_TargetLock, "Character.Status.TargetLock");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Status_Rage_Activating, "Character.Status.Rage.Activating");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Status_Rage_Active, "Character.Status.Rage.Active");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Status_Rage_Full, "Character.Status.Rage.Full");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Status_Rage_None, "Character.Status.Rage.None");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_SetByCaller_Attack_Light, "Character.SetByCaller.Attack.Light");
 	UE_DEFINE_GAMEPLAY_TAG(Character_SetByCaller_Attack_Heavy, "Character.SetByCaller.Attack.Heavy");
