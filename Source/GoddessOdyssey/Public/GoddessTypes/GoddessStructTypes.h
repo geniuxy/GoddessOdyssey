@@ -27,6 +27,17 @@ struct FGoddessAbilitySet
 	}
 };
 
+USTRUCT(BlueprintType)
+struct FGoddessSpecialAbilitySet : public FGoddessAbilitySet
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSoftObjectPtr<UMaterialInterface> AbilityIconMaterial;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(Catagories = "Character.Cooldown"))
+	FGameplayTag CooldownTag;
+};
 
 USTRUCT(BlueprintType)
 struct FGoddessWeaponData
@@ -43,9 +54,12 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(Catagories = "InputTag"))
 	TArray<FGoddessAbilitySet> DefaultWeaponAbilities;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(Catagories = "InputTag"))
+	TArray<FGoddessSpecialAbilitySet> SpecialWeaponAbilities;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FScalableFloat WeaponBaseDamage;
-	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSoftObjectPtr<UTexture2D> SoftWeaponIconTexture;
 };

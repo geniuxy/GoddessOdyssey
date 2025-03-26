@@ -35,8 +35,15 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Block, "Character.Ability.Block");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_TargetLock, "Character.Ability.TargetLock");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Rage, "Character.Ability.Rage");
-	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_SpecialWeaponAbility_Light, "Character.Ability.SpecialWeaponAbility.Light");
-	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_SpecialWeaponAbility_Heavy, "Character.Ability.SpecialWeaponAbility.Heavy");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_SpecialWeaponAbility_Light,
+	                       "Character.Ability.SpecialWeaponAbility.Light");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_SpecialWeaponAbility_Heavy,
+	                       "Character.Ability.SpecialWeaponAbility.Heavy");
+
+	UE_DEFINE_GAMEPLAY_TAG(Character_Cooldown_SpecialWeaponAbility_Light,
+	                       "Character.Cooldown.SpecialWeaponAbility.Light");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Cooldown_SpecialWeaponAbility_Heavy,
+	                       "Character.Cooldown.SpecialWeaponAbility.Heavy");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_Weapon_Sword, "Character.Weapon.Sword");
 
@@ -47,7 +54,7 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_SuccessfulBlock, "Character.Event.SuccessfulBlock");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_SwitchTarget_Left, "Character.Event.SwitchTarget.Left");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_SwitchTarget_Right, "Character.Event.SwitchTarget.Right");
-	UE_DEFINE_GAMEPLAY_TAG(Character_Event_ActivateRage,"Character.Event.ActivateRage");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Event_ActivateRage, "Character.Event.ActivateRage");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_Status_JumpToFinish, "Character.Status.JumpToFinish");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Status_Parry, "Character.Status.Parry");

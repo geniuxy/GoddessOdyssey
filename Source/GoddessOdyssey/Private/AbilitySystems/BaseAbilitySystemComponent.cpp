@@ -24,7 +24,7 @@ void UBaseAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InIn
 void UBaseAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& InInputTag)
 {
 	if (!InInputTag.IsValid() || !InInputTag.MatchesTag(GoddessGameplayTags::Input_MustBeHeld)) return;
-	
+
 	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
 		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InInputTag) && AbilitySpec.IsActive())
@@ -32,10 +32,12 @@ void UBaseAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& InI
 	}
 }
 
-void UBaseAbilitySystemComponent::GrantGoddessWeaponAbilities(const TArray<FGoddessAbilitySet>& InAbilitiesToGrant,
-                                                              int32 ApplyLevel,
-                                                              TArray<FGameplayAbilitySpecHandle>&
-                                                              OutGrantedAbilitySpecHandles)
+void UBaseAbilitySystemComponent::GrantGoddessWeaponAbilities(
+	const TArray<FGoddessAbilitySet>& InAbilitiesToGrant,
+	const TArray<FGoddessSpecialAbilitySet>& InSpecialAbilitiesToGrant,
+	int32 ApplyLevel,
+	TArray<FGameplayAbilitySpecHandle>&
+	OutGrantedAbilitySpecHandles)
 {
 	if (InAbilitiesToGrant.IsEmpty()) return;
 
@@ -48,6 +50,19 @@ void UBaseAbilitySystemComponent::GrantGoddessWeaponAbilities(const TArray<FGodd
 		AbilitySpec.Level = ApplyLevel;
 		// Ability.InputTag作为一个标识或触发条件，帮助游戏逻辑在适当的时候激活Ability.AbilityToGrant
 		AbilitySpec.DynamicAbilityTags.AddTag(Ability.InputTag);
+
+		OutGrantedAbilitySpecHandles.AddUnique(GiveAbility(AbilitySpec));
+	}
+
+	for (const FGoddessAbilitySet& SpecialAbility : InSpecialAbilitiesToGrant)
+	{
+		if (!SpecialAbility.IsValid()) continue;
+
+		FGameplayAbilitySpec AbilitySpec(SpecialAbility.AbilityToGrant);
+		AbilitySpec.SourceObject = GetAvatarActor();
+		AbilitySpec.Level = ApplyLevel;
+		// Ability.InputTag作为一个标识或触发条件，帮助游戏逻辑在适当的时候激活Ability.AbilityToGrant
+		AbilitySpec.DynamicAbilityTags.AddTag(SpecialAbility.InputTag);
 
 		OutGrantedAbilitySpecHandles.AddUnique(GiveAbility(AbilitySpec));
 	}
