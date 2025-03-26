@@ -33,7 +33,7 @@ struct FGoddessSpecialAbilitySet : public FGoddessAbilitySet
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSoftObjectPtr<UMaterialInterface> AbilityIconMaterial;
+	TSoftObjectPtr<UMaterialInterface> SoftAbilityIconMaterial;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(Categories = "Character.Cooldown"))
 	FGameplayTag CooldownTag;

@@ -4,9 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "Components/UI/BaseUIComponent.h"
+#include "GameplayTagContainer.h"
 #include "GoddessUIComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquippedWeaponChanged, TSoftObjectPtr<UTexture2D>, SoftWeaponIcon);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FOnAbilityIconSlotUpdatedDelegate,
+	FGameplayTag, AbilityInputTag,
+	TSoftObjectPtr<UMaterialInterface>, SoftAbilityIconMaterial
+);
 
 /**
  * 
@@ -20,7 +27,10 @@ public:
 	// BlueprintAssignable 是虚幻引擎中用于 C++ 属性的修饰符，主要用于将多播委托（Multicast Delegate）暴露给蓝图
 	UPROPERTY(BlueprintAssignable)
 	FOnPercentChangedDelegate OnCurrentRageChanged;
-	
+
 	UPROPERTY(BlueprintCallable, BlueprintAssignable)
 	FOnEquippedWeaponChanged OnEquippedWeaponChanged;
+
+	UPROPERTY(BlueprintCallable, BlueprintAssignable)
+	FOnAbilityIconSlotUpdatedDelegate OnAbilityIconSlotUpdated;
 };
