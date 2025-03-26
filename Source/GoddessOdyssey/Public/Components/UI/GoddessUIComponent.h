@@ -15,6 +15,13 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
 	TSoftObjectPtr<UMaterialInterface>, SoftAbilityIconMaterial
 );
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
+	FOnAbilityCooldownBeginDelegate,
+	FGameplayTag, InAbilityInputTag,
+	float, TotalCooldownTime,
+	float, RemainingCooldownTime
+);
+
 /**
  * 
  */
@@ -33,4 +40,7 @@ public:
 
 	UPROPERTY(BlueprintCallable, BlueprintAssignable)
 	FOnAbilityIconSlotUpdatedDelegate OnAbilityIconSlotUpdated;
+	
+	UPROPERTY(BlueprintCallable, BlueprintAssignable)
+	FOnAbilityCooldownBeginDelegate OnAbilityCooldownBegin;
 };
