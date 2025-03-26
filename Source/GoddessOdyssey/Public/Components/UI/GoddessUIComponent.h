@@ -11,7 +11,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquippedWeaponChanged, TSoftObjec
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
 	FOnAbilityIconSlotUpdatedDelegate,
-	FGameplayTag, AbilityInputTag,
+	FGameplayTag, InAbilityInputTag,
 	TSoftObjectPtr<UMaterialInterface>, SoftAbilityIconMaterial
 );
 
