@@ -88,6 +88,19 @@ void AProjectileBase::OnProjectileBeginOverlap(
 	bool bFromSweep,
 	const FHitResult& SweepResult)
 {
+	if (OverlappedActors.Contains(OtherActor))
+		return;
+	OverlappedActors.AddUnique(OtherActor);
+	
+	if (APawn* HitPawn = Cast<APawn>(OtherActor))
+	{
+		FGameplayEventData Data;
+		Data.Instigator = GetInstigator();
+		Data.Target = HitPawn;
+
+		if (UGoddessFunctionLibrary::IsTargetPawnHostile(GetInstigator(), HitPawn))
+			HandleApplyProjectileDamage(HitPawn, Data);
+	}
 }
 
 void AProjectileBase::BeginPlay()
