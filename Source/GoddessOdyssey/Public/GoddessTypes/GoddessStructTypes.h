@@ -15,7 +15,7 @@ struct FGoddessAbilitySet
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(Catagories = "InputTag"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(Categories = "InputTag"))
 	FGameplayTag InputTag;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
@@ -35,7 +35,7 @@ struct FGoddessSpecialAbilitySet : public FGoddessAbilitySet
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSoftObjectPtr<UMaterialInterface> AbilityIconMaterial;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(Catagories = "Character.Cooldown"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(Categories = "Character.Cooldown"))
 	FGameplayTag CooldownTag;
 };
 
@@ -51,10 +51,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UInputMappingContext* WeaponInputMappingContext;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(Catagories = "InputTag"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(TitleProperty = "InputTag"))
 	TArray<FGoddessAbilitySet> DefaultWeaponAbilities;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(Catagories = "InputTag"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(TitleProperty = "InputTag"))
 	TArray<FGoddessSpecialAbilitySet> SpecialWeaponAbilities;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
