@@ -15,6 +15,8 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Input_LightAttack_Sword, "Input.LightAttack.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(Input_HeavyAttack_Sword, "Input.HeavyAttack.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(Input_SwitchTarget, "Input.SwitchTarget");
+	UE_DEFINE_GAMEPLAY_TAG(Input_SpecialWeaponAbility_Light, "Input.SpecialWeaponAbility.Light");
+	UE_DEFINE_GAMEPLAY_TAG(Input_SpecialWeaponAbility_Heavy, "Input.SpecialWeaponAbility.Heavy");
 
 	UE_DEFINE_GAMEPLAY_TAG(Input_MustBeHeld, "Input.MustBeHeld");
 	UE_DEFINE_GAMEPLAY_TAG(Input_MustBeHeld_Block, "Input.MustBeHeld.Block");
@@ -33,6 +35,8 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Block, "Character.Ability.Block");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_TargetLock, "Character.Ability.TargetLock");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Rage, "Character.Ability.Rage");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_SpecialWeaponAbility_Light, "Character.Ability.SpecialWeaponAbility.Light");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_SpecialWeaponAbility_Heavy, "Character.Ability.SpecialWeaponAbility.Heavy");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_Weapon_Sword, "Character.Weapon.Sword");
 
