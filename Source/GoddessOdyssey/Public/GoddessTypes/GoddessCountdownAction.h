@@ -11,7 +11,7 @@ class FGoddessCountDownAction : public FPendingLatentAction
 public:
 	FGoddessCountDownAction(float InTotalCountDownTime, float InUpdateInterval, float& InOutRemainingTime,
 	                        EGoddesssCountDownActionOutput& InCountDownOutput, const FLatentActionInfo& LatentInfo)
-		: bNeedToCancel(true)
+		: bNeedToCancel(false)
 		  , TotalCountDownTime(InTotalCountDownTime)
 		  , UpdateInterval(InUpdateInterval)
 		  , OutRemainingTime(InOutRemainingTime)
@@ -24,6 +24,8 @@ public:
 	{
 		
 	}
+
+	void CancelAction();
 
 private:
 	bool bNeedToCancel;

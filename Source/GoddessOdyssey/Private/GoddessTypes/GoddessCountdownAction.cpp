@@ -2,3 +2,8 @@
 
 
 #include "GoddessTypes/GoddessCountdownAction.h"
+
+void FGoddessCountDownAction::CancelAction()
+{
+	bNeedToCancel = true;
+}

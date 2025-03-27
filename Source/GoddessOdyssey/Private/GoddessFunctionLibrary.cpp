@@ -8,6 +8,7 @@
 #include "GenericTeamAgentInterface.h"
 #include "GoddessGameplayTags.h"
 #include "AbilitySystems/BaseAbilitySystemComponent.h"
+#include "GoddessTypes/GoddessCountdownAction.h"
 #include "Interfaces/CombatComponentInterface.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -146,5 +147,32 @@ void UGoddessFunctionLibrary::CountDown(
 	UPARAM(DisplayName = "Output") EGoddesssCountDownActionOutput& CountDownOutput,
 	FLatentActionInfo LatentInfo)
 {
-	
+	UWorld* World = nullptr;
+
+	if (GEngine)
+		World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull);
+	if (!World) return;
+
+	FLatentActionManager& LatentActionManager = World->GetLatentActionManager();
+
+	FGoddessCountDownAction* FoundAction =
+		LatentActionManager.FindExistingAction<FGoddessCountDownAction>(LatentInfo.CallbackTarget, LatentInfo.UUID);
+
+	if (CountDownInput == EGoddesssCountDownActionInput::Start)
+	{
+		if (!FoundAction)
+		{
+			LatentActionManager.AddNewAction(
+				LatentInfo.CallbackTarget,
+				LatentInfo.UUID,
+				new FGoddessCountDownAction(TotalTime, UpdateInterval, OutRemainingTime, CountDownOutput, LatentInfo)
+			);
+		}
+	}
+
+	if (CountDownInput == EGoddesssCountDownActionInput::Cancel)
+	{
+		if (FoundAction)
+			FoundAction->CancelAction();
+	}
 }
