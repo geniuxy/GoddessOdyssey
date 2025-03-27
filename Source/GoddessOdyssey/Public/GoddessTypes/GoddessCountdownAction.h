@@ -22,20 +22,21 @@ public:
 		  , ElapsedInterval(0.f)
 		  , ElapsedTimeSinceStart(0.f)
 	{
-		
 	}
+
+	virtual void UpdateOperation(FLatentResponse& Response) override;
 
 	void CancelAction();
 
 private:
 	bool bNeedToCancel;
 	float TotalCountDownTime;
-	float UpdateInterval;
+	float UpdateInterval; // 更新间隔
 	float& OutRemainingTime;
 	EGoddesssCountDownActionOutput& CountDownOutput;
 	FName ExecutionFunction;
 	int32 OutputLink;
 	FWeakObjectPtr CallbackTarget;
-	float ElapsedInterval;
-	float ElapsedTimeSinceStart;
+	float ElapsedInterval; // 已用时间间隔
+	float ElapsedTimeSinceStart;  // 已用时间
 };
