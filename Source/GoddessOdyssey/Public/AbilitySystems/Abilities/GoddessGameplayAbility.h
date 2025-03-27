@@ -31,6 +31,10 @@ public:
 	FGameplayEffectSpecHandle MakeGoddessEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, float InBaseDamage,
 	                                                      FGameplayTag InCurrentAttackTypeTag, int32 InUsedComboCount);
 
+	UFUNCTION(BlueprintCallable, Category="BaseAbility")
+	bool GetAbilityRemainingCooldownByTag(FGameplayTag InCooldownTag, float& TotalCooldownTime,
+	                                      float& RemainingCooldownTime);
+
 private:
 	TWeakObjectPtr<AGoddess> CachedGoddess;
 	TWeakObjectPtr<AGoddessController> CachedGoddessController;
