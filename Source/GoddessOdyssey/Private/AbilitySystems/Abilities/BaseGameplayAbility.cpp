@@ -5,6 +5,8 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "GoddessFunctionLibrary.h"
+#include "GoddessGameplayTags.h"
 #include "AbilitySystems/BaseAbilitySystemComponent.h"
 #include "Components/Combat/BaseCombatComponent.h"
 #include "GoddessTypes/GoddessEnumTypes.h"
@@ -61,4 +63,36 @@ FActiveGameplayEffectHandle UBaseGameplayAbility::BP_ApplyEffectSpecHandleToTarg
 		                 : EGoddessSuccessType::Failed;
 
 	return EffectHandle;
+}
+
+void UBaseGameplayAbility::ApplyGameplayEffectSpecHandleToHitResults(const FGameplayEffectSpecHandle& InSpecHandle,
+	const TArray<FHitResult>& InHitResults)
+{
+	if (InHitResults.IsEmpty()) return;
+
+	APawn* OwningPawn = CastChecked<APawn>(GetAvatarActorFromActorInfo());
+
+	for (const FHitResult& Hit : InHitResults)
+	{
+		if (APawn* HitPawn = Cast<APawn>(Hit.GetActor()))
+		{
+			if (UGoddessFunctionLibrary::IsTargetPawnHostile(OwningPawn, HitPawn))
+			{
+				FActiveGameplayEffectHandle HandleToTarget = NativeApplyEffectSpecHandleToTarget(HitPawn, InSpecHandle);
+
+				if (HandleToTarget.WasSuccessfullyApplied())
+				{
+					FGameplayEventData Data;
+					Data.Instigator = OwningPawn;
+					Data.Target = HitPawn;
+					
+					UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+						HitPawn,
+						GoddessGameplayTags::Shared_Event_HitReact,
+						Data
+					);
+				}
+			}
+		}
+	}
 }

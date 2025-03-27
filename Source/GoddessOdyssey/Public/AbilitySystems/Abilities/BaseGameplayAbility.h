@@ -54,4 +54,8 @@ protected:
 	FActiveGameplayEffectHandle BP_ApplyEffectSpecHandleToTarget(AActor* TargetActor,
 	                                                             const FGameplayEffectSpecHandle& InSpecHandle,
 	                                                             EGoddessSuccessType& OutSuccessType);
+
+	UFUNCTION(BlueprintCallable, Category="BaseAbility")
+	void ApplyGameplayEffectSpecHandleToHitResults(const FGameplayEffectSpecHandle& InSpecHandle,
+	                                               const TArray<FHitResult>& InHitResults);
 };
