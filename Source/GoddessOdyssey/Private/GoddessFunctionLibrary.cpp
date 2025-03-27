@@ -136,3 +136,15 @@ bool UGoddessFunctionLibrary::ApplyGameplayEffectSpecHandleToTargetActor(AActor*
 
 	return ActiveGameplayEffectHandle.WasSuccessfullyApplied();
 }
+
+void UGoddessFunctionLibrary::CountDown(
+	const UObject* WorldContextObject,
+	float TotalTime,
+	float UpdateInterval,
+	float& OutRemainingTime,
+	EGoddesssCountDownActionInput CountDownInput,
+	UPARAM(DisplayName = "Output") EGoddesssCountDownActionOutput& CountDownOutput,
+	FLatentActionInfo LatentInfo)
+{
+	
+}
