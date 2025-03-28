@@ -3,6 +3,10 @@
 
 #include "AbilitySystems/Abilities/GoddessGA_PickUpStone.h"
 
+#include "Characters/Goddess.h"
+#include "Item/PickUps/StoneBase.h"
+#include "Kismet/KismetSystemLibrary.h"
+
 void UGoddessGA_PickUpStone::ActivateAbility(
 	const FGameplayAbilitySpecHandle Handle,
 	const FGameplayAbilityActorInfo* ActorInfo,
@@ -20,4 +24,34 @@ void UGoddessGA_PickUpStone::EndAbility(
 	bool bWasCancelled)
 {
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
+}
+
+void UGoddessGA_PickUpStone::CollectStones()
+{
+	CollectedStones.Empty();
+	
+	TArray<FHitResult> TraceHits;
+
+	UKismetSystemLibrary::BoxTraceMultiForObjects(
+		GetGoddessFromActorInfo(),
+		GetGoddessFromActorInfo()->GetActorLocation(),
+		GetGoddessFromActorInfo()->GetActorLocation() + -GetGoddessFromActorInfo()->GetActorUpVector() * TraceDistance,
+		TraceBoxSize / 2.f,
+		(-GetGoddessFromActorInfo()->GetActorUpVector()).ToOrientationRotator(),
+		StoneTraceChannel,
+		false,
+		TArray<AActor*>(),
+		bDrawDebugBox ? EDrawDebugTrace::ForOneFrame : EDrawDebugTrace::None,
+		TraceHits,
+		true
+	);
+
+	for (const FHitResult& Hit : TraceHits)
+	{
+		if (AStoneBase* FoundStone = Cast<AStoneBase>(Hit.GetActor()))
+			CollectedStones.AddUnique(FoundStone);
+	}
+
+	if (CollectedStones.IsEmpty())
+		CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
 }
