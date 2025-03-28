@@ -22,6 +22,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
 	float, RemainingCooldownTime
 );
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnStoneInteractedDelegate, bool, bShouldDisplayInputKey);
+
 /**
  * 
  */
@@ -43,4 +45,7 @@ public:
 	
 	UPROPERTY(BlueprintCallable, BlueprintAssignable)
 	FOnAbilityCooldownBeginDelegate OnAbilityCooldownBegin;
+	
+	UPROPERTY(BlueprintCallable, BlueprintAssignable)
+	FOnStoneInteractedDelegate OnStoneInteracted;
 };

@@ -6,6 +6,7 @@
 #include "AbilitySystems/Abilities/BaseGameplayAbility.h"
 #include "GoddessGameplayAbility.generated.h"
 
+class UGoddessUIComponent;
 class UGoddessCombatComponent;
 class AGoddessController;
 class AGoddess;
@@ -26,6 +27,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category="BaseAbility")
 	UGoddessCombatComponent* GetGoddessCombatComponentFromActorInfo();
+
+	UFUNCTION(BlueprintPure, Category="BaseAbility")
+	UGoddessUIComponent* GetGoddessUIComponentFromActorInfo();
 
 	UFUNCTION(BlueprintPure, Category="BaseAbility")
 	FGameplayEffectSpecHandle MakeGoddessEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, float InBaseDamage,

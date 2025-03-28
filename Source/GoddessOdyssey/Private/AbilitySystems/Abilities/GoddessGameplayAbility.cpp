@@ -29,6 +29,11 @@ UGoddessCombatComponent* UGoddessGameplayAbility::GetGoddessCombatComponentFromA
 	return GetGoddessFromActorInfo()->GetGoddessCombatComponent();
 }
 
+UGoddessUIComponent* UGoddessGameplayAbility::GetGoddessUIComponentFromActorInfo()
+{
+	return GetGoddessFromActorInfo()->GetGoddessUIComponent();
+}
+
 FGameplayEffectSpecHandle UGoddessGameplayAbility::MakeGoddessEffectSpecHandle(
 	TSubclassOf<UGameplayEffect> EffectClass, float InBaseDamage, FGameplayTag InCurrentAttackTypeTag,
 	int32 InUsedComboCount)

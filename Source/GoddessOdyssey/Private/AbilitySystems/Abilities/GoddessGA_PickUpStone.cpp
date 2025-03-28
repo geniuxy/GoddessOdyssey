@@ -4,6 +4,7 @@
 #include "AbilitySystems/Abilities/GoddessGA_PickUpStone.h"
 
 #include "Characters/Goddess.h"
+#include "Components/UI/GoddessUIComponent.h"
 #include "Item/PickUps/StoneBase.h"
 #include "Kismet/KismetSystemLibrary.h"
 
@@ -13,6 +14,8 @@ void UGoddessGA_PickUpStone::ActivateAbility(
 	const FGameplayAbilityActivationInfo ActivationInfo,
 	const FGameplayEventData* TriggerEventData)
 {
+	GetGoddessUIComponentFromActorInfo()->OnStoneInteracted.Broadcast(true);
+	
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
 
@@ -23,6 +26,8 @@ void UGoddessGA_PickUpStone::EndAbility(
 	bool bReplicateEndAbility,
 	bool bWasCancelled)
 {
+	GetGoddessUIComponentFromActorInfo()->OnStoneInteracted.Broadcast(false);
+	
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 }
 
