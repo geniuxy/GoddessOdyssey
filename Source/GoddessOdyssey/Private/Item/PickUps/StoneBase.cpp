@@ -7,6 +7,24 @@
 #include "AbilitySystems/BaseAbilitySystemComponent.h"
 #include "Characters/Goddess.h"
 
+void AStoneBase::Consume(UBaseAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel)
+{
+	check(StoneGameplayEffectClass);
+
+	UGameplayEffect* StoneGameplayEffect = StoneGameplayEffectClass->GetDefaultObject<UGameplayEffect>();
+
+	if (AbilitySystemComponent)
+	{
+		AbilitySystemComponent->ApplyGameplayEffectToSelf(
+			StoneGameplayEffect,
+			ApplyLevel,
+			AbilitySystemComponent->MakeEffectContext()
+		);
+	}
+
+	BP_OnStoneConsumed();
+}
+
 void AStoneBase::OnPickUpCollisionSphereBeginOverlap(
 	UPrimitiveComponent* OverlappedComponent,
 	AActor* OtherActor,

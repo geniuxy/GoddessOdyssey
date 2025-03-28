@@ -35,6 +35,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CollectStones();
 
+	UFUNCTION(BlueprintCallable)
+	void ConsumeStones();
+
 private:
 	UPROPERTY(EditDefaultsOnly)
 	float TraceDistance = 50.f;

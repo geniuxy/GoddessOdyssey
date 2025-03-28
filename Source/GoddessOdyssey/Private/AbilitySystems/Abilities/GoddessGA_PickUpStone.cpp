@@ -29,7 +29,7 @@ void UGoddessGA_PickUpStone::EndAbility(
 void UGoddessGA_PickUpStone::CollectStones()
 {
 	CollectedStones.Empty();
-	
+
 	TArray<FHitResult> TraceHits;
 
 	UKismetSystemLibrary::BoxTraceMultiForObjects(
@@ -54,4 +54,19 @@ void UGoddessGA_PickUpStone::CollectStones()
 
 	if (CollectedStones.IsEmpty())
 		CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
+}
+
+void UGoddessGA_PickUpStone::ConsumeStones()
+{
+	if (CollectedStones.IsEmpty())
+	{
+		CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
+		return;
+	}
+
+	for (AStoneBase* Stone : CollectedStones)
+	{
+		if (Stone)
+			Stone->Consume(GetBaseAbilitySystemComponentFromActorInfo(), GetAbilityLevel());
+	}
 }

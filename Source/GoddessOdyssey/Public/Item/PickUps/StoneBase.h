@@ -6,13 +6,18 @@
 #include "PickUpBase.h"
 #include "StoneBase.generated.h"
 
+class UGameplayEffect;
+class UBaseAbilitySystemComponent;
+
 UCLASS()
 class GODDESSODYSSEY_API AStoneBase : public APickUpBase
 {
 	GENERATED_BODY()
 
+public:
+	void Consume(UBaseAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel);
+
 protected:
-	
 	virtual void OnPickUpCollisionSphereBeginOverlap(
 		UPrimitiveComponent* OverlappedComponent,
 		AActor* OtherActor,
@@ -21,4 +26,10 @@ protected:
 		bool bFromSweep,
 		const FHitResult& SweepResult
 	) override;
+
+	UFUNCTION(BlueprintImplementableEvent,meta=(DisplayName="On Stone Consumed"))
+	void BP_OnStoneConsumed();
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UGameplayEffect> StoneGameplayEffectClass;
 };
