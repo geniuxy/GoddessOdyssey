@@ -136,6 +136,17 @@ void AGoddess::CallBack_SwitchTargetCompleted(const FInputActionValue& InputActi
 	// Debug::Print("Switch Direction: " + SendTag.ToString());
 }
 
+void AGoddess::CallBack_PickUpStoneStarted(const FInputActionValue& InputActionValue)
+{
+	FGameplayEventData Data;
+	
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		this,
+		GoddessGameplayTags::Character_Event_ConsumeStones,
+		Data
+	);
+}
+
 void AGoddess::CallBack_AbilityInputPressed(FGameplayTag InInputTag)
 {
 	BaseAbilitySystemComponent->OnAbilityInputPressed(InInputTag);
@@ -252,6 +263,10 @@ void AGoddess::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_SwitchTarget,
 	                                             ETriggerEvent::Completed, this,
 	                                             &ThisClass::CallBack_SwitchTargetCompleted);
+
+	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_PickUp_Stone,
+	                                             ETriggerEvent::Started, this,
+	                                             &ThisClass::CallBack_PickUpStoneStarted);
 
 	GoddessInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &ThisClass::CallBack_AbilityInputPressed,
 	                                              &ThisClass::CallBack_AbilityInputReleased);
