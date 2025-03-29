@@ -3,6 +3,10 @@
 
 #include "GameModes/GoddessSurvivalGameMode.h"
 
+#include "DebugHelper.h"
+#include "Characters/Enemy.h"
+#include "Engine/AssetManager.h"
+
 void AGoddessSurvivalGameMode::BeginPlay()
 {
 	Super::BeginPlay();
@@ -12,6 +16,8 @@ void AGoddessSurvivalGameMode::BeginPlay()
 	TotalWavesToSpawn = EnemyWaveSpawnerDataTable->GetRowNames().Num();
 
 	SetCurrentSurvivalGameModeState(EGoddessSurvivalGameModeState::WaitSpawnNewWave);
+
+	PreLoadNextWaveEnemies();
 }
 
 void AGoddessSurvivalGameMode::Tick(float DeltaSeconds)
@@ -55,7 +61,10 @@ void AGoddessSurvivalGameMode::Tick(float DeltaSeconds)
 			if (HasFinishedAllWaves())
 				SetCurrentSurvivalGameModeState(EGoddessSurvivalGameModeState::AllWaveDone);
 			else
+			{
 				SetCurrentSurvivalGameModeState(EGoddessSurvivalGameModeState::WaitSpawnNewWave);
+				PreLoadNextWaveEnemies();
+			}
 		}
 	}
 }
@@ -70,4 +79,41 @@ void AGoddessSurvivalGameMode::SetCurrentSurvivalGameModeState(EGoddessSurvivalG
 bool AGoddessSurvivalGameMode::HasFinishedAllWaves() const
 {
 	return CurrentWaveCount > TotalWavesToSpawn;
+}
+
+void AGoddessSurvivalGameMode::PreLoadNextWaveEnemies()
+{
+	if (HasFinishedAllWaves()) return;
+	
+	for (const FGoddessEnemyWaveSpawnerInfo& SpawnerInfo : GetCurrentWaveSpawnerTableRow()->EnemyWaveSpawnerDefinitions)
+	{
+		if (SpawnerInfo.SoftEnemyClassToSpawn.IsNull()) continue;
+
+		UAssetManager::GetStreamableManager().RequestAsyncLoad(
+			SpawnerInfo.SoftEnemyClassToSpawn.ToSoftObjectPath(),
+			FStreamableDelegate::CreateLambda(
+				[SpawnerInfo,this]()
+				{
+					if (UClass* LoadedClass = SpawnerInfo.SoftEnemyClassToSpawn.Get())
+					{
+						PreLoadNextWaveEnemiesMap.Emplace(SpawnerInfo.SoftEnemyClassToSpawn, LoadedClass);
+
+						Debug::Print(LoadedClass->GetName() + TEXT(" is loaded"));
+					}
+				}
+			)
+		);
+	}
+}
+
+FGoddessEnemyWaveSpawnerTableRow* AGoddessSurvivalGameMode::GetCurrentWaveSpawnerTableRow() const
+{
+	const FName RowName = FName(TEXT("Wave") + FString::FromInt(CurrentWaveCount));
+
+	FGoddessEnemyWaveSpawnerTableRow* FoundRow =
+		EnemyWaveSpawnerDataTable->FindRow<FGoddessEnemyWaveSpawnerTableRow>(RowName, FString());
+
+	checkf(FoundRow, TEXT("Could not find a valid row under the name %s in the data table"), *RowName.ToString());
+
+	return FoundRow;
 }

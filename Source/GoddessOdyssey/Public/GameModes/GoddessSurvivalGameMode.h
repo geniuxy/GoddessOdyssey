@@ -67,7 +67,9 @@ protected:
 private:
 	void SetCurrentSurvivalGameModeState(EGoddessSurvivalGameModeState InState);
 	bool HasFinishedAllWaves() const;
-	
+	void PreLoadNextWaveEnemies();
+	FGoddessEnemyWaveSpawnerTableRow* GetCurrentWaveSpawnerTableRow() const;
+
 	UPROPERTY()
 	EGoddessSurvivalGameModeState CurrentSurvivalGameModeState;
 
@@ -76,7 +78,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="WaveDefinition", meta=(AllowPrivateAccess="true"))
 	UDataTable* EnemyWaveSpawnerDataTable;
-	
+
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="WaveDefinition", meta=(AllowPrivateAccess="true"))
 	int32 TotalWavesToSpawn;
 
@@ -91,7 +93,10 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="WaveDefinition", meta=(AllowPrivateAccess="true"))
 	float SpawnEnemiesDelayTime = 2.f;
-	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="WaveDefinition", meta=(AllowPrivateAccess="true"))
 	float WaveCompleteWaitTime = 5.f;
+
+	UPROPERTY()
+	TMap<TSoftClassPtr<AEnemy>, UClass*> PreLoadNextWaveEnemiesMap;
 };
