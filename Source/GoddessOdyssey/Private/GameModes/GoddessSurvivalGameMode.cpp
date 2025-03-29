@@ -69,5 +69,5 @@ void AGoddessSurvivalGameMode::SetCurrentSurvivalGameModeState(EGoddessSurvivalG
 
 bool AGoddessSurvivalGameMode::HasFinishedAllWaves() const
 {
-	return CurrentWaveCount >= TotalWavesToSpawn;
+	return CurrentWaveCount > TotalWavesToSpawn;
 }
