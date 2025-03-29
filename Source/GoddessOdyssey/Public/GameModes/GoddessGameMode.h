@@ -13,5 +13,7 @@ UCLASS()
 class GODDESSODYSSEY_API AGoddessGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+
+public:
+	AGoddessGameMode();
 };

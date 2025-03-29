@@ -3,3 +3,8 @@
 
 #include "GameModes/GoddessGameMode.h"
 
+AGoddessGameMode::AGoddessGameMode()
+{
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = true;
+}
