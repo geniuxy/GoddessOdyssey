@@ -163,11 +163,9 @@ int32 AGoddessSurvivalGameMode::TrySpawnWaveEnemies()
 			if (!ShouldKeepSpawnEnemies())
 				return EnemiesSpawnedThisTime;
 		}
-
-		return EnemiesSpawnedThisTime;
 	}
 
-	return 0;
+	return EnemiesSpawnedThisTime;
 }
 
 bool AGoddessSurvivalGameMode::ShouldKeepSpawnEnemies() const
