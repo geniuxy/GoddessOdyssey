@@ -163,11 +163,8 @@ int32 AGoddessSurvivalGameMode::TrySpawnWaveEnemies()
 			if (!ShouldKeepSpawnEnemies())
 				return EnemiesSpawnedThisTime;
 		}
-
-		return EnemiesSpawnedThisTime;
 	}
-
-	return 0;
+	return EnemiesSpawnedThisTime;
 }
 
 bool AGoddessSurvivalGameMode::ShouldKeepSpawnEnemies() const
@@ -179,8 +176,8 @@ void AGoddessSurvivalGameMode::OnEnemyDestroyed(AActor* DestroyedActor)
 {
 	CurrentSpawnedEnemiesCounter--;
 
-	Debug::Print(TEXT("CurrentSpawnedEnemiesCounter: %i, TotalSpawnedEnemiesThisWaveCounter: %i"),
-	             CurrentSpawnedEnemiesCounter, TotalSpawnedEnemiesThisWaveCounter);
+	Debug::Print(FString::Printf(TEXT("CurrentSpawnedEnemiesCounter: %i, TotalSpawnedEnemiesThisWaveCounter: %i"),
+	                             CurrentSpawnedEnemiesCounter, TotalSpawnedEnemiesThisWaveCounter));
 
 	if (ShouldKeepSpawnEnemies())
 		CurrentSpawnedEnemiesCounter += TrySpawnWaveEnemies();
