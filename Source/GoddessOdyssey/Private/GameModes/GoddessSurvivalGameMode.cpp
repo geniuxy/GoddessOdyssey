@@ -88,6 +88,8 @@ void AGoddessSurvivalGameMode::PreLoadNextWaveEnemies()
 {
 	if (HasFinishedAllWaves()) return;
 
+	PreLoadNextWaveEnemiesMap.Empty();
+
 	for (const FGoddessEnemyWaveSpawnerInfo& SpawnerInfo : GetCurrentWaveSpawnerTableRow()->EnemyWaveSpawnerDefinitions)
 	{
 		if (SpawnerInfo.SoftEnemyClassToSpawn.IsNull()) continue;
@@ -98,11 +100,7 @@ void AGoddessSurvivalGameMode::PreLoadNextWaveEnemies()
 				[SpawnerInfo,this]()
 				{
 					if (UClass* LoadedClass = SpawnerInfo.SoftEnemyClassToSpawn.Get())
-					{
 						PreLoadNextWaveEnemiesMap.Emplace(SpawnerInfo.SoftEnemyClassToSpawn, LoadedClass);
-
-						Debug::Print(LoadedClass->GetName() + TEXT(" is loaded"));
-					}
 				}
 			)
 		);
@@ -156,6 +154,8 @@ int32 AGoddessSurvivalGameMode::TrySpawnWaveEnemies()
 			                                                    SpawnParam);
 			if (SpawnEnemy)
 			{
+				SpawnEnemy->OnDestroyed.AddUniqueDynamic(this, &ThisClass::OnEnemyDestroyed);
+
 				EnemiesSpawnedThisTime++;
 				TotalSpawnedEnemiesThisWaveCounter++;
 			}
@@ -173,4 +173,19 @@ int32 AGoddessSurvivalGameMode::TrySpawnWaveEnemies()
 bool AGoddessSurvivalGameMode::ShouldKeepSpawnEnemies() const
 {
 	return TotalSpawnedEnemiesThisWaveCounter < GetCurrentWaveSpawnerTableRow()->TotalEnemyToSpawnThisWave;
+}
+
+void AGoddessSurvivalGameMode::OnEnemyDestroyed(AActor* DestroyedActor)
+{
+	CurrentSpawnedEnemiesCounter--;
+
+	if (ShouldKeepSpawnEnemies())
+		CurrentSpawnedEnemiesCounter += TrySpawnWaveEnemies();
+	else if (CurrentSpawnedEnemiesCounter == 0)
+	{
+		TotalSpawnedEnemiesThisWaveCounter = 0;
+		CurrentSpawnedEnemiesCounter = 0;
+
+		SetCurrentSurvivalGameModeState(EGoddessSurvivalGameModeState::WaveCompleted);
+	}
 }
