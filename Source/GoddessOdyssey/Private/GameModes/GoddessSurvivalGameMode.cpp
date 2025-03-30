@@ -190,3 +190,16 @@ void AGoddessSurvivalGameMode::OnEnemyDestroyed(AActor* DestroyedActor)
 		SetCurrentSurvivalGameModeState(EGoddessSurvivalGameModeState::WaveCompleted);
 	}
 }
+
+void AGoddessSurvivalGameMode::RegisterSpawnedEnemies(const TArray<AEnemy*> InEnemiesToRegister)
+{
+	for (AEnemy* Enemy : InEnemiesToRegister)
+	{
+		if (Enemy)
+		{
+			CurrentSpawnedEnemiesCounter++;
+
+			Enemy->OnDestroyed.AddUniqueDynamic(this, &ThisClass::OnEnemyDestroyed);
+		}
+	}
+}

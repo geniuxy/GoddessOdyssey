@@ -75,6 +75,9 @@ private:
 	UFUNCTION()
 	void OnEnemyDestroyed(AActor* DestroyedActor);
 
+	UFUNCTION(BlueprintCallable)
+	void RegisterSpawnedEnemies(const TArray<AEnemy*> InEnemiesToRegister);
+
 	UPROPERTY()
 	EGoddessSurvivalGameModeState CurrentSurvivalGameModeState;
 
