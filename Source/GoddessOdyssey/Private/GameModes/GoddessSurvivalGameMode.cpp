@@ -179,6 +179,9 @@ void AGoddessSurvivalGameMode::OnEnemyDestroyed(AActor* DestroyedActor)
 {
 	CurrentSpawnedEnemiesCounter--;
 
+	Debug::Print(TEXT("CurrentSpawnedEnemiesCounter: %i, TotalSpawnedEnemiesThisWaveCounter: %i"),
+	             CurrentSpawnedEnemiesCounter, TotalSpawnedEnemiesThisWaveCounter);
+
 	if (ShouldKeepSpawnEnemies())
 		CurrentSpawnedEnemiesCounter += TrySpawnWaveEnemies();
 	else if (CurrentSpawnedEnemiesCounter == 0)
