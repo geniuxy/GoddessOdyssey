@@ -4,8 +4,11 @@
 #include "GameModes/GoddessSurvivalGameMode.h"
 
 #include "DebugHelper.h"
+#include "NavigationSystem.h"
 #include "Characters/Enemy.h"
 #include "Engine/AssetManager.h"
+#include "Engine/TargetPoint.h"
+#include "Kismet/GameplayStatics.h"
 
 void AGoddessSurvivalGameMode::BeginPlay()
 {
@@ -41,7 +44,7 @@ void AGoddessSurvivalGameMode::Tick(float DeltaSeconds)
 
 		if (TimePassedSinceStart >= SpawnEnemiesDelayTime)
 		{
-			// TODO: Handle Spawn New Enemies
+			CurrentSpawnedEnemiesCounter += TrySpawnWaveEnemies();
 
 			TimePassedSinceStart = 0.f;
 			SetCurrentSurvivalGameModeState(EGoddessSurvivalGameModeState::InProgress);
@@ -84,7 +87,7 @@ bool AGoddessSurvivalGameMode::HasFinishedAllWaves() const
 void AGoddessSurvivalGameMode::PreLoadNextWaveEnemies()
 {
 	if (HasFinishedAllWaves()) return;
-	
+
 	for (const FGoddessEnemyWaveSpawnerInfo& SpawnerInfo : GetCurrentWaveSpawnerTableRow()->EnemyWaveSpawnerDefinitions)
 	{
 		if (SpawnerInfo.SoftEnemyClassToSpawn.IsNull()) continue;
@@ -116,4 +119,58 @@ FGoddessEnemyWaveSpawnerTableRow* AGoddessSurvivalGameMode::GetCurrentWaveSpawne
 	checkf(FoundRow, TEXT("Could not find a valid row under the name %s in the data table"), *RowName.ToString());
 
 	return FoundRow;
+}
+
+int32 AGoddessSurvivalGameMode::TrySpawnWaveEnemies()
+{
+	if (TargetPointsArray.IsEmpty())
+		UGameplayStatics::GetAllActorsOfClass(this, ATargetPoint::StaticClass(), TargetPointsArray);
+	checkf(!TargetPointsArray.IsEmpty(),
+	       TEXT("No valid target point found in level: %s for spawning enemies"), *GetWorld()->GetName());
+
+	uint32 EnemiesSpawnedThisTime = 0;
+
+	FActorSpawnParameters SpawnParam;
+	SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+	for (const FGoddessEnemyWaveSpawnerInfo& SpawnerInfo : GetCurrentWaveSpawnerTableRow()->EnemyWaveSpawnerDefinitions)
+	{
+		if (SpawnerInfo.SoftEnemyClassToSpawn.IsNull()) continue;
+
+		const int32 NumToSpawn = FMath::RandRange(SpawnerInfo.MinPerSpawnCount, SpawnerInfo.MaxPerSpawnCount);
+
+		UClass* LoadedEnemyClass = PreLoadNextWaveEnemiesMap.FindChecked(SpawnerInfo.SoftEnemyClassToSpawn);
+
+		for (int32 i = 0; i < NumToSpawn; i++)
+		{
+			const int32 RandomTargetPointIndex = FMath::RandRange(0, TargetPointsArray.Num() - 1);
+			const FVector SpawnLocation = TargetPointsArray[RandomTargetPointIndex]->GetActorLocation();
+			const FRotator SpawnRotator =
+				TargetPointsArray[RandomTargetPointIndex]->GetActorForwardVector().ToOrientationRotator();
+
+			FVector RandomLocation;
+			UNavigationSystemV1::K2_GetRandomLocationInNavigableRadius(this, SpawnLocation, RandomLocation, 100.f);
+			RandomLocation += FVector(0.f, 0.f, 150.f);
+
+			AEnemy* SpawnEnemy = GetWorld()->SpawnActor<AEnemy>(LoadedEnemyClass, RandomLocation, SpawnRotator,
+			                                                    SpawnParam);
+			if (SpawnEnemy)
+			{
+				EnemiesSpawnedThisTime++;
+				TotalSpawnedEnemiesThisWaveCounter++;
+			}
+
+			if (!ShouldKeepSpawnEnemies())
+				return EnemiesSpawnedThisTime;
+		}
+
+		return EnemiesSpawnedThisTime;
+	}
+
+	return 0;
+}
+
+bool AGoddessSurvivalGameMode::ShouldKeepSpawnEnemies() const
+{
+	return TotalSpawnedEnemiesThisWaveCounter < GetCurrentWaveSpawnerTableRow()->TotalEnemyToSpawnThisWave;
 }
