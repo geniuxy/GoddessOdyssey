@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "GoddessGameMode.generated.h"
 
+enum class EGoddessGameDifficulty : uint8;
 /**
  * 
  */
@@ -16,4 +17,11 @@ class GODDESSODYSSEY_API AGoddessGameMode : public AGameModeBase
 
 public:
 	AGoddessGameMode();
+
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Game Settings")
+	EGoddessGameDifficulty CurrentGameDifficulty;
+
+public:
+	FORCEINLINE EGoddessGameDifficulty GetCurrentGameDifficulty() const { return CurrentGameDifficulty; }
 };

@@ -3,6 +3,8 @@
 #include "AbilitySystems/BaseAbilitySystemComponent.h"
 #include "AbilitySystems/BaseAttributeSet.h"
 #include "MotionWarpingComponent.h"
+#include "GameModes/GoddessSurvivalGameMode.h"
+#include "GoddessTypes/GoddessEnumTypes.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -41,4 +43,32 @@ void ABaseCharacter::PossessedBy(AController* NewController)
 
 		ensureMsgf(!CharacterStartUpData.IsNull(), TEXT("Forgot to assign start up data to %s"), *GetName());
 	}
+}
+
+int32 ABaseCharacter::GetCurrentAbilityApplyLevel() const
+{
+	int32 AbilityApplyLevel = 1;
+	
+	if (AGoddessGameMode* BaseGameMode = GetWorld()->GetAuthGameMode<AGoddessGameMode>())
+	{
+		switch (BaseGameMode->GetCurrentGameDifficulty())
+		{
+		case EGoddessGameDifficulty::Easy:
+			AbilityApplyLevel =1;
+			break;
+		case EGoddessGameDifficulty::Normal:
+			AbilityApplyLevel =2;
+			break;
+		case EGoddessGameDifficulty::Hard:
+			AbilityApplyLevel =3;
+			break;
+		case EGoddessGameDifficulty::VeryHard:
+			AbilityApplyLevel =4;
+			break;
+		default:
+			break;
+		}
+	}
+
+	return AbilityApplyLevel;
 }

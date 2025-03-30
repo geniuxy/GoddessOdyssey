@@ -83,7 +83,7 @@ void AGoddess::PossessedBy(AController* NewController)
 	if (!CharacterStartUpData.IsNull())
 	{
 		if (UDataAsset_StartUpData* StartUpData = CharacterStartUpData.LoadSynchronous())
-			StartUpData->GiveToAbilitySystemComponent(BaseAbilitySystemComponent);
+			StartUpData->GiveToAbilitySystemComponent(BaseAbilitySystemComponent, GetCurrentAbilityApplyLevel());
 	}
 }
 
@@ -139,7 +139,7 @@ void AGoddess::CallBack_SwitchTargetCompleted(const FInputActionValue& InputActi
 void AGoddess::CallBack_PickUpStoneStarted(const FInputActionValue& InputActionValue)
 {
 	FGameplayEventData Data;
-	
+
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
 		this,
 		GoddessGameplayTags::Character_Event_ConsumeStones,

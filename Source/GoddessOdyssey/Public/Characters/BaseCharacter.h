@@ -40,6 +40,8 @@ protected:
 	virtual void PossessedBy(AController* NewController) override;
 	//~ End APawn Interface
 
+	int32 GetCurrentAbilityApplyLevel() const;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
 	UBaseAbilitySystemComponent* BaseAbilitySystemComponent;
 

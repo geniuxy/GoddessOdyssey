@@ -37,3 +37,12 @@ enum class EGoddesssCountDownActionOutput : uint8
 	Completed,
 	Cancelled
 };
+
+UENUM(BlueprintType)
+enum class EGoddessGameDifficulty: uint8
+{
+	Easy,
+	Normal,
+	Hard,
+	VeryHard
+};
