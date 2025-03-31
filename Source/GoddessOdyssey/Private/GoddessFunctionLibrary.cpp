@@ -3,7 +3,6 @@
 
 #include "GoddessFunctionLibrary.h"
 #include "AbilitySystemBlueprintLibrary.h"
-#include "DebugHelper.h"
 #include "GameplayTagContainer.h"
 #include "GenericTeamAgentInterface.h"
 #include "GoddessGameplayTags.h"
@@ -11,6 +10,7 @@
 #include "GoddessTypes/GoddessCountdownAction.h"
 #include "Interfaces/CombatComponentInterface.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "GoddessGameInstance.h"
 
 UBaseAbilitySystemComponent* UGoddessFunctionLibrary::NativeGetASCFromActor(AActor* InActor)
 {
@@ -175,4 +175,14 @@ void UGoddessFunctionLibrary::CountDown(
 		if (FoundAction)
 			FoundAction->CancelAction();
 	}
+}
+
+UGoddessGameInstance* UGoddessFunctionLibrary::GetGoddessGameInstance(const UObject* WorldContextObject)
+{
+	if (GEngine)
+	{
+		if (UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+			return World->GetGameInstance<UGoddessGameInstance>();
+	}
+	return nullptr;
 }

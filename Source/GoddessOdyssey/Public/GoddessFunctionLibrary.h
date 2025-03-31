@@ -7,6 +7,7 @@
 #include "GoddessTypes/GoddessEnumTypes.h"
 #include "GoddessFunctionLibrary.generated.h"
 
+class UGoddessGameInstance;
 struct FGameplayEffectSpecHandle;
 struct FScalableFloat;
 struct FGameplayTag;
@@ -72,4 +73,7 @@ public:
 		UPARAM(DisplayName = "Output") EGoddesssCountDownActionOutput& CountDownOutput,
 		FLatentActionInfo LatentInfo
 	);
+
+	UFUNCTION(BlueprintPure, Category="FunctionLibrary", meta=(WorldContext = "WorldContextObject"))
+	static UGoddessGameInstance* GetGoddessGameInstance(const UObject* WorldContextObject);
 };
