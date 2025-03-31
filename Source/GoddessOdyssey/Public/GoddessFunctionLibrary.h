@@ -76,4 +76,7 @@ public:
 
 	UFUNCTION(BlueprintPure, Category="FunctionLibrary", meta=(WorldContext = "WorldContextObject"))
 	static UGoddessGameInstance* GetGoddessGameInstance(const UObject* WorldContextObject);
+	
+	UFUNCTION(BlueprintCallable, Category="FunctionLibrary", meta=(WorldContext = "WorldContextObject"))
+	static void ToggleInputMode(const UObject* WorldContextObject, EGoddessInputMode InInputMode);
 };

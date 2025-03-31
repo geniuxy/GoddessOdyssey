@@ -46,3 +46,10 @@ enum class EGoddessGameDifficulty: uint8
 	Hard,
 	VeryHard
 };
+
+UENUM(BlueprintType)
+enum class EGoddessInputMode : uint8
+{
+	GameOnly,
+	UIOnly
+};

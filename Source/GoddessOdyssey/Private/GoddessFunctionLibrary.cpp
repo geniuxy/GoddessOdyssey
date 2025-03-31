@@ -186,3 +186,28 @@ UGoddessGameInstance* UGoddessFunctionLibrary::GetGoddessGameInstance(const UObj
 	}
 	return nullptr;
 }
+
+void UGoddessFunctionLibrary::ToggleInputMode(const UObject* WorldContextObject, EGoddessInputMode InInputMode)
+{
+	APlayerController* PlayerController = nullptr;
+	if (GEngine)
+	{
+		if (UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+			PlayerController = World->GetFirstPlayerController();
+	}
+	if (!PlayerController) return;
+
+	FInputModeGameOnly GameOnlyInputMode;
+	FInputModeUIOnly UIOnlyInputMode;
+
+	switch (InInputMode) {
+	case EGoddessInputMode::GameOnly:
+		PlayerController->SetInputMode(GameOnlyInputMode);
+		PlayerController->bShowMouseCursor = false;
+		break;
+	case EGoddessInputMode::UIOnly:
+		PlayerController->SetInputMode(UIOnlyInputMode);
+		PlayerController->bShowMouseCursor = true;
+		break;
+	}
+}
