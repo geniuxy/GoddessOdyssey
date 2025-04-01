@@ -4,6 +4,7 @@
 #include "GameModes/GoddessSurvivalGameMode.h"
 
 #include "DebugHelper.h"
+#include "GoddessFunctionLibrary.h"
 #include "NavigationSystem.h"
 #include "Characters/Enemy.h"
 #include "Engine/AssetManager.h"
@@ -70,6 +71,15 @@ void AGoddessSurvivalGameMode::Tick(float DeltaSeconds)
 			}
 		}
 	}
+}
+
+void AGoddessSurvivalGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+{
+	Super::InitGame(MapName, Options, ErrorMessage);
+	
+	EGoddessGameDifficulty SavedGameDifficulty;
+	if (UGoddessFunctionLibrary::TryLoadSavedGameDifficulty(SavedGameDifficulty))
+		CurrentGameDifficulty = SavedGameDifficulty;
 }
 
 void AGoddessSurvivalGameMode::SetCurrentSurvivalGameModeState(EGoddessSurvivalGameModeState InState)

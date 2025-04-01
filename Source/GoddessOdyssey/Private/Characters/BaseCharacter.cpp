@@ -1,5 +1,6 @@
 #include "Characters/BaseCharacter.h"
 
+#include "DebugHelper.h"
 #include "AbilitySystems/BaseAbilitySystemComponent.h"
 #include "AbilitySystems/BaseAttributeSet.h"
 #include "MotionWarpingComponent.h"
@@ -48,22 +49,26 @@ void ABaseCharacter::PossessedBy(AController* NewController)
 int32 ABaseCharacter::GetCurrentAbilityApplyLevel() const
 {
 	int32 AbilityApplyLevel = 1;
-	
+
 	if (AGoddessGameMode* BaseGameMode = GetWorld()->GetAuthGameMode<AGoddessGameMode>())
 	{
 		switch (BaseGameMode->GetCurrentGameDifficulty())
 		{
 		case EGoddessGameDifficulty::Easy:
-			AbilityApplyLevel =1;
+			AbilityApplyLevel = 1;
+			Debug::Print(TEXT("Current Difficulty: Easy"));
 			break;
 		case EGoddessGameDifficulty::Normal:
-			AbilityApplyLevel =2;
+			AbilityApplyLevel = 2;
+			Debug::Print(TEXT("Current Difficulty: Normal"));
 			break;
 		case EGoddessGameDifficulty::Hard:
-			AbilityApplyLevel =3;
+			AbilityApplyLevel = 3;
+			Debug::Print(TEXT("Current Difficulty: Hard"));
 			break;
 		case EGoddessGameDifficulty::VeryHard:
-			AbilityApplyLevel =4;
+			AbilityApplyLevel = 4;
+			Debug::Print(TEXT("Current Difficulty: VeryHard"));
 			break;
 		default:
 			break;
