@@ -21,7 +21,8 @@ public class GoddessOdyssey : ModuleRules
 			"AIModule",
 			"AnimGraphRuntime",
 			"MotionWarping",
-			"NavigationSystem"
+			"NavigationSystem",
+			"MoviePlayer"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });
