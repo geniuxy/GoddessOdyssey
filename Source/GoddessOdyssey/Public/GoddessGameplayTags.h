@@ -104,4 +104,6 @@ namespace GoddessGameplayTags
 	/** Game Data tags **/
 	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameData_Level_SurvivalGameModeMap);
 	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameData_Level_MainMenuMap);
+	
+	GODDESSODYSSEY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameData_SaveGame_Slot_1);
 }
