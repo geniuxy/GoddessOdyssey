@@ -3,6 +3,7 @@
 
 #include "GoddessFunctionLibrary.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "DebugHelper.h"
 #include "GameplayTagContainer.h"
 #include "GenericTeamAgentInterface.h"
 #include "GoddessGameplayTags.h"
@@ -11,6 +12,8 @@
 #include "Interfaces/CombatComponentInterface.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "GoddessGameInstance.h"
+#include "Kismet/GameplayStatics.h"
+#include "SaveGame/GoddessSaveGame.h"
 
 UBaseAbilitySystemComponent* UGoddessFunctionLibrary::NativeGetASCFromActor(AActor* InActor)
 {
@@ -181,7 +184,8 @@ UGoddessGameInstance* UGoddessFunctionLibrary::GetGoddessGameInstance(const UObj
 {
 	if (GEngine)
 	{
-		if (UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+		if (UWorld* World = GEngine->
+			GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
 			return World->GetGameInstance<UGoddessGameInstance>();
 	}
 	return nullptr;
@@ -192,7 +196,8 @@ void UGoddessFunctionLibrary::ToggleInputMode(const UObject* WorldContextObject,
 	APlayerController* PlayerController = nullptr;
 	if (GEngine)
 	{
-		if (UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+		if (UWorld* World = GEngine->
+			GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
 			PlayerController = World->GetFirstPlayerController();
 	}
 	if (!PlayerController) return;
@@ -200,7 +205,8 @@ void UGoddessFunctionLibrary::ToggleInputMode(const UObject* WorldContextObject,
 	FInputModeGameOnly GameOnlyInputMode;
 	FInputModeUIOnly UIOnlyInputMode;
 
-	switch (InInputMode) {
+	switch (InInputMode)
+	{
 	case EGoddessInputMode::GameOnly:
 		PlayerController->SetInputMode(GameOnlyInputMode);
 		PlayerController->bShowMouseCursor = false;
@@ -210,4 +216,41 @@ void UGoddessFunctionLibrary::ToggleInputMode(const UObject* WorldContextObject,
 		PlayerController->bShowMouseCursor = true;
 		break;
 	}
+}
+
+void UGoddessFunctionLibrary::SaveCurrentGameDifficulty(EGoddessGameDifficulty InDifficultyToSave)
+{
+	USaveGame* SaveGameObject = UGameplayStatics::CreateSaveGameObject(UGoddessSaveGame::StaticClass());
+
+	if (UGoddessSaveGame* GoddessSaveGameObject = Cast<UGoddessSaveGame>(SaveGameObject))
+	{
+		GoddessSaveGameObject->SavedCurrentGameDifficulty = InDifficultyToSave;
+
+		const bool bWasSaved = UGameplayStatics::SaveGameToSlot(
+			GoddessSaveGameObject,
+			GoddessGameplayTags::GameData_SaveGame_Slot_1.GetTag().ToString(),
+			0
+		);
+
+		Debug::Print(bWasSaved ? TEXT("Difficulty Was Saved") : TEXT("Difficulty Not Saved"));
+	}
+}
+
+bool UGoddessFunctionLibrary::TryLoadSavedGameDifficulty(EGoddessGameDifficulty& OutSavedDifficulty)
+{
+	if (UGameplayStatics::DoesSaveGameExist(GoddessGameplayTags::GameData_SaveGame_Slot_1.GetTag().ToString(), 0))
+	{
+		USaveGame* SavedGameObject = UGameplayStatics::LoadGameFromSlot(
+			GoddessGameplayTags::GameData_SaveGame_Slot_1.GetTag().ToString(), 0);
+
+		if (UGoddessSaveGame* GoddessSaveGameObject = Cast<UGoddessSaveGame>(SavedGameObject))
+		{
+			OutSavedDifficulty = GoddessSaveGameObject->SavedCurrentGameDifficulty;
+
+			Debug::Print(TEXT("Loading Successful"),FColor::Green);
+
+			return true;
+		}
+	}
+	return false;
 }
