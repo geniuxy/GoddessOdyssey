@@ -56,10 +56,26 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(TitleProperty = "InputTag"))
 	TArray<FGoddessSpecialAbilitySet> SpecialWeaponAbilities;
-	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FScalableFloat WeaponBaseDamage;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSoftObjectPtr<UTexture2D> SoftWeaponIconTexture;
+};
+
+USTRUCT(BlueprintType)
+struct FGoddessMoneyData : public FTableRowBase
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FName Name;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	int32 Amount;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UStaticMesh* Mesh;
 };

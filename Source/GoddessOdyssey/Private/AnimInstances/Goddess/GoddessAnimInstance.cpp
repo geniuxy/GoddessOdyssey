@@ -25,6 +25,8 @@ void UGoddessAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 	else
 	{
 		IdleElapsedTime += DeltaSeconds;
-		bShouldEnterRelaxState = IdleElapsedTime >= EnterRelaxStateThreshold;
+		// bShouldEnterRelaxState = IdleElapsedTime >= EnterRelaxStateThreshold;
+		// 暂时取消进入relax state
+		bShouldEnterRelaxState = false;
 	}
 }
