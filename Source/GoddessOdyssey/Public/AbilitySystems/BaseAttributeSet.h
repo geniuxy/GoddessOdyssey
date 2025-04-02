@@ -55,6 +55,10 @@ public:
 	FGameplayAttributeData DamageTaken;
 	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, DamageTaken)
 
+	UPROPERTY(BlueprintReadOnly, Category="Inventory")
+	FGameplayAttributeData Money;
+	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, Money)
+
 private:
 	TWeakInterfacePtr<IUIComponentInterface> CachedBaseUIInterface;
 };

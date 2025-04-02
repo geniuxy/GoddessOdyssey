@@ -74,8 +74,5 @@ public:
 	FName Name;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	int32 Amount;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UStaticMesh* Mesh;
 };

@@ -19,6 +19,7 @@ UBaseAttributeSet::UBaseAttributeSet()
 	InitMaxRage(1.f);
 	InitAttackPower(1.f);
 	InitDefensePower(1.f);
+	InitMoney(0.f);
 }
 
 void UBaseAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data)
@@ -105,5 +106,10 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 			UGoddessFunctionLibrary::AddGameplayTagToActorIfNone(
 				Data.Target.GetAvatarActor(), GoddessGameplayTags::Shared_Status_Death);
 		}
+	}
+
+	if (Data.EvaluatedData.Attribute == GetMoneyAttribute())
+	{
+		// BaseUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
 	}
 }

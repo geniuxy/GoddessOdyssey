@@ -41,6 +41,7 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_SpecialWeaponAbility_Heavy,
 	                       "Character.Ability.SpecialWeaponAbility.Heavy");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_PickUp_Stone, "Character.Ability.PickUp.Stone");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_PickUp_Money, "Character.Ability.PickUp.Money");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_Cooldown_SpecialWeaponAbility_Light,
 	                       "Character.Cooldown.SpecialWeaponAbility.Light");
@@ -58,6 +59,7 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_SwitchTarget_Right, "Character.Event.SwitchTarget.Right");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_ActivateRage, "Character.Event.ActivateRage");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_ConsumeStones, "Character.Event.ConsumeStones");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Event_ConsumeMoney, "Character.Event.ConsumeMoney");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_Status_JumpToFinish, "Character.Status.JumpToFinish");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Status_Parry, "Character.Status.Parry");

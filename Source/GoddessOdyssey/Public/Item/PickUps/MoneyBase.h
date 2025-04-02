@@ -7,6 +7,9 @@
 #include "GameFramework/Actor.h"
 #include "MoneyBase.generated.h"
 
+class UGameplayEffect;
+class UBaseAbilitySystemComponent;
+
 UCLASS()
 class GODDESSODYSSEY_API AMoneyBase : public APickUpBase
 {
@@ -15,12 +18,18 @@ class GODDESSODYSSEY_API AMoneyBase : public APickUpBase
 public:	
 	AMoneyBase();
 
+	UFUNCTION(BlueprintCallable)
+	void Consume(UBaseAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel);
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UStaticMeshComponent* MoneyMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data Table")
 	FDataTableRowHandle MoneyHandle;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UGameplayEffect> MoneyGameplayEffectClass;
 
 	virtual void OnPickUpCollisionSphereBeginOverlap(
 		UPrimitiveComponent* OverlappedComponent,
