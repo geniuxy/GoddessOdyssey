@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PickUpBase.h"
 #include "GameFramework/Actor.h"
 #include "MoneyBase.generated.h"
 
 UCLASS()
-class GODDESSODYSSEY_API AMoneyBase : public AActor
+class GODDESSODYSSEY_API AMoneyBase : public APickUpBase
 {
 	GENERATED_BODY()
 	
@@ -20,4 +21,13 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data Table")
 	FDataTableRowHandle MoneyHandle;
+
+	virtual void OnPickUpCollisionSphereBeginOverlap(
+		UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex,
+		bool bFromSweep,
+		const FHitResult& SweepResult
+	) override;
 };
