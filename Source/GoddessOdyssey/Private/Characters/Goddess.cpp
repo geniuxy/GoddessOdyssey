@@ -147,6 +147,11 @@ void AGoddess::CallBack_PickUpStoneStarted(const FInputActionValue& InputActionV
 	);
 }
 
+void AGoddess::CallBack_ToggleInventory(const FInputActionValue& InputActionValue)
+{
+	Debug::Print(TEXT("CallBack from input toggle inventory"));
+}
+
 void AGoddess::CallBack_AbilityInputPressed(FGameplayTag InInputTag)
 {
 	BaseAbilitySystemComponent->OnAbilityInputPressed(InInputTag);
@@ -267,6 +272,10 @@ void AGoddess::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_PickUp_Stone,
 	                                             ETriggerEvent::Started, this,
 	                                             &ThisClass::CallBack_PickUpStoneStarted);
+
+	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_Toggleable_UI_Inventory,
+												 ETriggerEvent::Started, this,
+												 &ThisClass::CallBack_ToggleInventory);
 
 	GoddessInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &ThisClass::CallBack_AbilityInputPressed,
 	                                              &ThisClass::CallBack_AbilityInputReleased);

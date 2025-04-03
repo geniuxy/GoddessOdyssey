@@ -84,6 +84,8 @@ protected:
 
 	void CallBack_PickUpStoneStarted(const FInputActionValue& InputActionValue);
 
+	void CallBack_ToggleInventory(const FInputActionValue& InputActionValue);
+	
 	void CallBack_AbilityInputPressed(FGameplayTag InInputTag);
 	void CallBack_AbilityInputReleased(FGameplayTag InInputTag);
 

@@ -25,6 +25,7 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Input_Toggleable, "Input.Toggleable");
 	UE_DEFINE_GAMEPLAY_TAG(Input_Toggleable_TargetLock, "Input.Toggleable.TargetLock");
 	UE_DEFINE_GAMEPLAY_TAG(Input_Toggleable_Rage, "Input.Toggleable.Rage");
+	UE_DEFINE_GAMEPLAY_TAG(Input_Toggleable_UI_Inventory, "Input.Toggleable.UI.Inventory");
 
 	/** Goddess Tags**/
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Equip_Sword, "Character.Ability.Equip.Sword");
@@ -42,6 +43,7 @@ namespace GoddessGameplayTags
 	                       "Character.Ability.SpecialWeaponAbility.Heavy");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_PickUp_Stone, "Character.Ability.PickUp.Stone");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_PickUp_Money, "Character.Ability.PickUp.Money");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Inventory, "Character.Ability.Inventory");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_Cooldown_SpecialWeaponAbility_Light,
 	                       "Character.Cooldown.SpecialWeaponAbility.Light");
