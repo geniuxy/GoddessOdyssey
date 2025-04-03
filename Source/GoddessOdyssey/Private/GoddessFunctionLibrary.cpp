@@ -204,6 +204,7 @@ void UGoddessFunctionLibrary::ToggleInputMode(const UObject* WorldContextObject,
 
 	FInputModeGameOnly GameOnlyInputMode;
 	FInputModeUIOnly UIOnlyInputMode;
+	UIOnlyInputMode.SetLockMouseToViewportBehavior(EMouseLockMode::LockInFullscreen);
 
 	switch (InInputMode)
 	{
