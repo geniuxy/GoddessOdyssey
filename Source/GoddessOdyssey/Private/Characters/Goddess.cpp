@@ -149,7 +149,13 @@ void AGoddess::CallBack_PickUpStoneStarted(const FInputActionValue& InputActionV
 
 void AGoddess::CallBack_ToggleInventory(const FInputActionValue& InputActionValue)
 {
-	Debug::Print(TEXT("CallBack from input toggle inventory"));
+	FGameplayEventData Data;
+
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		this,
+		GoddessGameplayTags::Character_Event_ToggleInventory,
+		Data
+	);
 }
 
 void AGoddess::CallBack_AbilityInputPressed(FGameplayTag InInputTag)

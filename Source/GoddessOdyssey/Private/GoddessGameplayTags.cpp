@@ -62,6 +62,7 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_ActivateRage, "Character.Event.ActivateRage");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_ConsumeStones, "Character.Event.ConsumeStones");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_ConsumeMoney, "Character.Event.ConsumeMoney");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Event_ToggleInventory, "Character.Event.ToggleInventory");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_Status_JumpToFinish, "Character.Status.JumpToFinish");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Status_Parry, "Character.Status.Parry");
