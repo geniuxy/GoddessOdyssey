@@ -16,15 +16,10 @@ class GODDESSODYSSEY_API AMoneyBase : public APickUpBase
 	GENERATED_BODY()
 	
 public:	
-	AMoneyBase();
-
 	UFUNCTION(BlueprintCallable)
 	void Consume(UBaseAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel);
 
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UStaticMeshComponent* MoneyMesh;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data Table")
 	FDataTableRowHandle MoneyHandle;
 

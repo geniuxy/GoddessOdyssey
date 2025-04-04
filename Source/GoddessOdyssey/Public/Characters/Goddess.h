@@ -132,8 +132,6 @@ protected:
 	/** 
 	 * Equip
 	 */
-	virtual void Equip();
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
 	UInputAction* EquipAction;
 

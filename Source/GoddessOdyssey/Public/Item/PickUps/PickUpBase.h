@@ -4,12 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Item/Item.h"
 #include "PickUpBase.generated.h"
 
 class USphereComponent;
 
 UCLASS()
-class GODDESSODYSSEY_API APickUpBase : public AActor
+class GODDESSODYSSEY_API APickUpBase : public AItem
 {
 	GENERATED_BODY()
 

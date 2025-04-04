@@ -20,8 +20,6 @@ class GODDESSODYSSEY_API AWeapon : public AItem
 public:
 	AWeapon();
 
-	void Equip(USceneComponent* InParent, FName SocketName, AActor* NewOwner, APawn* NewInstigator);
-
 	void AttachWeaponTo(USceneComponent* InParent, FName SocketName);
 
 	FOnTargetInteractedDelegate OnWeaponHitTarget;

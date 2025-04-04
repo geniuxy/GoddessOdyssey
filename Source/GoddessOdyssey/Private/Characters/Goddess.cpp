@@ -211,18 +211,6 @@ void AGoddess::Attack()
 	// 	WeaponAttachToHandEvent();
 }
 
-void AGoddess::Equip()
-{
-	AWeapon* OverlappingWeapon = Cast<AWeapon>(OverlappingItem);
-	if (OverlappingWeapon)
-	{
-		OverlappingWeapon->Equip(GetMesh(), FName("RightHandSocket"), this, this);
-		EquippedState = EGoddessEquippedState::EGES_EquippedOneHandedWeapon;
-		EquippedWeapon = OverlappingWeapon;
-		OverlappingItem = nullptr;
-	}
-}
-
 void AGoddess::PlayAttackMontage()
 {
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();

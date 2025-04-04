@@ -8,10 +8,8 @@
 
 APickUpBase::APickUpBase()
 {
-	PrimaryActorTick.bCanEverTick = false;
-
 	PickUpCollisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("PickUpCollisionSphere"));
-	SetRootComponent(PickUpCollisionSphere);
+	PickUpCollisionSphere->SetupAttachment(GetRootComponent());
 	PickUpCollisionSphere->InitSphereRadius(50.f);
 	PickUpCollisionSphere->
 		OnComponentBeginOverlap.AddUniqueDynamic(this, &APickUpBase::OnPickUpCollisionSphereBeginOverlap);

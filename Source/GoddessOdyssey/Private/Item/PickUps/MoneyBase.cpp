@@ -10,14 +10,6 @@
 #include "AbilitySystems/BaseAbilitySystemComponent.h"
 #include "Characters/Goddess.h"
 
-AMoneyBase::AMoneyBase()
-{
-	MoneyMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Money"));
-	MoneyMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	MoneyMesh->SetCollisionResponseToAllChannels(ECR_Ignore);
-	MoneyMesh->SetupAttachment(GetRootComponent());
-}
-
 void AMoneyBase::Consume(UBaseAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel)
 {
 	check(MoneyGameplayEffectClass);

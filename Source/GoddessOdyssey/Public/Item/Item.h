@@ -13,6 +13,7 @@ UENUM(BlueprintType)
 enum class EItemState : uint8
 {
 	EIS_Hovering UMETA(DisplayName = "Hovering"),
+	EIS_Carried UMETA(DisplayName = "Carried"),
 	EIS_Equipped UMETA(DisplayName = "Equipped"),
 };
 
@@ -44,23 +45,11 @@ protected:
 	template <typename T>
 	T Avg(T First, T Second);
 
-	UFUNCTION()
-	virtual void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-								 UPrimitiveComponent* OtherComp, int OtherBodyIndex, bool bFromSweep,
-								 const FHitResult& SweepResult);
-
-	UFUNCTION()
-	virtual void ExitSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-								   UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* ItemMesh;
 
 	UPROPERTY(BlueprintReadWrite)
 	EItemState ItemState = EItemState::EIS_Hovering;
-
-	UPROPERTY(VisibleAnywhere)
-	USphereComponent* Sphere;
 
 	UPROPERTY(EditAnywhere)
 	UNiagaraComponent* EmbersEffect;
