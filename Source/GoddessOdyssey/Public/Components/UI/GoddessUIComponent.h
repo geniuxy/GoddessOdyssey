@@ -24,6 +24,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnStoneInteractedDelegate, bool, bShouldDisplayInputKey);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMoneyAmountChangedDelegate, float, InMoneyAmount);
+
 /**
  * 
  */
@@ -48,4 +50,7 @@ public:
 	
 	UPROPERTY(BlueprintCallable, BlueprintAssignable)
 	FOnStoneInteractedDelegate OnStoneInteracted;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnMoneyAmountChangedDelegate OnMoneyAmountChanged;
 };

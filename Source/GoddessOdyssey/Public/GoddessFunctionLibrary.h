@@ -85,4 +85,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="FunctionLibrary")
 	static bool TryLoadSavedGameDifficulty(EGoddessGameDifficulty& OutSavedDifficulty);
+	
+	UFUNCTION(BlueprintCallable, Category="FunctionLibrary")
+	static FString ConvFloatToString(float Number);
 };

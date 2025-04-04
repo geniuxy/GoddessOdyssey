@@ -255,3 +255,17 @@ bool UGoddessFunctionLibrary::TryLoadSavedGameDifficulty(EGoddessGameDifficulty&
 	}
 	return false;
 }
+
+FString UGoddessFunctionLibrary::ConvFloatToString(float Number)
+{
+	int32 IntPart = FMath::FloorToInt(Number);
+
+	if (IntPart < 1000)
+		return FString::FromInt(IntPart);
+
+	int32 ThousandPart = IntPart / 1000;
+	int32 LowerOrderPart = IntPart % 1000;
+
+	FString NumberStr = FString::Printf(TEXT("%d,%03d"), ThousandPart, LowerOrderPart);
+	return NumberStr;
+}

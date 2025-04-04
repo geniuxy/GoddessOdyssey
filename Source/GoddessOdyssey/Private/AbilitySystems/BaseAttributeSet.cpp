@@ -110,6 +110,7 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 
 	if (Data.EvaluatedData.Attribute == GetMoneyAttribute())
 	{
-		// BaseUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
+		if (UGoddessUIComponent* GoddessUIComponent = CachedBaseUIInterface->GetGoddessUIComponentByInterface())
+			GoddessUIComponent->OnMoneyAmountChanged.Broadcast(GetMoney());
 	}
 }

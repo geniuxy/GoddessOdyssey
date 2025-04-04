@@ -12,12 +12,10 @@
 
 AMoneyBase::AMoneyBase()
 {
-	PrimaryActorTick.bCanEverTick = false;
-
 	MoneyMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Money"));
 	MoneyMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	MoneyMesh->SetCollisionResponseToAllChannels(ECR_Ignore);
-	SetRootComponent(GetRootComponent());
+	MoneyMesh->SetupAttachment(GetRootComponent());
 }
 
 void AMoneyBase::Consume(UBaseAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel)
