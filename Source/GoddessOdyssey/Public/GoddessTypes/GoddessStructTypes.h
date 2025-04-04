@@ -76,3 +76,28 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UStaticMesh* Mesh;
 };
+
+USTRUCT(BlueprintType)
+struct FGoddessItemData : public FTableRowBase
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FName Name;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FText Description;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSoftObjectPtr<UTexture2D> SoftItemThumbnail;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	int32 StackSize;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float Power;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UStaticMesh* ItemMesh;
+};
