@@ -53,3 +53,11 @@ enum class EGoddessInputMode : uint8
 	GameOnly,
 	UIOnly
 };
+
+UENUM(BlueprintType)
+enum class EGoddessItemType : uint8
+{
+	Weapon,
+	Shield,
+	Eatable
+};

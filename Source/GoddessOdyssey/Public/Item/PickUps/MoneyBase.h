@@ -20,7 +20,7 @@ public:
 	void Consume(UBaseAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel);
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data Table")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data Table|Money")
 	FDataTableRowHandle MoneyHandle;
 
 	UPROPERTY(EditDefaultsOnly)

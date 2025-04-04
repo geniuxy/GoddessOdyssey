@@ -101,3 +101,19 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UStaticMesh* ItemMesh;
 };
+
+USTRUCT(BlueprintType)
+struct FGoddessSlotData
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FDataTableRowHandle ItemID;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	int32 Quantity;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	EGoddessItemType ItemType;
+};

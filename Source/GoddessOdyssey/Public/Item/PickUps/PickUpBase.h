@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GoddessTypes/GoddessStructTypes.h"
 #include "Item/Item.h"
 #include "PickUpBase.generated.h"
 
@@ -18,9 +19,12 @@ public:
 	APickUpBase();
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data Table|Pick Up")
+	FGoddessSlotData PickUpSlotData;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Pick Up Interaction")
 	USphereComponent* PickUpCollisionSphere;
-
+	
 	UFUNCTION()
 	virtual void OnPickUpCollisionSphereBeginOverlap(
 		UPrimitiveComponent* OverlappedComponent,
