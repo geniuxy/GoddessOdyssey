@@ -35,6 +35,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CollectItems();
 
+	UFUNCTION(BlueprintCallable)
+	void AddToInvnetory();
+
 private:
 	UPROPERTY(EditDefaultsOnly)
 	float TraceDistance = 50.f;

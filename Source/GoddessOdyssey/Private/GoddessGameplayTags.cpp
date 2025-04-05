@@ -18,6 +18,7 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Input_SpecialWeaponAbility_Light, "Input.SpecialWeaponAbility.Light");
 	UE_DEFINE_GAMEPLAY_TAG(Input_SpecialWeaponAbility_Heavy, "Input.SpecialWeaponAbility.Heavy");
 	UE_DEFINE_GAMEPLAY_TAG(Input_PickUp_Stone, "Input.PickUp.Stone");
+	UE_DEFINE_GAMEPLAY_TAG(Input_PickUp_InventoryItem, "Input.PickUp.InventoryItem");
 
 	UE_DEFINE_GAMEPLAY_TAG(Input_MustBeHeld, "Input.MustBeHeld");
 	UE_DEFINE_GAMEPLAY_TAG(Input_MustBeHeld_Block, "Input.MustBeHeld.Block");
@@ -61,6 +62,7 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_SwitchTarget_Left, "Character.Event.SwitchTarget.Left");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_SwitchTarget_Right, "Character.Event.SwitchTarget.Right");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_ActivateRage, "Character.Event.ActivateRage");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Event_SaveInventoryItems, "Character.Event.SaveInventoryItems");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_ConsumeStones, "Character.Event.ConsumeStones");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_ConsumeMoney, "Character.Event.ConsumeMoney");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_ToggleInventory, "Character.Event.ToggleInventory");

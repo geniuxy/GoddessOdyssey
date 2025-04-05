@@ -51,3 +51,22 @@ void UGoddessGA_PickUpItem::CollectItems()
 	if (CollectedItems.IsEmpty())
 		CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
 }
+
+void UGoddessGA_PickUpItem::AddToInvnetory()
+{
+	if (CollectedItems.IsEmpty())
+	{
+		CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
+		return;
+	}
+
+	for (AInventoryItemBase* InventoryItem : CollectedItems)
+	{
+		if (InventoryItem)
+		{
+			Debug::Print(FString::Printf(TEXT("%s has been added to inventory"), *InventoryItem->GetName()));
+
+			InventoryItem->Destroy();
+		}
+	}
+}

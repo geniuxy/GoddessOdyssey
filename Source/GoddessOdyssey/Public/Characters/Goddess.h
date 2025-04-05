@@ -87,6 +87,7 @@ protected:
 	void CallBack_SwitchTargetCompleted(const FInputActionValue& InputActionValue);
 
 	void CallBack_PickUpStoneStarted(const FInputActionValue& InputActionValue);
+	void CallBack_PickUpInventoryItemStarted(const FInputActionValue& InputActionValue);
 
 	void CallBack_ToggleInventory(const FInputActionValue& InputActionValue);
 	
