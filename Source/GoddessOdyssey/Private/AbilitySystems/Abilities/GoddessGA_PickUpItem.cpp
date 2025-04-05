@@ -5,19 +5,22 @@
 
 #include "DebugHelper.h"
 #include "Characters/Goddess.h"
+#include "Components/Inventory/GoddessInventoryComponent.h"
 #include "Item/PickUps/InventoryItemBase.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 void UGoddessGA_PickUpItem::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
-                                            const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
+                                            const FGameplayAbilityActorInfo* ActorInfo,
+                                            const FGameplayAbilityActivationInfo ActivationInfo,
                                             const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
 
 void UGoddessGA_PickUpItem::EndAbility(const FGameplayAbilitySpecHandle Handle,
-	const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
-	bool bReplicateEndAbility, bool bWasCancelled)
+                                       const FGameplayAbilityActorInfo* ActorInfo,
+                                       const FGameplayAbilityActivationInfo ActivationInfo,
+                                       bool bReplicateEndAbility, bool bWasCancelled)
 {
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 }
@@ -52,7 +55,7 @@ void UGoddessGA_PickUpItem::CollectItems()
 		CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
 }
 
-void UGoddessGA_PickUpItem::AddToInvnetory()
+void UGoddessGA_PickUpItem::AddToItemInvnetory()
 {
 	if (CollectedItems.IsEmpty())
 	{
@@ -64,9 +67,14 @@ void UGoddessGA_PickUpItem::AddToInvnetory()
 	{
 		if (InventoryItem)
 		{
-			Debug::Print(FString::Printf(TEXT("%s has been added to inventory"), *InventoryItem->GetName()));
-
-			InventoryItem->Destroy();
+			FGoddessInventoryItemData NewInventoryItemData =
+				GetGoddessInventoryComponentFromActorInfo()->GetSavedInventoryItemData();
+			UDataTable* AllInventoryItemsDataTable =
+				GetGoddessInventoryComponentFromActorInfo()->GetAllInventoryItemsDataTable();
+			InventoryItem->AddToInventory(AllInventoryItemsDataTable, NewInventoryItemData);
+			GetGoddessInventoryComponentFromActorInfo()->SetSavedInventoryItemData(NewInventoryItemData);
+			// int32 Num = GetGoddessInventoryComponentFromActorInfo()->GetSavedInventoryItemData().Weapons.Num();
+			// Debug::Print(FString::Printf(TEXT("Inventory Group num is: %i"), Num));
 		}
 	}
 }

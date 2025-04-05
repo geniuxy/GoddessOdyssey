@@ -36,7 +36,7 @@ public:
 	void CollectItems();
 
 	UFUNCTION(BlueprintCallable)
-	void AddToInvnetory();
+	void AddToItemInvnetory();
 
 private:
 	UPROPERTY(EditDefaultsOnly)

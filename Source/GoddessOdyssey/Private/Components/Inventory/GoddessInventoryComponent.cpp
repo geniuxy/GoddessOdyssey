@@ -2,10 +2,3 @@
 
 
 #include "Components/Inventory/GoddessInventoryComponent.h"
-
-UGoddessInventoryComponent::UGoddessInventoryComponent()
-{
-	InventoryItemData.Weapons.SetNum(5);
-	InventoryItemData.Shields.SetNum(7);
-	InventoryItemData.Eatables.SetNum(8);
-}

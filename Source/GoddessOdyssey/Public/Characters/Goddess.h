@@ -172,4 +172,5 @@ public:
 	FORCEINLINE void SetOverlappingWeapon(AItem* Item) { OverlappingItem = Item; }
 	FORCEINLINE UGoddessCombatComponent* GetGoddessCombatComponent() const { return GoddessCombatComponent; }
 	FORCEINLINE UGoddessUIComponent* GetGoddessUIComponent() const { return GoddessUIComponent; }
+	FORCEINLINE UGoddessInventoryComponent* GetGoddessInventoryComponent() const { return GoddessInventoryComponent; }
 };

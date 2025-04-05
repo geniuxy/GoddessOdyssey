@@ -13,10 +13,18 @@ class GODDESSODYSSEY_API UGoddessInventoryComponent : public UBaseExtensionCompo
 {
 	GENERATED_BODY()
 
-public:
-	UGoddessInventoryComponent();
-	
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Inventory")
-	FGoddessInventoryItemData InventoryItemData;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Inventory")
+	FGoddessInventoryItemData SavedInventoryItemData;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Inventory")
+	UDataTable* AllInventoryItemsDataTable;
+
+public:
+	FORCEINLINE FGoddessInventoryItemData GetSavedInventoryItemData() const { return SavedInventoryItemData; }
+	FORCEINLINE void SetSavedInventoryItemData(const FGoddessInventoryItemData& NewInventoryItemData)
+	{
+		SavedInventoryItemData = NewInventoryItemData;
+	}
+	FORCEINLINE UDataTable* GetAllInventoryItemsDataTable() const { return AllInventoryItemsDataTable; }
 };

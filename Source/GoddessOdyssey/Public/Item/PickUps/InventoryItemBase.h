@@ -11,10 +11,16 @@ class GODDESSODYSSEY_API AInventoryItemBase : public APickUpBase
 {
 	GENERATED_BODY()
 
+public:
+	void AddToInventory(UDataTable* AllInventoryItemsDataTable, FGoddessInventoryItemData& InventoryItemData);
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data Table|Pick Up")
 	FGoddessSlotData InventoryItemSlotData;
-	
+
+	bool TryAddItemToInventory(FGoddessSlotData& GoddessSlotData, TArray<FGoddessSlotData>& InGroup,
+	                           int32 InMaxGroupSlotSize);
+
 	virtual void OnPickUpCollisionSphereBeginOverlap(
 		UPrimitiveComponent* OverlappedComponent,
 		AActor* OtherActor,
@@ -23,4 +29,7 @@ protected:
 		bool bFromSweep,
 		const FHitResult& SweepResult
 	) override;
+
+private:
+	int32 CachedFoundItemsStackSize = -1;
 };
