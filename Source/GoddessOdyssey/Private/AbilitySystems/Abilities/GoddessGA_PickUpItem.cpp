@@ -73,8 +73,7 @@ void UGoddessGA_PickUpItem::AddToItemInvnetory()
 				GetGoddessInventoryComponentFromActorInfo()->GetAllInventoryItemsDataTable();
 			InventoryItem->AddToInventory(AllInventoryItemsDataTable, NewInventoryItemData);
 			GetGoddessInventoryComponentFromActorInfo()->SetSavedInventoryItemData(NewInventoryItemData);
-			// int32 Num = GetGoddessInventoryComponentFromActorInfo()->GetSavedInventoryItemData().Weapons.Num();
-			// Debug::Print(FString::Printf(TEXT("Inventory Group num is: %i"), Num));
+			// GetGoddessInventoryComponentFromActorInfo()->PrintSavedInventoryItemData();
 		}
 	}
 }

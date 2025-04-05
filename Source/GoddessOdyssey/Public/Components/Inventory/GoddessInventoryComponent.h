@@ -13,6 +13,11 @@ class GODDESSODYSSEY_API UGoddessInventoryComponent : public UBaseExtensionCompo
 {
 	GENERATED_BODY()
 
+public:
+	// 打印SavedInventoryItemData中的所有数据
+	UFUNCTION(BlueprintCallable, Category="Inventory")
+	void PrintSavedInventoryItemData();
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Inventory")
 	FGoddessInventoryItemData SavedInventoryItemData;
