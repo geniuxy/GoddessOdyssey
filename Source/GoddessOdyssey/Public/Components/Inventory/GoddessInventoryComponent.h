@@ -8,6 +8,8 @@
 #include "GoddessInventoryComponent.generated.h"
 
 
+class UBaseWidget;
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class GODDESSODYSSEY_API UGoddessInventoryComponent : public UBaseExtensionComponent
 {
@@ -17,6 +19,9 @@ public:
 	// 打印SavedInventoryItemData中的所有数据
 	UFUNCTION(BlueprintCallable, Category="Inventory")
 	void PrintSavedInventoryItemData();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
+	TObjectPtr<UBaseWidget> CachedInventoryOverlay;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Inventory")
@@ -32,4 +37,8 @@ public:
 		SavedInventoryItemData = NewInventoryItemData;
 	}
 	FORCEINLINE UDataTable* GetAllInventoryItemsDataTable() const { return AllInventoryItemsDataTable; }
+	FORCEINLINE void SetCachedInventoryOverlay(UBaseWidget* NewInventoryOverlay)
+	{
+		CachedInventoryOverlay = NewInventoryOverlay;
+	}
 };
