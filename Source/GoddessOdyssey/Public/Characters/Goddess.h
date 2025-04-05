@@ -8,6 +8,7 @@
 #include "GoddessType.h"
 #include "Goddess.generated.h"
 
+class UGoddessInventoryComponent;
 class UGoddessUIComponent;
 class UGoddessCombatComponent;
 struct FInputActionValue;
@@ -63,8 +64,11 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	UGoddessCombatComponent* GoddessCombatComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	UGoddessUIComponent* GoddessUIComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory")
+	UGoddessInventoryComponent* GoddessInventoryComponent;
 
 #pragma endregion
 

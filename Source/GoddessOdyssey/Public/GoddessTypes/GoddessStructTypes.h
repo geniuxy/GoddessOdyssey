@@ -112,8 +112,25 @@ public:
 	FDataTableRowHandle ItemID;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	int32 Quantity;
+	int32 Quantity = 0;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	EGoddessItemType ItemType;
+};
+
+
+USTRUCT(BlueprintType)
+struct FGoddessInventoryItemData
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TArray<FGoddessSlotData> Weapons;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TArray<FGoddessSlotData> Shields;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TArray<FGoddessSlotData> Eatables;
 };
