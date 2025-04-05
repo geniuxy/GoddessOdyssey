@@ -73,7 +73,7 @@ void UGoddessGA_PickUpItem::AddToItemInvnetory()
 				GetGoddessInventoryComponentFromActorInfo()->GetAllInventoryItemsDataTable();
 			InventoryItem->AddToInventory(AllInventoryItemsDataTable, NewInventoryItemData);
 			GetGoddessInventoryComponentFromActorInfo()->SetSavedInventoryItemData(NewInventoryItemData);
-			// GetGoddessInventoryComponentFromActorInfo()->PrintSavedInventoryItemData();
+			GetGoddessInventoryComponentFromActorInfo()->PrintSavedInventoryItemData();
 		}
 	}
 }
