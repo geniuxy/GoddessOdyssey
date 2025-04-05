@@ -15,6 +15,9 @@ void AInventoryItemBase::OnPickUpCollisionSphereBeginOverlap(
 	bool bFromSweep,
 	const FHitResult& SweepResult)
 {
+	Super::OnPickUpCollisionSphereBeginOverlap(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep,
+	                                           SweepResult);
+
 	if (AGoddess* Goddess = Cast<AGoddess>(OtherActor))
 	{
 		Goddess->GetBaseAbilitySystemComponent()

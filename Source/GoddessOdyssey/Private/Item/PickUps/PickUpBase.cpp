@@ -3,7 +3,9 @@
 
 #include "Item/PickUps/PickUpBase.h"
 
+#include "Characters/Goddess.h"
 #include "Components/SphereComponent.h"
+#include "Components/WidgetComponent.h"
 
 
 APickUpBase::APickUpBase()
@@ -13,6 +15,19 @@ APickUpBase::APickUpBase()
 	PickUpCollisionSphere->InitSphereRadius(50.f);
 	PickUpCollisionSphere->
 		OnComponentBeginOverlap.AddUniqueDynamic(this, &APickUpBase::OnPickUpCollisionSphereBeginOverlap);
+	PickUpCollisionSphere->
+		OnComponentEndOverlap.AddUniqueDynamic(this, &APickUpBase::OnPickUpCollisionSphereEndOverlap);
+	
+	PickUpWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("PickUpWidget"));
+	PickUpWidget->SetupAttachment(RootComponent);
+}
+
+void APickUpBase::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (PickUpWidget)
+		PickUpWidget->SetVisibility(false);
 }
 
 void APickUpBase::OnPickUpCollisionSphereBeginOverlap(
@@ -23,4 +38,19 @@ void APickUpBase::OnPickUpCollisionSphereBeginOverlap(
 	bool bFromSweep,
 	const FHitResult& SweepResult)
 {
+	if (AGoddess* Goddess = Cast<AGoddess>(OtherActor))
+	{
+		if (PickUpWidget)
+			PickUpWidget->SetVisibility(true);
+	}
+}
+
+void APickUpBase::OnPickUpCollisionSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (AGoddess* Goddess = Cast<AGoddess>(OtherActor))
+	{
+		if (PickUpWidget)
+			PickUpWidget->SetVisibility(false);
+	}
 }
