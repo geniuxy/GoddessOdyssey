@@ -41,9 +41,10 @@ namespace GoddessGameplayTags
 	                       "Character.Ability.SpecialWeaponAbility.Light");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_SpecialWeaponAbility_Heavy,
 	                       "Character.Ability.SpecialWeaponAbility.Heavy");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Inventory, "Character.Ability.Inventory");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_PickUp_Stone, "Character.Ability.PickUp.Stone");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_PickUp_Money, "Character.Ability.PickUp.Money");
-	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Inventory, "Character.Ability.Inventory");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_PickUp_InventoryItem, "Character.Ability.PickUp.InventoryItem");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_Cooldown_SpecialWeaponAbility_Light,
 	                       "Character.Cooldown.SpecialWeaponAbility.Light");
