@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "BaseWidget.generated.h"
 
+class UEnemyUIComponent;
 class UGoddessUIComponent;
 /**
  * 

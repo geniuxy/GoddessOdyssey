@@ -19,7 +19,7 @@ public:
 	void PrintSavedInventoryItemData();
 
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Inventory")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Inventory")
 	FGoddessInventoryItemData SavedInventoryItemData;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Inventory")
