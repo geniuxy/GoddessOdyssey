@@ -71,9 +71,14 @@ void UGoddessGA_PickUpItem::AddToItemInvnetory()
 				GetGoddessInventoryComponentFromActorInfo()->GetSavedInventoryItemData();
 			UDataTable* AllInventoryItemsDataTable =
 				GetGoddessInventoryComponentFromActorInfo()->GetAllInventoryItemsDataTable();
-			InventoryItem->AddToInventory(AllInventoryItemsDataTable, NewInventoryItemData);
-			GetGoddessInventoryComponentFromActorInfo()->SetSavedInventoryItemData(NewInventoryItemData);
-			GetGoddessInventoryComponentFromActorInfo()->PrintSavedInventoryItemData();
+			if (AllInventoryItemsDataTable)
+			{
+				InventoryItem->AddToInventory(AllInventoryItemsDataTable, NewInventoryItemData);
+				GetGoddessInventoryComponentFromActorInfo()->SetSavedInventoryItemData(NewInventoryItemData);
+				// GetGoddessInventoryComponentFromActorInfo()->PrintSavedInventoryItemData();
+			}
+			else
+				Debug::Print(TEXT("AllInventoryItemsDataTable is nullptr"));
 		}
 	}
 }

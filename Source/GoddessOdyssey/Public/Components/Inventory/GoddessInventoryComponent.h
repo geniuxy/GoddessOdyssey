@@ -23,12 +23,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
 	TObjectPtr<UBaseWidget> CachedInventoryOverlay;
 
+	UFUNCTION(BlueprintCallable, Category="Inventory")
+	void UseEatableInventoryItem(float HealAmount);
+
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Inventory")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Inventory")
 	FGoddessInventoryItemData SavedInventoryItemData;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Inventory")
 	UDataTable* AllInventoryItemsDataTable;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UGameplayEffect> EatableGameplayEffectClass;
 
 public:
 	FORCEINLINE FGoddessInventoryItemData GetSavedInventoryItemData() const { return SavedInventoryItemData; }
