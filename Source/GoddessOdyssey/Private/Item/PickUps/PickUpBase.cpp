@@ -22,12 +22,25 @@ APickUpBase::APickUpBase()
 	PickUpWidget->SetupAttachment(RootComponent);
 }
 
+void APickUpBase::HidePickUpWidget()
+{
+	if (PickUpWidget)
+	{
+		PickUpWidget->SetWidgetClass(nullptr);
+	}
+}
+
+void APickUpBase::SetPickUpWidgetVisibility(bool bWasVisible)
+{
+	if (PickUpWidget)
+		PickUpWidget->SetVisibility(bWasVisible);
+}
+
 void APickUpBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (PickUpWidget)
-		PickUpWidget->SetVisibility(false);
+	SetPickUpWidgetVisibility(false);
 }
 
 void APickUpBase::OnPickUpCollisionSphereBeginOverlap(
@@ -40,8 +53,7 @@ void APickUpBase::OnPickUpCollisionSphereBeginOverlap(
 {
 	if (AGoddess* Goddess = Cast<AGoddess>(OtherActor))
 	{
-		if (PickUpWidget)
-			PickUpWidget->SetVisibility(true);
+		SetPickUpWidgetVisibility(true);
 	}
 }
 
@@ -50,7 +62,6 @@ void APickUpBase::OnPickUpCollisionSphereEndOverlap(UPrimitiveComponent* Overlap
 {
 	if (AGoddess* Goddess = Cast<AGoddess>(OtherActor))
 	{
-		if (PickUpWidget)
-			PickUpWidget->SetVisibility(false);
+		SetPickUpWidgetVisibility(false);
 	}
 }

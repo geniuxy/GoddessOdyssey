@@ -19,8 +19,12 @@ class GODDESSODYSSEY_API APickUpBase : public AItem
 public:
 	APickUpBase();
 
+	UFUNCTION(BlueprintCallable)
+	void HidePickUpWidget();
 protected:
 	virtual void BeginPlay() override;
+	
+	void SetPickUpWidgetVisibility(bool bWasVisible);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Pick Up Interaction")
 	USphereComponent* PickUpCollisionSphere;

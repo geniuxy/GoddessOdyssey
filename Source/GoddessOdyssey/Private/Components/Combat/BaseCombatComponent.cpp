@@ -9,6 +9,8 @@
 void UBaseCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister, AWeapon* InWeaponToRegister,
                                                  bool bRegisterAsEquippedWeapon)
 {
+	checkf(InWeaponTagToRegister.IsValid(),
+	       TEXT("Weapon Tag named %s is invalid"), *InWeaponTagToRegister.ToString());
 	checkf(!CarriedWeaponMap.Contains(InWeaponTagToRegister),
 	       TEXT("Weapon Tag named %s has already registered as carried weapon"), *InWeaponTagToRegister.ToString());
 	check(InWeaponToRegister);

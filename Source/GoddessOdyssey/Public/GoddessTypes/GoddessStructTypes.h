@@ -114,6 +114,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<AInventoryItemBase> ItemClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FGameplayTag ItemTag;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	int32 Quantity = 0;

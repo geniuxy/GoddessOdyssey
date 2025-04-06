@@ -52,7 +52,9 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Character_Cooldown_SpecialWeaponAbility_Heavy,
 	                       "Character.Cooldown.SpecialWeaponAbility.Heavy");
 
-	UE_DEFINE_GAMEPLAY_TAG(Character_Weapon_Sword, "Character.Weapon.Sword");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Weapon_Sword_LJL, "Character.Weapon.Sword.LJL");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Weapon_Sword_Board, "Character.Weapon.Sword.Board");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Weapon_Hammer, "Character.Weapon.Hammer");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_Equip_Sword, "Character.Event.Equip.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_UnEquip_Sword, "Character.Event.UnEquip.Sword");
