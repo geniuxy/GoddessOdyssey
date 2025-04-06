@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Item/Item.h"
+#include "Item/PickUps/InventoryItemBase.h"
 #include "Weapon.generated.h"
 
 class UBoxComponent;
@@ -13,7 +13,7 @@ DECLARE_DELEGATE_OneParam(FOnTargetInteractedDelegate, AActor*)
  * 
  */
 UCLASS()
-class GODDESSODYSSEY_API AWeapon : public AItem
+class GODDESSODYSSEY_API AWeapon : public AInventoryItemBase
 {
 	GENERATED_BODY()
 
