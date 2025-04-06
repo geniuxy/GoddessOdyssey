@@ -6,6 +6,7 @@
 
 #include "GoddessStructTypes.generated.h"
 
+class AInventoryItemBase;
 class UGoddessGameplayAbility;
 class UInputMappingContext;
 class UGoddessLinkedAnimLayer;
@@ -111,6 +112,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FDataTableRowHandle ItemID;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<AInventoryItemBase> ItemClass;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	int32 Quantity = 0;
 	
