@@ -27,8 +27,8 @@ class GODDESSODYSSEY_API UBaseCombatComponent : public UBaseExtensionComponent
 
 public:
 	UFUNCTION(BlueprintCallable, Category="Combat")
-	void RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister, AWeapon* InWeaponToRegister,
-	                           bool bRegisterAsEquippedWeapon = false);
+	virtual void RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister, AWeapon* InWeaponToRegister,
+	                                   bool bRegisterAsEquippedWeapon = false);
 
 	UFUNCTION(BlueprintCallable, Category="Combat")
 	AWeapon* GetCarriedWeaponByTag(FGameplayTag InWeaponTagToGet) const;
@@ -51,7 +51,7 @@ protected:
 
 	virtual void ToggleCurrentEquippedWeaponCollision(bool bShouldEnable);
 	virtual void ToggleBodyCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType);
-	
-private:
+
 	TMap<FGameplayTag, AWeapon*> CarriedWeaponMap;
+private:
 };

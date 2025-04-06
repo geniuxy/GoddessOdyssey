@@ -4,9 +4,24 @@
 #include "Components/Combat/GoddessCombatComponent.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "DebugHelper.h"
 #include "GoddessGameplayTags.h"
 #include "Item/Weapons/GoddessWeapon.h"
 
+
+void UGoddessCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister, AWeapon* InWeaponToRegister,
+                                                    bool bRegisterAsEquippedWeapon)
+{
+	if (!CarriedWeaponMap.IsEmpty())
+	{
+		Debug::Print(TEXT("CarriedWeaponMap is not empty"));
+		// TODO 清空 CarriedWeaponMap 和 CurrentEquippedWeaponTag
+		
+		// TODO 移除 原本carried武器的delegate
+	}
+
+	Super::RegisterSpawnedWeapon(InWeaponTagToRegister, InWeaponToRegister, bRegisterAsEquippedWeapon);
+}
 
 AGoddessWeapon* UGoddessCombatComponent::GetGoddessCarriedWeaponByTag(FGameplayTag InWeaponTagToGet) const
 {
@@ -28,7 +43,7 @@ void UGoddessCombatComponent::OnHitTargetActor(AActor* HitActor)
 	if (OverlappedActors.Contains(HitActor)) return;
 
 	OverlappedActors.AddUnique(HitActor);
-	
+
 	FGameplayEventData Data;
 	Data.Instigator = GetOwningPawn();
 	Data.Target = HitActor;

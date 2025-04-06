@@ -48,7 +48,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* ItemMesh;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	EItemState ItemState = EItemState::EIS_Hovering;
 
 	UPROPERTY(EditAnywhere)

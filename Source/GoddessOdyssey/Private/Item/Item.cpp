@@ -9,7 +9,7 @@
 
 AItem::AItem()
 {
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 
 	ItemMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ItemMesh"));
 	ItemMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -36,7 +36,6 @@ float AItem::TransformedCos()
 	return Amplitude * FMath::Cos(RunningTime * TimeConstant);
 }
 
-// Called every frame
 void AItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
