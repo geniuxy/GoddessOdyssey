@@ -28,6 +28,8 @@ void APickUpBase::HidePickUpWidget()
 	{
 		PickUpWidget->SetWidgetClass(nullptr);
 	}
+
+	PickUpCollisionSphere->SetGenerateOverlapEvents(false);
 }
 
 void APickUpBase::SetPickUpWidgetVisibility(bool bWasVisible)

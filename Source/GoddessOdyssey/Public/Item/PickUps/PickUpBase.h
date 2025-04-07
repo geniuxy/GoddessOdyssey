@@ -49,4 +49,7 @@ protected:
 		UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex
 	);
+
+public:
+	FORCEINLINE USphereComponent* GetPickUpCollisionSphere() const { return PickUpCollisionSphere; }
 };

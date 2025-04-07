@@ -53,5 +53,9 @@ protected:
 	virtual void ToggleBodyCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType);
 
 	TMap<FGameplayTag, AWeapon*> CarriedWeaponMap;
+
+	UFUNCTION(BlueprintCallable, Category="Combat")
+	FGameplayTag GetRegisteredWeaponTag();
+
 private:
 };

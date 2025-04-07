@@ -88,3 +88,13 @@ void UBaseCombatComponent::OnHitTargetActor(AActor* HitActor)
 void UBaseCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractedActor)
 {
 }
+
+FGameplayTag UBaseCombatComponent::GetRegisteredWeaponTag()
+{
+	if (CarriedWeaponMap.IsEmpty())
+		return FGameplayTag::EmptyTag;
+	// 获取第一个键值对的键和值
+	TTuple<FGameplayTag, AWeapon*> Pair = *CarriedWeaponMap.CreateIterator();
+	FGameplayTag RegisteredWeaponTag = Pair.Key;
+	return RegisteredWeaponTag;
+}

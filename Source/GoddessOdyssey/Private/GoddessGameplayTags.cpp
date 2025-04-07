@@ -30,7 +30,9 @@ namespace GoddessGameplayTags
 
 	/** Goddess Tags**/
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Equip_Sword, "Character.Ability.Equip.Sword");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Equip_Weapon, "Character.Ability.Equip.Weapon");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_UnEquip_Sword, "Character.Ability.UnEquip.Sword");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_UnEquip_Weapon, "Character.Ability.UnEquip.Weapon");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Attack_Light_Sword, "Character.Ability.Attack.Light.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_Attack_Heavy_Sword, "Character.Ability.Attack.Heavy.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Ability_HitPause, "Character.Ability.HitPause");
@@ -55,6 +57,7 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Character_Weapon_Sword_LJL, "Character.Weapon.Sword.LJL");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Weapon_Sword_Board, "Character.Weapon.Sword.Board");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Weapon_Hammer, "Character.Weapon.Hammer");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Weapon_BlizardRod, "Character.Weapon.BlizardRod");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_Equip_Sword, "Character.Event.Equip.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_UnEquip_Sword, "Character.Event.UnEquip.Sword");

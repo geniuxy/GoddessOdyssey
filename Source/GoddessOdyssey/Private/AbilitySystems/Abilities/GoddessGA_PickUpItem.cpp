@@ -5,6 +5,7 @@
 
 #include "DebugHelper.h"
 #include "Characters/Goddess.h"
+#include "Components/SphereComponent.h"
 #include "Components/Inventory/GoddessInventoryComponent.h"
 #include "Item/PickUps/InventoryItemBase.h"
 #include "Kismet/KismetSystemLibrary.h"
@@ -48,7 +49,11 @@ void UGoddessGA_PickUpItem::CollectItems()
 	for (const FHitResult& Hit : TraceHits)
 	{
 		if (AInventoryItemBase* FoundItem = Cast<AInventoryItemBase>(Hit.GetActor()))
-			CollectedItems.AddUnique(FoundItem);
+		{
+			// 防止装备着的武器被拾取
+			if (FoundItem->GetPickUpCollisionSphere()->GetGenerateOverlapEvents())
+				CollectedItems.AddUnique(FoundItem);
+		}
 	}
 
 	if (CollectedItems.IsEmpty())
