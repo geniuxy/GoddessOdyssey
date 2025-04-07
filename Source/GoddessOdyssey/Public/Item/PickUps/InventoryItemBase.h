@@ -30,6 +30,9 @@ protected:
 		const FHitResult& SweepResult
 	) override;
 
+	UFUNCTION(BlueprintCallable)
+	void SetQuantity(int32 InQuantity);
+
 private:
 	int32 CachedFoundItemsStackSize = -1;
 };

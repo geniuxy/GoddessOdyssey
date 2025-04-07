@@ -101,3 +101,8 @@ void AInventoryItemBase::OnPickUpCollisionSphereBeginOverlap(
 		       ->TryActivateAbilityByTag(GoddessGameplayTags::Character_Ability_PickUp_InventoryItem);
 	}
 }
+
+void AInventoryItemBase::SetQuantity(int32 InQuantity)
+{
+	InventoryItemSlotData.Quantity = InQuantity;
+}

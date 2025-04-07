@@ -12,6 +12,7 @@ AItem::AItem()
 	PrimaryActorTick.bCanEverTick = true;
 
 	ItemMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ItemMesh"));
+	// 这里如果物体如果要自由下落，要设置为QueryAndPhysics
 	ItemMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	ItemMesh->SetCollisionResponseToAllChannels(ECR_Ignore);
 	SetRootComponent(ItemMesh);
