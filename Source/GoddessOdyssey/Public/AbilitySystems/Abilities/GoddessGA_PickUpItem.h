@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystems/Abilities/GoddessGameplayAbility.h"
+#include "GoddessTypes/GoddessStructTypes.h"
 #include "GoddessGA_PickUpItem.generated.h"
 
 class AInventoryItemBase;
@@ -14,7 +15,7 @@ UCLASS()
 class GODDESSODYSSEY_API UGoddessGA_PickUpItem : public UGoddessGameplayAbility
 {
 	GENERATED_BODY()
-	
+
 public:
 	//~ Begin UGameplayAbility Interface.
 	virtual void ActivateAbility(
@@ -36,7 +37,7 @@ public:
 	void CollectItems();
 
 	UFUNCTION(BlueprintCallable)
-	void AddToItemInvnetory();
+	void AddCollectedItemToInvnetory();
 
 private:
 	UPROPERTY(EditDefaultsOnly)

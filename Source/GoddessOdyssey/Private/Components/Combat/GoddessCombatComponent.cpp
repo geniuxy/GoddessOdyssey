@@ -12,18 +12,37 @@
 void UGoddessCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister, AWeapon* InWeaponToRegister,
                                                     bool bRegisterAsEquippedWeapon)
 {
+	Super::RegisterSpawnedWeapon(InWeaponTagToRegister, InWeaponToRegister, bRegisterAsEquippedWeapon);
+}
+
+AWeapon* UGoddessCombatComponent::RemoveCurrentWeapon()
+{
 	if (!CarriedWeaponMap.IsEmpty())
 	{
 		Debug::Print(TEXT("CarriedWeaponMap is not empty"));
-		// TODO 向仓库槽位中添加替换下来的武器
-		
-		// TODO 移除 原本carried武器的delegate
-		
-		// TODO 清空 CarriedWeaponMap 和 CurrentEquippedWeaponTag
-		
-	}
+		// 移除 原本carried武器的delegate
+		AWeapon* CurrentCarriedWeapon = GetCarriedWeaponByTag(GetRegisteredWeaponTag());
+		CurrentCarriedWeapon->OnWeaponHitTarget.Unbind();
+		CurrentCarriedWeapon->OnWeaponPulledFromTarget.Unbind();
+		// 清空 CarriedWeaponMap 和 CurrentEquippedWeaponTag
+		if (CurrentEquippedWeaponTag.IsValid())
+		{
+			FGameplayEventData Data;
+			UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+				GetOwner(),
+				GoddessGameplayTags::Character_Event_UnEquip,
+				Data
+			);
+		}
 
-	Super::RegisterSpawnedWeapon(InWeaponTagToRegister, InWeaponToRegister, bRegisterAsEquippedWeapon);
+		return CurrentCarriedWeapon;
+	}
+	return nullptr;
+}
+
+void UGoddessCombatComponent::ClearCarriedWeaponMap()
+{
+	CarriedWeaponMap.Empty();
 }
 
 AGoddessWeapon* UGoddessCombatComponent::GetGoddessCarriedWeaponByTag(FGameplayTag InWeaponTagToGet) const

@@ -7,6 +7,8 @@
 #include "GoddessTypes/GoddessEnumTypes.h"
 #include "GoddessFunctionLibrary.generated.h"
 
+class AInventoryItemBase;
+class UGoddessInventoryComponent;
 class UGoddessGameInstance;
 struct FGameplayEffectSpecHandle;
 struct FScalableFloat;
@@ -88,4 +90,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category="FunctionLibrary")
 	static FString ConvFloatToString(float Number);
+
+	UFUNCTION(BlueprintCallable, Category="FunctionLibrary")
+	static void AddItemToInventory(UGoddessInventoryComponent* InInventoryComp, AInventoryItemBase* InventoryItem);
 };

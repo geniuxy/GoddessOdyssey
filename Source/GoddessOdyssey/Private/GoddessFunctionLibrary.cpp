@@ -12,6 +12,9 @@
 #include "Interfaces/CombatComponentInterface.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "GoddessGameInstance.h"
+#include "Components/Inventory/GoddessInventoryComponent.h"
+#include "GoddessTypes/GoddessStructTypes.h"
+#include "Item/PickUps/InventoryItemBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "SaveGame/GoddessSaveGame.h"
 
@@ -248,7 +251,7 @@ bool UGoddessFunctionLibrary::TryLoadSavedGameDifficulty(EGoddessGameDifficulty&
 		{
 			OutSavedDifficulty = GoddessSaveGameObject->SavedCurrentGameDifficulty;
 
-			Debug::Print(TEXT("Loading Successful"),FColor::Green);
+			Debug::Print(TEXT("Loading Successful"), FColor::Green);
 
 			return true;
 		}
@@ -268,4 +271,19 @@ FString UGoddessFunctionLibrary::ConvFloatToString(float Number)
 
 	FString NumberStr = FString::Printf(TEXT("%d,%03d"), ThousandPart, LowerOrderPart);
 	return NumberStr;
+}
+
+void UGoddessFunctionLibrary::AddItemToInventory(UGoddessInventoryComponent* InInventoryComp,
+                                                 AInventoryItemBase* InventoryItem)
+{
+	FGoddessInventoryItemData NewInventoryItemData = InInventoryComp->GetSavedInventoryItemData();
+	UDataTable* AllInventoryItemsDataTable = InInventoryComp->GetAllInventoryItemsDataTable();
+	if (AllInventoryItemsDataTable)
+	{
+		InventoryItem->AddToInventory(AllInventoryItemsDataTable, NewInventoryItemData);
+		InInventoryComp->SetSavedInventoryItemData(NewInventoryItemData);
+		// GetGoddessInventoryComponentFromActorInfo()->PrintSavedInventoryItemData();
+	}
+	else
+		Debug::Print(TEXT("AllInventoryItemsDataTable is nullptr"));
 }

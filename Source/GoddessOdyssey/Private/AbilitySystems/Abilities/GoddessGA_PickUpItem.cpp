@@ -3,7 +3,7 @@
 
 #include "AbilitySystems/Abilities/GoddessGA_PickUpItem.h"
 
-#include "DebugHelper.h"
+#include "GoddessFunctionLibrary.h"
 #include "Characters/Goddess.h"
 #include "Components/SphereComponent.h"
 #include "Components/Inventory/GoddessInventoryComponent.h"
@@ -60,7 +60,7 @@ void UGoddessGA_PickUpItem::CollectItems()
 		CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
 }
 
-void UGoddessGA_PickUpItem::AddToItemInvnetory()
+void UGoddessGA_PickUpItem::AddCollectedItemToInvnetory()
 {
 	if (CollectedItems.IsEmpty())
 	{
@@ -72,18 +72,7 @@ void UGoddessGA_PickUpItem::AddToItemInvnetory()
 	{
 		if (InventoryItem)
 		{
-			FGoddessInventoryItemData NewInventoryItemData =
-				GetGoddessInventoryComponentFromActorInfo()->GetSavedInventoryItemData();
-			UDataTable* AllInventoryItemsDataTable =
-				GetGoddessInventoryComponentFromActorInfo()->GetAllInventoryItemsDataTable();
-			if (AllInventoryItemsDataTable)
-			{
-				InventoryItem->AddToInventory(AllInventoryItemsDataTable, NewInventoryItemData);
-				GetGoddessInventoryComponentFromActorInfo()->SetSavedInventoryItemData(NewInventoryItemData);
-				// GetGoddessInventoryComponentFromActorInfo()->PrintSavedInventoryItemData();
-			}
-			else
-				Debug::Print(TEXT("AllInventoryItemsDataTable is nullptr"));
+			UGoddessFunctionLibrary::AddItemToInventory(GetGoddessInventoryComponentFromActorInfo(), InventoryItem);
 		}
 	}
 }

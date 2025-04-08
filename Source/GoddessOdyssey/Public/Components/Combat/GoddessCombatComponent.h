@@ -20,6 +20,12 @@ public:
 	                                   bool bRegisterAsEquippedWeapon = false) override;
 
 	UFUNCTION(BlueprintCallable, Category="Combat")
+	AWeapon* RemoveCurrentWeapon();
+
+	UFUNCTION(BlueprintCallable, Category="Combat")
+	void ClearCarriedWeaponMap();
+
+	UFUNCTION(BlueprintCallable, Category="Combat")
 	AGoddessWeapon* GetGoddessCarriedWeaponByTag(FGameplayTag InWeaponTagToGet) const;
 
 	UFUNCTION(BlueprintCallable, Category="Combat")
