@@ -280,6 +280,7 @@ void UGoddessFunctionLibrary::AddItemToInventory(UGoddessInventoryComponent* InI
 	UDataTable* AllInventoryItemsDataTable = InInventoryComp->GetAllInventoryItemsDataTable();
 	if (AllInventoryItemsDataTable)
 	{
+		InventoryItem->GetItemMesh()->SetSimulatePhysics(false);
 		InventoryItem->AddToInventory(AllInventoryItemsDataTable, NewInventoryItemData);
 		InInventoryComp->SetSavedInventoryItemData(NewInventoryItemData);
 		// GetGoddessInventoryComponentFromActorInfo()->PrintSavedInventoryItemData();

@@ -59,6 +59,7 @@ private:
 	float RunningTime;
 
 public:
+	FORCEINLINE UStaticMeshComponent* GetItemMesh() const { return ItemMesh; }
 };
 
 template <typename T>
