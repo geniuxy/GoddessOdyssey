@@ -10,6 +10,12 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquippedWeaponChanged, TSoftObjectPtr<UTexture2D>, SoftWeaponIcon);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FOnEquippedShieldChanged,
+	float, InShieldPower,
+	TSoftObjectPtr<UTexture2D>, SoftShieldIcon
+);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
 	FOnAbilityIconSlotUpdatedDelegate,
 	FGameplayTag, InAbilityInputTag,
 	TSoftObjectPtr<UMaterialInterface>, SoftAbilityIconMaterial
@@ -42,6 +48,9 @@ public:
 	UPROPERTY(BlueprintCallable, BlueprintAssignable)
 	FOnEquippedWeaponChanged OnEquippedWeaponChanged;
 
+	UPROPERTY(BlueprintCallable, BlueprintAssignable)
+	FOnEquippedShieldChanged OnEquippedShieldChanged;
+	
 	UPROPERTY(BlueprintCallable, BlueprintAssignable)
 	FOnAbilityIconSlotUpdatedDelegate OnAbilityIconSlotUpdated;
 	
