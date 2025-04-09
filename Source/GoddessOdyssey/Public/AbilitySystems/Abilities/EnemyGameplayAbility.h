@@ -25,7 +25,8 @@ public:
 
 	UFUNCTION(BlueprintPure, Category="BaseAbility")
 	FGameplayEffectSpecHandle MakeEnemyEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass,
-	                                                    const FScalableFloat& InDamageScalableFloat);
+	                                                    const FScalableFloat& InDamageScalableFloat,
+	                                                    const float& InShieldPower);
 
 private:
 	TWeakObjectPtr<AEnemy> CachedEnemy;

@@ -58,6 +58,9 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Character_Weapon_Sword_Board, "Character.Weapon.Sword.Board");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Weapon_Hammer, "Character.Weapon.Hammer");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Weapon_BlizardRod, "Character.Weapon.BlizardRod");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Shield_DayBreaker, "Character.Shield.DayBreaker");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Shield_RoyalGuard, "Character.Shield.RoyalGuard");
+	UE_DEFINE_GAMEPLAY_TAG(Character_Shield_SteelLizal, "Character.Shield.SteelLizal");
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_Equip_Sword, "Character.Event.Equip.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(Character_Event_UnEquip, "Character.Event.UnEquip");
@@ -85,6 +88,7 @@ namespace GoddessGameplayTags
 
 	UE_DEFINE_GAMEPLAY_TAG(Character_SetByCaller_Attack_Light, "Character.SetByCaller.Attack.Light");
 	UE_DEFINE_GAMEPLAY_TAG(Character_SetByCaller_Attack_Heavy, "Character.SetByCaller.Attack.Heavy");
+	UE_DEFINE_GAMEPLAY_TAG(Character_SetByCaller_ShieldPower, "Character.SetByCaller.ShieldPower");
 
 	/** Enemy Tags**/
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Melee, "Enemy.Ability.Melee");

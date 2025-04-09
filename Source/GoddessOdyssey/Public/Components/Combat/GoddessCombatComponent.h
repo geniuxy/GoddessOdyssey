@@ -36,4 +36,7 @@ public:
 
 	virtual void OnHitTargetActor(AActor* HitActor) override;
 	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor) override;
+
+	UFUNCTION(BlueprintCallable, Category="Combat")
+	AInventoryItemBase* RemoveCurrentShield();
 };

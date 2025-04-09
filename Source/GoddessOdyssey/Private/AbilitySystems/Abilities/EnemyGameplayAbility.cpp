@@ -21,7 +21,8 @@ UEnemyCombatComponent* UEnemyGameplayAbility::GetEnemyCombatComponentFromActorIn
 }
 
 FGameplayEffectSpecHandle UEnemyGameplayAbility::MakeEnemyEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass,
-                                                                           const FScalableFloat& InDamageScalableFloat)
+                                                                           const FScalableFloat& InDamageScalableFloat,
+                                                                           const float& InShieldPower)
 {
 	check(EffectClass);
 
@@ -35,6 +36,9 @@ FGameplayEffectSpecHandle UEnemyGameplayAbility::MakeEnemyEffectSpecHandle(TSubc
 
 	EffectSpecHandle.Data->SetSetByCallerMagnitude(GoddessGameplayTags::Shared_SetByCaller_BaseDamage,
 	                                               InDamageScalableFloat.GetValueAtLevel(GetAbilityLevel()));
+
+	EffectSpecHandle.Data->SetSetByCallerMagnitude(GoddessGameplayTags::Character_SetByCaller_ShieldPower,
+												   InShieldPower);
 
 	return EffectSpecHandle;
 }

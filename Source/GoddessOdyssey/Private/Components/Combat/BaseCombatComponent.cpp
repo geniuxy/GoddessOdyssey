@@ -21,6 +21,8 @@ void UBaseCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegis
 	InWeaponToRegister->OnWeaponHitTarget.BindUObject(this, &ThisClass::OnHitTargetActor);
 	InWeaponToRegister->OnWeaponPulledFromTarget.BindUObject(this, &ThisClass::OnWeaponPulledFromTargetActor);
 
+	CurrentCarriedWeaponTag = InWeaponTagToRegister;
+
 	if (bRegisterAsEquippedWeapon)
 		CurrentEquippedWeaponTag = InWeaponTagToRegister;
 
@@ -89,12 +91,28 @@ void UBaseCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractedActor
 {
 }
 
-FGameplayTag UBaseCombatComponent::GetRegisteredWeaponTag()
+void UBaseCombatComponent::RegisterShield(FGameplayTag InShieldTagToRegister,
+                                          TSubclassOf<AInventoryItemBase> InShieldToRegister,
+                                          float InShieldPower)
 {
-	if (CarriedWeaponMap.IsEmpty())
-		return FGameplayTag::EmptyTag;
-	// 获取第一个键值对的键和值
-	TTuple<FGameplayTag, AWeapon*> Pair = *CarriedWeaponMap.CreateIterator();
-	FGameplayTag RegisteredWeaponTag = Pair.Key;
-	return RegisteredWeaponTag;
+	checkf(InShieldTagToRegister.IsValid(),
+	       TEXT("Shield Tag named %s is invalid"), *InShieldTagToRegister.ToString());
+	checkf(!CarriedShieldMap.Contains(InShieldTagToRegister),
+	       TEXT("Shield Tag named %s has already registered as carried shield"), *InShieldTagToRegister.ToString());
+	check(InShieldToRegister);
+
+	CarriedShieldMap.Emplace(InShieldTagToRegister, InShieldToRegister);
+
+	CurrentCarriedShieldTag = InShieldTagToRegister;
+	CurrentCarriedShieldPower = InShieldPower;
+}
+
+TSubclassOf<AInventoryItemBase> UBaseCombatComponent::GetCarriedShieldByTag(FGameplayTag InShieldTagToGet) const
+{
+	if (CarriedShieldMap.Contains(InShieldTagToGet))
+	{
+		if (const TSubclassOf<AInventoryItemBase>* FoundShieldClass = CarriedShieldMap.Find(InShieldTagToGet))
+			return *FoundShieldClass;
+	}
+	return nullptr;
 }

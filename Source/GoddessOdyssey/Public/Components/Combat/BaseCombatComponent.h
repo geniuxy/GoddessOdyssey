@@ -7,6 +7,7 @@
 #include "Components/BaseExtensionComponent.h"
 #include "BaseCombatComponent.generated.h"
 
+class AInventoryItemBase;
 class AWeapon;
 
 UENUM(BlueprintType)
@@ -26,6 +27,7 @@ class GODDESSODYSSEY_API UBaseCombatComponent : public UBaseExtensionComponent
 	GENERATED_BODY()
 
 public:
+#pragma region Weapon
 	UFUNCTION(BlueprintCallable, Category="Combat")
 	virtual void RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister, AWeapon* InWeaponToRegister,
 	                                   bool bRegisterAsEquippedWeapon = false);
@@ -36,6 +38,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category="Combat")
 	FGameplayTag CurrentEquippedWeaponTag;
 
+	UPROPERTY(BlueprintReadWrite, Category="Combat")
+	FGameplayTag CurrentCarriedWeaponTag;
+
 	UFUNCTION(BlueprintCallable, Category="Combat")
 	AWeapon* GetCurrentEquippedWeapon() const;
 
@@ -45,6 +50,23 @@ public:
 
 	virtual void OnHitTargetActor(AActor* HitActor);
 	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor);
+#pragma endregion
+
+	UFUNCTION(BlueprintCallable, Category="Combat")
+	virtual void RegisterShield(
+		FGameplayTag InShieldTagToRegister,
+		TSubclassOf<AInventoryItemBase> InShieldToRegister,
+		float InShieldPower
+	);
+
+	UFUNCTION(BlueprintCallable, Category="Combat")
+	TSubclassOf<AInventoryItemBase> GetCarriedShieldByTag(FGameplayTag InShieldTagToGet) const;
+
+	UPROPERTY(BlueprintReadWrite, Category="Combat")
+	FGameplayTag CurrentCarriedShieldTag;
+
+	UPROPERTY(BlueprintReadWrite, Category="Combat")
+	float CurrentCarriedShieldPower = 0.f;
 
 protected:
 	TArray<AActor*> OverlappedActors;
@@ -54,8 +76,7 @@ protected:
 
 	TMap<FGameplayTag, AWeapon*> CarriedWeaponMap;
 
-	UFUNCTION(BlueprintCallable, Category="Combat")
-	FGameplayTag GetRegisteredWeaponTag();
+	TMap<FGameplayTag, TSubclassOf<AInventoryItemBase>> CarriedShieldMap;
 
 private:
 };

@@ -74,6 +74,7 @@ void UGEExecCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustom
 	float BaseDamage = 0.f;
 	int32 UsedLightAttackComboCount = 0;
 	int32 UsedHeavyAttackComboCount = 0;
+	float ShieldPower = 0.f;
 	for (const TPair<FGameplayTag, float> TagMagnitude : EffectSpec.SetByCallerTagMagnitudes)
 	{
 		if (TagMagnitude.Key.MatchesTagExact(GoddessGameplayTags::Shared_SetByCaller_BaseDamage))
@@ -92,6 +93,12 @@ void UGEExecCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustom
 		{
 			UsedHeavyAttackComboCount = TagMagnitude.Value;
 			// Debug::Print(TEXT("UsedHeavyAttackComboCount"),UsedHeavyAttackComboCount);
+		}
+
+		if (TagMagnitude.Key.MatchesTagExact(GoddessGameplayTags::Character_SetByCaller_ShieldPower))
+		{
+			ShieldPower = TagMagnitude.Value;
+			Debug::Print(TEXT("ShieldPower"), ShieldPower);
 		}
 	}
 
@@ -116,9 +123,14 @@ void UGEExecCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustom
 		// Debug::Print(TEXT("ScaledBaseDamageHeavy"), BaseDamage);
 	}
 
+	if (ShieldPower != 0.f)
+	{
+		BaseDamage = FMath::Clamp(BaseDamage - ShieldPower, 0, BaseDamage);
+	}
+
 	// 5. 计算最终伤害
 	const float FinalDamage = BaseDamage * SourceAttackPower / TargetDefensePower;
-	// Debug::Print(TEXT("FinalDamage"), FinalDamage);
+	Debug::Print(TEXT("FinalDamage"), FinalDamage);
 
 	// 6. 去Attribute里计算伤害扣除CurrentHealth
 	if (FinalDamage > 0.f)

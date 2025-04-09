@@ -7,6 +7,7 @@
 #include "DebugHelper.h"
 #include "GoddessGameplayTags.h"
 #include "Item/Weapons/GoddessWeapon.h"
+#include "Kismet/GameplayStatics.h"
 
 
 void UGoddessCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister, AWeapon* InWeaponToRegister,
@@ -19,9 +20,9 @@ AWeapon* UGoddessCombatComponent::RemoveCurrentWeapon()
 {
 	if (!CarriedWeaponMap.IsEmpty())
 	{
-		Debug::Print(TEXT("CarriedWeaponMap is not empty"));
+		// Debug::Print(TEXT("CarriedWeaponMap is not empty"));
 		// 移除 原本carried武器的delegate
-		AWeapon* CurrentCarriedWeapon = GetCarriedWeaponByTag(GetRegisteredWeaponTag());
+		AWeapon* CurrentCarriedWeapon = GetCarriedWeaponByTag(CurrentCarriedWeaponTag);
 		CurrentCarriedWeapon->OnWeaponHitTarget.Unbind();
 		CurrentCarriedWeapon->OnWeaponPulledFromTarget.Unbind();
 		// 清空 CarriedWeaponMap 和 CurrentEquippedWeaponTag
@@ -90,4 +91,20 @@ void UGoddessCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractedAc
 		GoddessGameplayTags::Character_Event_HitPause,
 		FGameplayEventData()
 	);
+}
+
+AInventoryItemBase* UGoddessCombatComponent::RemoveCurrentShield()
+{
+	if (!CarriedShieldMap.IsEmpty())
+	{
+		TSubclassOf<AInventoryItemBase> ShieldClass = GetCarriedShieldByTag(CurrentCarriedShieldTag);
+		AInventoryItemBase* CurrentCarriedShield = GetWorld()->SpawnActor<AInventoryItemBase>(
+			ShieldClass, FVector::ZeroVector, FRotator::ZeroRotator);
+		// 清空 相关数值
+		CurrentCarriedShieldTag = FGameplayTag::EmptyTag;
+		CurrentCarriedShieldPower = 0.f;
+		CarriedShieldMap.Empty();
+		return CurrentCarriedShield;
+	}
+	return nullptr;
 }
