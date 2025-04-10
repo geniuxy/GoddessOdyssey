@@ -5,9 +5,11 @@
 
 #include "GoddessGameplayTags.h"
 #include "AbilitySystems/BaseAbilitySystemComponent.h"
+#include "Camera/CameraComponent.h"
 #include "Characters/Goddess.h"
 #include "Components/SphereComponent.h"
 #include "Components/WidgetComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 
 
 ANPC::ANPC()
@@ -22,6 +24,16 @@ ANPC::ANPC()
 
 	TalkWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("TalkWidget"));
 	TalkWidget->SetupAttachment(RootComponent);
+
+	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	CameraBoom->SetupAttachment(GetRootComponent());
+	CameraBoom->TargetArmLength = 300.f;
+	CameraBoom->SocketOffset = FVector(0.f, 55.f, 65.f);
+	CameraBoom->bUsePawnControlRotation = true;
+
+	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
+	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	FollowCamera->bUsePawnControlRotation = false;
 }
 
 void ANPC::BeginPlay()

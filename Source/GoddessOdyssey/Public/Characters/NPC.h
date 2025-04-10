@@ -6,6 +6,9 @@
 #include "BaseCharacter.h"
 #include "NPC.generated.h"
 
+class UGoddessInventoryComponent;
+class UCameraComponent;
+class USpringArmComponent;
 class AGoddess;
 class UWidgetComponent;
 class USphereComponent;
@@ -20,8 +23,18 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, Category="Shop Interaction")
 	void EnterShoppingMode(AGoddess* Goddess);
+
 protected:
 	virtual void BeginPlay() override;
+
+	UPROPERTY(EditAnywhere, Category="Camera")
+	USpringArmComponent* CameraBoom;
+
+	UPROPERTY(EditAnywhere, Category="Camera")
+	UCameraComponent* FollowCamera;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory")
+	UGoddessInventoryComponent* GoddessInventoryComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Shop Interaction")
 	USphereComponent* TalkCollisionSphere;
@@ -29,6 +42,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Shop Interaction")
 	UWidgetComponent* TalkWidget;
 
+	UFUNCTION(BlueprintCallable, Category = "Shop Interaction")
 	void SetTalkWidgetVisibility(bool bWasVisible);
 
 	UFUNCTION()
