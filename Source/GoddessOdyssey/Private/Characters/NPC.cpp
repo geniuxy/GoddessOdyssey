@@ -9,6 +9,8 @@
 #include "Characters/Goddess.h"
 #include "Components/SphereComponent.h"
 #include "Components/WidgetComponent.h"
+#include "Components/Inventory/GoddessInventoryComponent.h"
+#include "Components/Inventory/NPCInventoryComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
 
@@ -34,6 +36,8 @@ ANPC::ANPC()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+
+	NPCInventoryComponent = CreateDefaultSubobject<UNPCInventoryComponent>(TEXT("NPCInventoryComponent"));
 }
 
 void ANPC::BeginPlay()

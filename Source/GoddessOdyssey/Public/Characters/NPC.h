@@ -6,7 +6,7 @@
 #include "BaseCharacter.h"
 #include "NPC.generated.h"
 
-class UGoddessInventoryComponent;
+class UNPCInventoryComponent;
 class UCameraComponent;
 class USpringArmComponent;
 class AGoddess;
@@ -34,7 +34,7 @@ protected:
 	UCameraComponent* FollowCamera;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory")
-	UGoddessInventoryComponent* GoddessInventoryComponent;
+	UNPCInventoryComponent* NPCInventoryComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Shop Interaction")
 	USphereComponent* TalkCollisionSphere;
