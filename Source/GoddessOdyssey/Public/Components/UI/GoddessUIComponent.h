@@ -7,6 +7,7 @@
 #include "GameplayTagContainer.h"
 #include "GoddessUIComponent.generated.h"
 
+class UBaseWidget;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquippedWeaponChanged, TSoftObjectPtr<UTexture2D>, SoftWeaponIcon);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
@@ -62,4 +63,13 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnMoneyAmountChangedDelegate OnMoneyAmountChanged;
+
+	UPROPERTY(EditDefaultsOnly, Category="MainWidget")
+	TSubclassOf<UUserWidget> MainWidgetClass;
+	
+	UPROPERTY(BlueprintReadOnly, Category="MainWidget")
+	UBaseWidget* CachedMainWidget;
+
+	UFUNCTION(BlueprintCallable, Category="MainWidget")
+	void DrawMainWidget();
 };
