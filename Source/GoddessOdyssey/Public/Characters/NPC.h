@@ -6,6 +6,7 @@
 #include "BaseCharacter.h"
 #include "NPC.generated.h"
 
+class AGoddess;
 class UWidgetComponent;
 class USphereComponent;
 
@@ -17,9 +18,11 @@ class GODDESSODYSSEY_API ANPC : public ABaseCharacter
 public:
 	ANPC();
 
+	UFUNCTION(BlueprintImplementableEvent, Category="Shop Interaction")
+	void EnterShoppingMode(AGoddess* Goddess);
 protected:
 	virtual void BeginPlay() override;
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Shop Interaction")
 	USphereComponent* TalkCollisionSphere;
 

@@ -3,6 +3,8 @@
 
 #include "Characters/NPC.h"
 
+#include "GoddessGameplayTags.h"
+#include "AbilitySystems/BaseAbilitySystemComponent.h"
 #include "Characters/Goddess.h"
 #include "Components/SphereComponent.h"
 #include "Components/WidgetComponent.h"
@@ -46,6 +48,9 @@ void ANPC::OnTalkCollisionSphereBeginOverlap(
 	if (AGoddess* Goddess = Cast<AGoddess>(OtherActor))
 	{
 		SetTalkWidgetVisibility(true);
+		
+		Goddess->GetBaseAbilitySystemComponent()
+			   ->TryActivateAbilityByTag(GoddessGameplayTags::Character_Ability_Enter_Shop);
 	}
 }
 

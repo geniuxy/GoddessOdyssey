@@ -79,7 +79,7 @@ protected:
 
 	UPROPERTY()
 	FVector2D TargetSwitchDirection = FVector2D::ZeroVector;
-	
+
 	void CallBack_Move(const FInputActionValue& InputActionValue);
 	void CallBack_Look(const FInputActionValue& InputActionValue);
 
@@ -88,6 +88,8 @@ protected:
 
 	void CallBack_PickUpStoneStarted(const FInputActionValue& InputActionValue);
 	void CallBack_PickUpInventoryItemStarted(const FInputActionValue& InputActionValue);
+
+	void CallBack_EnterShopStarted(const FInputActionValue& InputActionValue);
 
 	void CallBack_ToggleInventory(const FInputActionValue& InputActionValue);
 	
