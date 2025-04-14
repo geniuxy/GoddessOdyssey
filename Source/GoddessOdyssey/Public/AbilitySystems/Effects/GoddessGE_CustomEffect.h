@@ -4,19 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "GameplayEffect.h"
-#include "GoddessGE_UseEatableItem.generated.h"
+#include "GoddessGE_CustomEffect.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class GODDESSODYSSEY_API UGoddessGE_UseEatableItem : public UGameplayEffect
+class GODDESSODYSSEY_API UGoddessGE_CustomEffect : public UGameplayEffect
 {
 	GENERATED_BODY()
 public:
-	UGoddessGE_UseEatableItem();
+	UGoddessGE_CustomEffect();
 	
-	void SetEffectHealingAmount(float InHealAmount);
+	void SetEffectAmount(float InAmount);
 	void ClearModifiers();
 
 protected:

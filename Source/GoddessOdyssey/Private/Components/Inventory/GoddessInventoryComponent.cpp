@@ -6,7 +6,7 @@
 #include "DebugHelper.h"
 #include "GoddessFunctionLibrary.h"
 #include "AbilitySystems/BaseAbilitySystemComponent.h"
-#include "AbilitySystems/Effects/GoddessGE_UseEatableItem.h"
+#include "AbilitySystems/Effects/GoddessGE_CustomEffect.h"
 #include "Characters/Goddess.h"
 
 void UGoddessInventoryComponent::PrintSavedInventoryItemData()
@@ -34,10 +34,10 @@ void UGoddessInventoryComponent::UseEatableInventoryItem(float HealAmount)
 {
 	check(EatableGameplayEffectClass);
 
-	UGoddessGE_UseEatableItem* HealEffect = EatableGameplayEffectClass->GetDefaultObject<UGoddessGE_UseEatableItem>();
+	UGoddessGE_CustomEffect* HealEffect = EatableGameplayEffectClass->GetDefaultObject<UGoddessGE_CustomEffect>();
 
 	// 设置动态回血量
-	HealEffect->SetEffectHealingAmount(HealAmount);
+	HealEffect->SetEffectAmount(HealAmount);
 	
 	// 应用GameplayEffect到角色
 	UBaseAbilitySystemComponent* AbilitySystemComponent =

@@ -1,26 +1,25 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "AbilitySystems/Effects/GoddessGE_UseEatableItem.h"
-#include "DebugHelper.h"
+#include "AbilitySystems/Effects/GoddessGE_CustomEffect.h"
 
-UGoddessGE_UseEatableItem::UGoddessGE_UseEatableItem()
+UGoddessGE_CustomEffect::UGoddessGE_CustomEffect()
 {
 	DurationPolicy = EGameplayEffectDurationType::Instant;
 }
 
-void UGoddessGE_UseEatableItem::SetEffectHealingAmount(float InHealAmount)
+void UGoddessGE_CustomEffect::SetEffectAmount(float InAmount)
 {
 	ClearModifiers();
 	
 	FGameplayModifierInfo Modifier;
 	Modifier.Attribute = Attribute;
 	Modifier.ModifierOp = EGameplayModOp::Additive;
-	Modifier.ModifierMagnitude = FGameplayEffectModifierMagnitude(FScalableFloat(InHealAmount));
+	Modifier.ModifierMagnitude = FGameplayEffectModifierMagnitude(FScalableFloat(InAmount));
 	Modifiers.Add(Modifier);
 }
 
-void UGoddessGE_UseEatableItem::ClearModifiers()
+void UGoddessGE_CustomEffect::ClearModifiers()
 {
 	if (!Modifiers.IsEmpty())
 		Modifiers.Empty();

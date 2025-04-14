@@ -71,5 +71,6 @@ void UGoddessGA_EnterShop::OpenShopOverlay()
 		CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
 		return;
 	}
+	GetGoddessFromActorInfo()->SetTalkingNPC(NearestNPC);
 	NearestNPC->EnterShoppingMode(GetGoddessFromActorInfo());
 }

@@ -8,6 +8,7 @@
 #include "GoddessType.h"
 #include "Goddess.generated.h"
 
+class ANPC;
 class UGoddessInventoryComponent;
 class UGoddessUIComponent;
 class UGoddessCombatComponent;
@@ -103,6 +104,9 @@ protected:
 	UPROPERTY(BlueprintReadWrite)
 	EGoddessActionState ActionState = EGoddessActionState::EGAS_UnOccupied;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Shop")
+	ANPC* TalkingNPC;
+
 	// virtual void InitFloatingWeapon();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
@@ -172,6 +176,7 @@ private:
 
 public:
 	FORCEINLINE void SetOverlappingWeapon(AItem* Item) { OverlappingItem = Item; }
+	FORCEINLINE void SetTalkingNPC(ANPC* NPC) { TalkingNPC = NPC; }
 	FORCEINLINE UGoddessCombatComponent* GetGoddessCombatComponent() const { return GoddessCombatComponent; }
 	FORCEINLINE UGoddessUIComponent* GetGoddessUIComponent() const { return GoddessUIComponent; }
 	FORCEINLINE UGoddessInventoryComponent* GetGoddessInventoryComponent() const { return GoddessInventoryComponent; }

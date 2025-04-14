@@ -8,6 +8,8 @@
 #include "NPCInventoryComponent.generated.h"
 
 
+class UBaseWidget;
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class GODDESSODYSSEY_API UNPCInventoryComponent : public UBaseExtensionComponent
 {
@@ -17,10 +19,19 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Inventory")
 	void PrintSavedInventoryItemData();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
+	TObjectPtr<UBaseWidget> CachedShopOverlay;
+
+	UFUNCTION(BlueprintCallable, Category="Shop")
+	void PayMoneyForShopping(float InPrice, AActor* InCustomer);
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Inventory")
 	FGoddessInventoryItemData SavedInventoryItemData;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Inventory")
 	UDataTable* AllInventoryItemsDataTable;
+
+	UPROPERTY(EditDefaultsOnly, Category="Shop")
+	TSubclassOf<UGameplayEffect> PayMoneyGameplayEffectClass;
 };
