@@ -95,6 +95,9 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	int32 StackSize;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float Price;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float Power;
