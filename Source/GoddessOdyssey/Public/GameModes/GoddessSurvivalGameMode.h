@@ -12,6 +12,7 @@ class AEnemy;
 UENUM(BlueprintType)
 enum class EGoddessSurvivalGameModeState:uint8
 {
+	Shopping,
 	WaitSpawnNewWave,
 	SpawningNewWave,
 	InProgress,
@@ -66,7 +67,9 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	UFUNCTION(BlueprintCallable)
 	void SetCurrentSurvivalGameModeState(EGoddessSurvivalGameModeState InState);
+	
 	bool HasFinishedAllWaves() const;
 	void PreLoadNextWaveEnemies();
 	FGoddessEnemyWaveSpawnerTableRow* GetCurrentWaveSpawnerTableRow() const;
@@ -100,6 +103,12 @@ private:
 	UPROPERTY()
 	int32 TotalSpawnedEnemiesThisWaveCounter = 0;
 
+	UPROPERTY(EditDefaultsOnly)
+	AActor* ShoppingPoint;
+	
+	UPROPERTY(EditDefaultsOnly)
+	AActor* CombatPoint;
+	
 	UPROPERTY()
 	TArray<AActor*> TargetPointsArray;
 

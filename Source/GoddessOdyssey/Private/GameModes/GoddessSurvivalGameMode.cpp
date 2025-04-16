@@ -19,7 +19,7 @@ void AGoddessSurvivalGameMode::BeginPlay()
 
 	TotalWavesToSpawn = EnemyWaveSpawnerDataTable->GetRowNames().Num();
 
-	SetCurrentSurvivalGameModeState(EGoddessSurvivalGameModeState::WaitSpawnNewWave);
+	SetCurrentSurvivalGameModeState(EGoddessSurvivalGameModeState::Shopping);
 
 	PreLoadNextWaveEnemies();
 }
@@ -66,7 +66,7 @@ void AGoddessSurvivalGameMode::Tick(float DeltaSeconds)
 				SetCurrentSurvivalGameModeState(EGoddessSurvivalGameModeState::AllWaveDone);
 			else
 			{
-				SetCurrentSurvivalGameModeState(EGoddessSurvivalGameModeState::WaitSpawnNewWave);
+				SetCurrentSurvivalGameModeState(EGoddessSurvivalGameModeState::Shopping);
 				PreLoadNextWaveEnemies();
 			}
 		}
