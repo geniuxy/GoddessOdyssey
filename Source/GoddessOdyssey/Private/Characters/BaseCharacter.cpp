@@ -56,19 +56,19 @@ int32 ABaseCharacter::GetCurrentAbilityApplyLevel() const
 		{
 		case EGoddessGameDifficulty::Easy:
 			AbilityApplyLevel = 1;
-			Debug::Print(TEXT("Current Difficulty: Easy"));
+			// Debug::Print(TEXT("Current Difficulty: Easy"));
 			break;
 		case EGoddessGameDifficulty::Normal:
 			AbilityApplyLevel = 2;
-			Debug::Print(TEXT("Current Difficulty: Normal"));
+			// Debug::Print(TEXT("Current Difficulty: Normal"));
 			break;
 		case EGoddessGameDifficulty::Hard:
 			AbilityApplyLevel = 3;
-			Debug::Print(TEXT("Current Difficulty: Hard"));
+			// Debug::Print(TEXT("Current Difficulty: Hard"));
 			break;
 		case EGoddessGameDifficulty::VeryHard:
 			AbilityApplyLevel = 4;
-			Debug::Print(TEXT("Current Difficulty: VeryHard"));
+			// Debug::Print(TEXT("Current Difficulty: VeryHard"));
 			break;
 		default:
 			break;

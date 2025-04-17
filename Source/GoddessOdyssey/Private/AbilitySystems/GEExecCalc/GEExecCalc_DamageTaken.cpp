@@ -98,7 +98,7 @@ void UGEExecCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustom
 		if (TagMagnitude.Key.MatchesTagExact(GoddessGameplayTags::Character_SetByCaller_ShieldPower))
 		{
 			ShieldPower = TagMagnitude.Value;
-			Debug::Print(TEXT("ShieldPower"), ShieldPower);
+			// Debug::Print(TEXT("ShieldPower"), ShieldPower);
 		}
 	}
 
@@ -130,7 +130,7 @@ void UGEExecCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustom
 
 	// 5. 计算最终伤害
 	const float FinalDamage = BaseDamage * SourceAttackPower / TargetDefensePower;
-	Debug::Print(TEXT("FinalDamage"), FinalDamage);
+	// Debug::Print(TEXT("FinalDamage"), FinalDamage);
 
 	// 6. 去Attribute里计算伤害扣除CurrentHealth
 	if (FinalDamage > 0.f)

@@ -236,7 +236,7 @@ void UGoddessFunctionLibrary::SaveCurrentGameDifficulty(EGoddessGameDifficulty I
 			0
 		);
 
-		Debug::Print(bWasSaved ? TEXT("Difficulty Was Saved") : TEXT("Difficulty Not Saved"));
+		// Debug::Print(bWasSaved ? TEXT("Difficulty Was Saved") : TEXT("Difficulty Not Saved"));
 	}
 }
 
@@ -251,7 +251,7 @@ bool UGoddessFunctionLibrary::TryLoadSavedGameDifficulty(EGoddessGameDifficulty&
 		{
 			OutSavedDifficulty = GoddessSaveGameObject->SavedCurrentGameDifficulty;
 
-			Debug::Print(TEXT("Loading Successful"), FColor::Green);
+			// Debug::Print(TEXT("Loading Successful"), FColor::Green);
 
 			return true;
 		}
