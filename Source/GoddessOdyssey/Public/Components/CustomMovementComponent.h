@@ -13,13 +13,42 @@ class GODDESSODYSSEY_API UCustomMovementComponent : public UCharacterMovementCom
 	GENERATED_BODY()
 
 public:
-	UCustomMovementComponent();
+	virtual void TickComponent(
+		float DeltaTime,
+		enum ELevelTick TickType,
+		FActorComponentTickFunction* ThisTickFunction
+	) override;
 
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
-	                           FActorComponentTickFunction* ThisTickFunction) override;
+private:
+#pragma region ClimbTraces
 
-protected:
-	virtual void BeginPlay() override;
+	TArray<FHitResult> DoCapsuleTraceMultiByObject(
+		const FVector& Start,
+		const FVector& End,
+		bool bShowDebugShape = false
+	);
 
-public:
+#pragma endregion
+
+#pragma region ClimbCore
+	
+	void TraceClimbableSurfaces();
+
+#pragma endregion
+
+#pragma region ClimbVariables
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Character Movement: Climbing",
+		meta = (AllowPrivateAccess = "true"))
+	TArray<TEnumAsByte<EObjectTypeQuery>> ClimbableSurfaceTraceTypes;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Character Movement: Climbing",
+		meta = (AllowPrivateAccess = "true"))
+	float ClimbCapsuleTraceRadius = 50.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Character Movement: Climbing",
+		meta = (AllowPrivateAccess = "true"))
+	float ClimbCapsuleTraceHalfHeight = 72.f;
+
+#pragma endregion
 };
