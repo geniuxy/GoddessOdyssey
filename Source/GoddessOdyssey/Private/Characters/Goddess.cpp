@@ -126,6 +126,11 @@ void AGoddess::CallBack_Look(const FInputActionValue& InputActionValue)
 		AddControllerYawInput(LookAxisVector.X);
 }
 
+void AGoddess::CallBack_Climb(const FInputActionValue& InputActionValue)
+{
+	Debug::Print(TEXT("Climb Start!"));
+}
+
 void AGoddess::CallBack_SwitchTargetTriggered(const FInputActionValue& InputActionValue)
 {
 	TargetSwitchDirection = InputActionValue.Get<FVector2D>();
@@ -283,6 +288,8 @@ void AGoddess::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	                                             ETriggerEvent::Triggered, this, &ThisClass::CallBack_Move);
 	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_Look,
 	                                             ETriggerEvent::Triggered, this, &ThisClass::CallBack_Look);
+	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_Climb,
+												 ETriggerEvent::Started, this, &ThisClass::CallBack_Climb);
 
 	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_SwitchTarget,
 	                                             ETriggerEvent::Triggered, this,

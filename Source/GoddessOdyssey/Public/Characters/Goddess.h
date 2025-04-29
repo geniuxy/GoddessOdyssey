@@ -83,6 +83,7 @@ protected:
 
 	void CallBack_Move(const FInputActionValue& InputActionValue);
 	void CallBack_Look(const FInputActionValue& InputActionValue);
+	void CallBack_Climb(const FInputActionValue& InputActionValue);
 
 	void CallBack_SwitchTargetTriggered(const FInputActionValue& InputActionValue);
 	void CallBack_SwitchTargetCompleted(const FInputActionValue& InputActionValue);
