@@ -19,7 +19,7 @@ class GODDESSODYSSEY_API AEnemy : public ABaseCharacter
 	GENERATED_BODY()
 
 public:
-	AEnemy();
+	AEnemy(const FObjectInitializer& ObjectInitializer);
 
 	//~ Begin ICombatComponentInterface Interface.
 	virtual UBaseCombatComponent* GetCombatComponentByInterface() const override;

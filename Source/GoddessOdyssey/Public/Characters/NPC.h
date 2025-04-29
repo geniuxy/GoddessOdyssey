@@ -19,7 +19,7 @@ class GODDESSODYSSEY_API ANPC : public ABaseCharacter
 	GENERATED_BODY()
 
 public:
-	ANPC();
+	ANPC(const FObjectInitializer& ObjectInitializer);
 
 	UFUNCTION(BlueprintImplementableEvent, Category="Shop Interaction")
 	void EnterShoppingMode(AGoddess* Goddess);

@@ -14,7 +14,8 @@
 #include "GameFramework/SpringArmComponent.h"
 
 
-ANPC::ANPC()
+ANPC::ANPC(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
 	TalkCollisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("PickUpCollisionSphere"));
 	TalkCollisionSphere->SetupAttachment(GetRootComponent());
@@ -64,9 +65,9 @@ void ANPC::OnTalkCollisionSphereBeginOverlap(
 	if (AGoddess* Goddess = Cast<AGoddess>(OtherActor))
 	{
 		SetTalkWidgetVisibility(true);
-		
+
 		Goddess->GetBaseAbilitySystemComponent()
-			   ->TryActivateAbilityByTag(GoddessGameplayTags::Character_Ability_Enter_Shop);
+		       ->TryActivateAbilityByTag(GoddessGameplayTags::Character_Ability_Enter_Shop);
 	}
 }
 

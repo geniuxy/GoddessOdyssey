@@ -8,6 +8,7 @@
 #include "GoddessType.h"
 #include "Goddess.generated.h"
 
+class UCustomMovementComponent;
 class ANPC;
 class UGoddessInventoryComponent;
 class UGoddessUIComponent;
@@ -28,7 +29,7 @@ class GODDESSODYSSEY_API AGoddess : public ABaseCharacter
 	GENERATED_BODY()
 
 public:
-	AGoddess();
+	AGoddess(const FObjectInitializer& ObjectInitializer);
 
 	//~ Begin ICombatComponentInterface Interface.
 	virtual UBaseCombatComponent* GetCombatComponentByInterface() const override;
@@ -71,6 +72,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory")
 	UGoddessInventoryComponent* GoddessInventoryComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+	UCustomMovementComponent* GoddessMovementComponent;
+
 #pragma endregion
 
 #pragma region Inputs
@@ -94,7 +98,7 @@ protected:
 	void CallBack_EnterShopStarted(const FInputActionValue& InputActionValue);
 
 	void CallBack_ToggleInventory(const FInputActionValue& InputActionValue);
-	
+
 	void CallBack_AbilityInputPressed(FGameplayTag InInputTag);
 	void CallBack_AbilityInputReleased(FGameplayTag InInputTag);
 
@@ -181,4 +185,5 @@ public:
 	FORCEINLINE UGoddessCombatComponent* GetGoddessCombatComponent() const { return GoddessCombatComponent; }
 	FORCEINLINE UGoddessUIComponent* GetGoddessUIComponent() const { return GoddessUIComponent; }
 	FORCEINLINE UGoddessInventoryComponent* GetGoddessInventoryComponent() const { return GoddessInventoryComponent; }
+	FORCEINLINE UCustomMovementComponent* GetGoddessMovementComponent() const { return GoddessMovementComponent; }
 };

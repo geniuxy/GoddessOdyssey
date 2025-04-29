@@ -7,13 +7,14 @@
 #include "GameModes/GoddessSurvivalGameMode.h"
 #include "GoddessTypes/GoddessEnumTypes.h"
 
-ABaseCharacter::ABaseCharacter()
+ABaseCharacter::ABaseCharacter(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
 	// 将 bReceivesDecals 设置为 false 表示禁用该网格组件接收贴花的功能
 	GetMesh()->bReceivesDecals = false;
-	
+
 	BaseAbilitySystemComponent = CreateDefaultSubobject<UBaseAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	BaseAttributeSet = CreateDefaultSubobject<UBaseAttributeSet>(TEXT("AttributeSet"));
 	MotionWarpingComponent = CreateDefaultSubobject<UMotionWarpingComponent>(TEXT("MotionWarpingComponent"));
@@ -56,19 +57,19 @@ int32 ABaseCharacter::GetCurrentAbilityApplyLevel() const
 		{
 		case EGoddessGameDifficulty::Easy:
 			AbilityApplyLevel = 1;
-			// Debug::Print(TEXT("Current Difficulty: Easy"));
+		// Debug::Print(TEXT("Current Difficulty: Easy"));
 			break;
 		case EGoddessGameDifficulty::Normal:
 			AbilityApplyLevel = 2;
-			// Debug::Print(TEXT("Current Difficulty: Normal"));
+		// Debug::Print(TEXT("Current Difficulty: Normal"));
 			break;
 		case EGoddessGameDifficulty::Hard:
 			AbilityApplyLevel = 3;
-			// Debug::Print(TEXT("Current Difficulty: Hard"));
+		// Debug::Print(TEXT("Current Difficulty: Hard"));
 			break;
 		case EGoddessGameDifficulty::VeryHard:
 			AbilityApplyLevel = 4;
-			// Debug::Print(TEXT("Current Difficulty: VeryHard"));
+		// Debug::Print(TEXT("Current Difficulty: VeryHard"));
 			break;
 		default:
 			break;

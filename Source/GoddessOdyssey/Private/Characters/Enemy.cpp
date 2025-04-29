@@ -14,7 +14,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Widgets/BaseWidget.h"
 
-AEnemy::AEnemy()
+AEnemy::AEnemy(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
 	// AI控制器
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;

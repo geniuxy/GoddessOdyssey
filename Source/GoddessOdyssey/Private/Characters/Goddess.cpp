@@ -16,12 +16,14 @@
 #include "Item/Weapons/Weapon.h"
 #include "DebugHelper.h"
 #include "AbilitySystems/BaseAbilitySystemComponent.h"
+#include "Components/CustomMovementComponent.h"
 #include "Components/Combat/GoddessCombatComponent.h"
 #include "Components/Inventory/GoddessInventoryComponent.h"
 #include "Components/UI/GoddessUIComponent.h"
 #include "DataAssets/StartUpData/DataAsset_StartUpData.h"
 
-AGoddess::AGoddess()
+AGoddess::AGoddess(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer.SetDefaultSubobjectClass<UCustomMovementComponent>(AGoddess::CharacterMovementComponentName))
 {
 	GetCapsuleComponent()->InitCapsuleSize(34.f, 88.f);
 
@@ -58,6 +60,10 @@ AGoddess::AGoddess()
 	GoddessCombatComponent = CreateDefaultSubobject<UGoddessCombatComponent>(TEXT("GoddessCombatComponent"));
 	GoddessUIComponent = CreateDefaultSubobject<UGoddessUIComponent>(TEXT("GoddessUIComponent"));
 	GoddessInventoryComponent = CreateDefaultSubobject<UGoddessInventoryComponent>(TEXT("GoddessInventoryComponent"));
+
+	GoddessMovementComponent = Cast<UCustomMovementComponent>(GetCharacterMovement());
+	GoddessMovementComponent->MaxWalkSpeed = 300.f;
+	GoddessMovementComponent->MaxWalkSpeedCrouched = 150.f;
 }
 
 UBaseCombatComponent* AGoddess::GetCombatComponentByInterface() const
@@ -289,7 +295,7 @@ void AGoddess::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_Look,
 	                                             ETriggerEvent::Triggered, this, &ThisClass::CallBack_Look);
 	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_Climb,
-												 ETriggerEvent::Started, this, &ThisClass::CallBack_Climb);
+	                                             ETriggerEvent::Started, this, &ThisClass::CallBack_Climb);
 
 	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_SwitchTarget,
 	                                             ETriggerEvent::Triggered, this,
@@ -303,16 +309,17 @@ void AGoddess::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	                                             &ThisClass::CallBack_PickUpStoneStarted);
 
 	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_PickUp_InventoryItem,
-												 ETriggerEvent::Started, this,
-												 &ThisClass::CallBack_PickUpInventoryItemStarted);
+	                                             ETriggerEvent::Started, this,
+	                                             &ThisClass::CallBack_PickUpInventoryItemStarted);
 
 	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_Enter_Shop,
-												 ETriggerEvent::Started, this,
-												 &ThisClass::CallBack_EnterShopStarted);
+	                                             ETriggerEvent::Started, this,
+	                                             &ThisClass::CallBack_EnterShopStarted);
 
-	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_Toggleable_UI_Inventory,
-												 ETriggerEvent::Started, this,
-												 &ThisClass::CallBack_ToggleInventory);
+	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset,
+	                                             GoddessGameplayTags::Input_Toggleable_UI_Inventory,
+	                                             ETriggerEvent::Started, this,
+	                                             &ThisClass::CallBack_ToggleInventory);
 
 	GoddessInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &ThisClass::CallBack_AbilityInputPressed,
 	                                              &ThisClass::CallBack_AbilityInputReleased);

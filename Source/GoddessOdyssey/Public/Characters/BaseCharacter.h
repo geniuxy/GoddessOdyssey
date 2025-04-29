@@ -21,7 +21,7 @@ class GODDESSODYSSEY_API ABaseCharacter : public ACharacter, public IAbilitySyst
 	GENERATED_BODY()
 
 public:
-	ABaseCharacter();
+	ABaseCharacter(const FObjectInitializer& ObjectInitializer);
 
 	//~ Begin IAbilitySystemInterface Interface.
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;

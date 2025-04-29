@@ -9,6 +9,7 @@
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Blueprint/WidgetTree.h"
 #include "Characters/Goddess.h"
+#include "Components/CustomMovementComponent.h"
 #include "Components/SizeBox.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -243,9 +244,9 @@ void UGoddessGA_TargetLock::SetTargetLockWidgetPosition()
 
 void UGoddessGA_TargetLock::InitTargetLockMovement()
 {
-	CachedDefaultMaxWalkSpeed = GetGoddessFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed;
+	CachedDefaultMaxWalkSpeed = GetGoddessFromActorInfo()->GetGoddessMovementComponent()->MaxWalkSpeed;
 
-	GetGoddessFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = TargetLockWalkSpeed;
+	GetGoddessFromActorInfo()->GetGoddessMovementComponent()->MaxWalkSpeed = TargetLockWalkSpeed;
 }
 
 void UGoddessGA_TargetLock::InitTargetLockMappingContext()
@@ -285,7 +286,7 @@ void UGoddessGA_TargetLock::CleanUp()
 void UGoddessGA_TargetLock::ResetTargetLockMovement()
 {
 	if (CachedDefaultMaxWalkSpeed > 0.f)
-		GetGoddessFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = CachedDefaultMaxWalkSpeed;
+		GetGoddessFromActorInfo()->GetGoddessMovementComponent()->MaxWalkSpeed = CachedDefaultMaxWalkSpeed;
 }
 
 void UGoddessGA_TargetLock::ResetTargetLockMappingContext()
