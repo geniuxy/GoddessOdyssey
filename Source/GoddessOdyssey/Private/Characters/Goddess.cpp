@@ -134,7 +134,16 @@ void AGoddess::CallBack_Look(const FInputActionValue& InputActionValue)
 
 void AGoddess::CallBack_Climb(const FInputActionValue& InputActionValue)
 {
-	Debug::Print(TEXT("Climb Start!"));
+	if(!GoddessMovementComponent) return;
+
+	if(!GoddessMovementComponent->IsClimbing())
+	{
+		GoddessMovementComponent->ToggleClimbing(true);
+	}
+	else
+	{
+		GoddessMovementComponent->ToggleClimbing(false);
+	}
 }
 
 void AGoddess::CallBack_SwitchTargetTriggered(const FInputActionValue& InputActionValue)

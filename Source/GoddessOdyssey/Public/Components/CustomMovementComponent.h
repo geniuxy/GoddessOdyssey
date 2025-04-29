@@ -6,6 +6,14 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "CustomMovementComponent.generated.h"
 
+UENUM(BlueprintType)
+namespace ECustomMovementMode
+{
+	enum Type
+	{
+		MOVE_Climb UMETA(DisplayName = "Climb Mode")
+	};
+}
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class GODDESSODYSSEY_API UCustomMovementComponent : public UCharacterMovementComponent
@@ -18,6 +26,13 @@ public:
 		enum ELevelTick TickType,
 		FActorComponentTickFunction* ThisTickFunction
 	) override;
+	
+#pragma region ClimbCore
+	
+	void ToggleClimbing(bool bEnableClimb);
+	bool IsClimbing();
+	
+#pragma endregion
 
 private:
 #pragma region ClimbTraces
@@ -25,22 +40,36 @@ private:
 	TArray<FHitResult> DoCapsuleTraceMultiByObject(
 		const FVector& Start,
 		const FVector& End,
-		bool bShowDebugShape = false
+		bool bShowDebugShape = false,
+		bool bDrawPersistantShapes = false
 	);
 
-	FHitResult DoLineTraceSingleByObject(const FVector& Start, const FVector& End, bool bShowDebugShape = false);
+	FHitResult DoLineTraceSingleByObject(
+		const FVector& Start,
+		const FVector& End,
+		bool bShowDebugShape = false,
+		bool bDrawPersistantShapes = false
+	);
 
 #pragma endregion
 
 #pragma region ClimbCore
 
-	void TraceClimbableSurfaces();
+	bool TraceClimbableSurfaces();
 
-	void TraceFromEyeHeight(float TraceDistance, float TraceStartOffset = 0.f);
+	FHitResult TraceFromEyeHeight(float TraceDistance, float TraceStartOffset = 0.f);
+
+	bool CanStartClimbing();
 
 #pragma endregion
 
-#pragma region ClimbVariables
+#pragma region ClimbCoreVariables
+
+	TArray<FHitResult> ClimbableSurfacesTracedResults;
+
+#pragma endregion
+
+#pragma region ClimbBPVariables
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Character Movement: Climbing",
 		meta = (AllowPrivateAccess = "true"))
@@ -55,4 +84,6 @@ private:
 	float ClimbCapsuleTraceHalfHeight = 72.f;
 
 #pragma endregion
+
+public:
 };
