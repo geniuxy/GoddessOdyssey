@@ -21,18 +21,21 @@ class GODDESSODYSSEY_API UCustomMovementComponent : public UCharacterMovementCom
 	GENERATED_BODY()
 
 public:
+#pragma region ClimbCore
+
+	void ToggleClimbing(bool bEnableClimb);
+	bool IsClimbing();
+
+#pragma endregion
+
+protected:
 	virtual void TickComponent(
 		float DeltaTime,
 		enum ELevelTick TickType,
 		FActorComponentTickFunction* ThisTickFunction
 	) override;
-	
-#pragma region ClimbCore
-	
-	void ToggleClimbing(bool bEnableClimb);
-	bool IsClimbing();
-	
-#pragma endregion
+
+	virtual void OnMovementModeChanged(EMovementMode PreviousMovementMode, uint8 PreviousCustomMode) override;
 
 private:
 #pragma region ClimbTraces
@@ -60,6 +63,10 @@ private:
 	FHitResult TraceFromEyeHeight(float TraceDistance, float TraceStartOffset = 0.f);
 
 	bool CanStartClimbing();
+
+	void StartClimbing();
+
+	void StopClimbing();
 
 #pragma endregion
 

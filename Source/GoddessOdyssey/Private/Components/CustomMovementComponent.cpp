@@ -6,11 +6,31 @@
 #include "GameFramework/Character.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "DebugHelper.h"
+#include "Components/CapsuleComponent.h"
 
 void UCustomMovementComponent::TickComponent(float DeltaTime, enum ELevelTick TickType,
                                              FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+}
+
+void UCustomMovementComponent::OnMovementModeChanged(EMovementMode PreviousMovementMode, uint8 PreviousCustomMode)
+{
+	if (IsClimbing())
+	{
+		bOrientRotationToMovement = false;
+		CharacterOwner->GetCapsuleComponent()->SetCapsuleHalfHeight(44.f);
+	}
+
+	if (PreviousMovementMode == EMovementMode::MOVE_Custom && PreviousCustomMode == ECustomMovementMode::MOVE_Climb)
+	{
+		bOrientRotationToMovement = true;
+		CharacterOwner->GetCapsuleComponent()->SetCapsuleHalfHeight(88.f);
+
+		StopMovementImmediately();
+	}
+	
+	Super::OnMovementModeChanged(PreviousMovementMode, PreviousCustomMode);
 }
 
 #pragma region ClimbTraces
@@ -91,8 +111,8 @@ void UCustomMovementComponent::ToggleClimbing(bool bEnableClimb)
 	{
 		if (CanStartClimbing())
 		{
-			//Enter the climb state
 			Debug::Print(TEXT("Can start climbing"));
+			StartClimbing();
 		}
 		else
 		{
@@ -101,22 +121,13 @@ void UCustomMovementComponent::ToggleClimbing(bool bEnableClimb)
 	}
 	else
 	{
-		//Stop climbing
+		StopClimbing();
 	}
 }
 
 bool UCustomMovementComponent::IsClimbing()
 {
 	return MovementMode == MOVE_Custom && CustomMovementMode == ECustomMovementMode::MOVE_Climb;
-}
-
-bool UCustomMovementComponent::CanStartClimbing()
-{
-	if (IsFalling()) return false;
-	if (!TraceClimbableSurfaces()) return false;
-	if (!TraceFromEyeHeight(100.f).bBlockingHit) return false;
-
-	return true;
 }
 
 bool UCustomMovementComponent::TraceClimbableSurfaces()
@@ -141,6 +152,25 @@ FHitResult UCustomMovementComponent::TraceFromEyeHeight(float TraceDistance, flo
 	const FVector End = Start + UpdatedComponent->GetForwardVector() * TraceDistance;
 
 	return DoLineTraceSingleByObject(Start, End, true, true);
+}
+
+bool UCustomMovementComponent::CanStartClimbing()
+{
+	if (IsFalling()) return false;
+	if (!TraceClimbableSurfaces()) return false;
+	if (!TraceFromEyeHeight(100.f).bBlockingHit) return false;
+
+	return true;
+}
+
+void UCustomMovementComponent::StartClimbing()
+{
+	SetMovementMode(MOVE_Custom, ECustomMovementMode::MOVE_Climb);
+}
+
+void UCustomMovementComponent::StopClimbing()
+{
+	SetMovementMode(MOVE_Falling);
 }
 
 #pragma endregion
