@@ -20,13 +20,13 @@ void UCustomMovementComponent::OnMovementModeChanged(EMovementMode PreviousMovem
 	if (IsClimbing())
 	{
 		bOrientRotationToMovement = false;
-		CharacterOwner->GetCapsuleComponent()->SetCapsuleHalfHeight(44.f);
+		CharacterOwner->GetCapsuleComponent()->SetCapsuleHalfHeight(50.f);
 	}
 
 	if (PreviousMovementMode == EMovementMode::MOVE_Custom && PreviousCustomMode == ECustomMovementMode::MOVE_Climb)
 	{
 		bOrientRotationToMovement = true;
-		CharacterOwner->GetCapsuleComponent()->SetCapsuleHalfHeight(88.f);
+		CharacterOwner->GetCapsuleComponent()->SetCapsuleHalfHeight(100.f);
 
 		StopMovementImmediately();
 	}
@@ -42,6 +42,24 @@ void UCustomMovementComponent::PhysCustom(float deltaTime, int32 Iterations)
 	}
 
 	Super::PhysCustom(deltaTime, Iterations);
+}
+
+float UCustomMovementComponent::GetMaxSpeed() const
+{
+	if (IsClimbing())
+	{
+		return MaxClimbSpeed;
+	}
+	return Super::GetMaxSpeed();
+}
+
+float UCustomMovementComponent::GetMaxAcceleration() const
+{
+	if (IsClimbing())
+	{
+		return MaxClimbAcceleration;
+	}
+	return Super::GetMaxAcceleration();
 }
 #pragma endregion
 
@@ -137,7 +155,7 @@ void UCustomMovementComponent::ToggleClimbing(bool bEnableClimb)
 	}
 }
 
-bool UCustomMovementComponent::IsClimbing()
+bool UCustomMovementComponent::IsClimbing() const
 {
 	return MovementMode == MOVE_Custom && CustomMovementMode == ECustomMovementMode::MOVE_Climb;
 }
@@ -213,7 +231,7 @@ void UCustomMovementComponent::PhysClimb(float deltaTime, int32 Iterations)
 	FHitResult Hit(1.f);
 
 	//Handle climb rotation
-	SafeMoveUpdatedComponent(Adjusted, UpdatedComponent->GetComponentQuat(), true, Hit);
+	SafeMoveUpdatedComponent(Adjusted, GetClimbRotation(deltaTime), true, Hit);
 
 	if (Hit.Time < 1.f)
 	{
@@ -227,7 +245,8 @@ void UCustomMovementComponent::PhysClimb(float deltaTime, int32 Iterations)
 		Velocity = (UpdatedComponent->GetComponentLocation() - OldLocation) / deltaTime;
 	}
 
-	/*Snap movement to climbable surfaces*/
+	/* Snap(吸附) movement to climbable surfaces */
+	SnapMovementToClimableSurfaces(deltaTime);
 }
 
 void UCustomMovementComponent::ProcessClimableSurfaceInfo()
@@ -245,10 +264,43 @@ void UCustomMovementComponent::ProcessClimableSurfaceInfo()
 
 	CurrentClimbableSurfaceLocation /= ClimbableSurfacesTracedResults.Num();
 	CurrentClimbableSurfaceNormal = CurrentClimbableSurfaceNormal.GetSafeNormal();
+}
 
-	Debug::Print(TEXT("ClimbableSurfaceLocation: ") + CurrentClimbableSurfaceLocation.ToCompactString(), FColor::Cyan,
-	             1);
-	Debug::Print(TEXT("ClimbableSurfaceNormal: ") + CurrentClimbableSurfaceNormal.ToCompactString(), FColor::Red, 2);
+FQuat UCustomMovementComponent::GetClimbRotation(float DeltaTime)
+{
+	// 四元数（Quaternion）是一种用于表示三维空间中旋转的数学工具
+	// 不作处理的话，AActor的RootComponent就是Component的UpdatedComponent
+	const FQuat CurrentQuat = UpdatedComponent->GetComponentQuat();
+	// 如果当前物体有动画根运动或根运动覆盖，则保持当前旋转不变。
+	if (HasAnimRootMotion() || CurrentRootMotion.HasOverrideVelocity())
+	{
+		return CurrentQuat;
+	}
+
+	// 如果没有上述特殊情况，则计算一个目标旋转，使物体的 X 轴指向攀爬表面法线的反方向。
+	const FQuat TargetQuat = FRotationMatrix::MakeFromX(-CurrentClimbableSurfaceNormal).ToQuat();
+
+	return FMath::QInterpTo(CurrentQuat, TargetQuat, DeltaTime, 5.f);
+}
+
+void UCustomMovementComponent::SnapMovementToClimableSurfaces(float DeltaTime)
+{
+	const FVector ComponentForward = UpdatedComponent->GetForwardVector();
+	const FVector ComponentLocation = UpdatedComponent->GetComponentLocation();
+
+	// 计算角色当前位置到攀爬表面的投影向量
+	const FVector ProjectedCharacterToSurface =
+		(CurrentClimbableSurfaceLocation - ComponentLocation).ProjectOnTo(ComponentForward);
+
+	// 根据投影向量计算一个“吸附”向量，方向为攀爬表面法线的反方向，长度为投影向量的长度
+	const FVector SnapVector = -CurrentClimbableSurfaceNormal * ProjectedCharacterToSurface.Length();
+
+	// 将角色沿着这个“吸附”向量移动，使其“吸附”到攀爬表面上
+	UpdatedComponent->MoveComponent(
+		SnapVector * DeltaTime * MaxClimbSpeed,
+		UpdatedComponent->GetComponentQuat(),
+		true
+	);
 }
 
 #pragma endregion
