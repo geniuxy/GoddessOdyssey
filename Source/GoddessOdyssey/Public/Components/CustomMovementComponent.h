@@ -80,6 +80,8 @@ private:
 
 	void ProcessClimableSurfaceInfo();
 
+	bool CheckShouldStopClimbing();
+
 	FQuat GetClimbRotation(float DeltaTime);
 
 	void SnapMovementToClimableSurfaces(float DeltaTime);
