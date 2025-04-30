@@ -124,4 +124,5 @@ private:
 #pragma endregion
 
 public:
+	FORCEINLINE FVector GetClimbableSurfaceNormal() const {return CurrentClimbableSurfaceNormal;}
 };

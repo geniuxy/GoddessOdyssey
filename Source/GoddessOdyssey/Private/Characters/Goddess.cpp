@@ -23,7 +23,8 @@
 #include "DataAssets/StartUpData/DataAsset_StartUpData.h"
 
 AGoddess::AGoddess(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.SetDefaultSubobjectClass<UCustomMovementComponent>(AGoddess::CharacterMovementComponentName))
+	: Super(ObjectInitializer.SetDefaultSubobjectClass<UCustomMovementComponent>(
+		AGoddess::CharacterMovementComponentName))
 {
 	GetCapsuleComponent()->InitCapsuleSize(34.f, 88.f);
 
@@ -101,6 +102,20 @@ void AGoddess::PossessedBy(AController* NewController)
 
 void AGoddess::CallBack_Move(const FInputActionValue& InputActionValue)
 {
+	if (!GoddessMovementComponent) return;
+
+	if (GoddessMovementComponent->IsClimbing())
+	{
+		HandleClimbMovementInput(InputActionValue);
+	}
+	else
+	{
+		HandleGroundMovementInput(InputActionValue);
+	}
+}
+
+void AGoddess::HandleGroundMovementInput(const FInputActionValue& InputActionValue)
+{
 	const FVector2D MoveVector = InputActionValue.Get<FVector2D>();
 
 	// 获取角色控制器的偏航角（Yaw），并将其转换为一个旋转值（FRotator）。
@@ -121,6 +136,28 @@ void AGoddess::CallBack_Move(const FInputActionValue& InputActionValue)
 	}
 }
 
+void AGoddess::HandleClimbMovementInput(const FInputActionValue& InputActionValue)
+{
+	const FVector2D MoveVector = InputActionValue.Get<FVector2D>();
+
+	if (MoveVector.Y != 0.f)
+	{
+		const FVector ForwardVector = FVector::CrossProduct(
+			-GoddessMovementComponent->GetClimbableSurfaceNormal(),
+			GetActorRightVector()
+		);
+		AddMovementInput(ForwardVector, MoveVector.Y);
+	}
+	if (MoveVector.X != 0.f)
+	{
+		const FVector RightVector = FVector::CrossProduct(
+			-GoddessMovementComponent->GetClimbableSurfaceNormal(),
+			-GetActorUpVector()
+		);
+		AddMovementInput(RightVector, MoveVector.X);
+	}
+}
+
 void AGoddess::CallBack_Look(const FInputActionValue& InputActionValue)
 {
 	const FVector2D LookAxisVector = InputActionValue.Get<FVector2D>();
@@ -134,9 +171,9 @@ void AGoddess::CallBack_Look(const FInputActionValue& InputActionValue)
 
 void AGoddess::CallBack_Climb(const FInputActionValue& InputActionValue)
 {
-	if(!GoddessMovementComponent) return;
+	if (!GoddessMovementComponent) return;
 
-	if(!GoddessMovementComponent->IsClimbing())
+	if (!GoddessMovementComponent->IsClimbing())
 	{
 		GoddessMovementComponent->ToggleClimbing(true);
 	}

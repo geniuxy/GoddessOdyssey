@@ -86,6 +86,9 @@ protected:
 	FVector2D TargetSwitchDirection = FVector2D::ZeroVector;
 
 	void CallBack_Move(const FInputActionValue& InputActionValue);
+	void HandleGroundMovementInput(const FInputActionValue& InputActionValue);
+	void HandleClimbMovementInput(const FInputActionValue& InputActionValue);
+	
 	void CallBack_Look(const FInputActionValue& InputActionValue);
 	void CallBack_Climb(const FInputActionValue& InputActionValue);
 
