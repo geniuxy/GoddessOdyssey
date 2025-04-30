@@ -73,12 +73,17 @@ private:
 	void StopClimbing();
 
 	void PhysClimb(float deltaTime, int32 Iterations);
+	
+	void ProcessClimableSurfaceInfo();
 
 #pragma endregion
 
 #pragma region ClimbCoreVariables
 
 	TArray<FHitResult> ClimbableSurfacesTracedResults;
+	
+	FVector CurrentClimbableSurfaceLocation;
+	FVector CurrentClimbableSurfaceNormal;
 
 #pragma endregion
 
