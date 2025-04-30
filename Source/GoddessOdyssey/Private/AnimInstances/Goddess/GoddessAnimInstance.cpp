@@ -11,13 +11,18 @@ void UGoddessAnimInstance::NativeInitializeAnimation()
 
 	if (OwningCharacter)
 		OwningGoddess = Cast<AGoddess>(OwningCharacter);
+	
+	if(OwningGoddess)
+	{
+		GoddessMovementComponent = OwningGoddess->GetGoddessMovementComponent();
+	}
 }
 
 void UGoddessAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 {
 	Super::NativeThreadSafeUpdateAnimation(DeltaSeconds);
 
-	if (bHasAcceleration)
+	if (bShouldMove)
 	{
 		IdleElapsedTime = 0.f;
 		bShouldEnterRelaxState = false;

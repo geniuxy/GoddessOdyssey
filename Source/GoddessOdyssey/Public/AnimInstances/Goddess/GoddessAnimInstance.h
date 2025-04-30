@@ -23,6 +23,9 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|Refrences")
 	AGoddess* OwningGoddess;
 
+	UPROPERTY()
+	UCustomMovementComponent* GoddessMovementComponent;
+
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="AnimData|LocomotionData")
 	bool bShouldEnterRelaxState;
 

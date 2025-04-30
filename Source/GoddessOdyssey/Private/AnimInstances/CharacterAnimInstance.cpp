@@ -6,6 +6,7 @@
 #include "KismetAnimationLibrary.h"
 #include "Characters/BaseCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 void UCharacterAnimInstance::NativeInitializeAnimation()
 {
@@ -19,8 +20,37 @@ void UCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 {
 	if (!OwningCharacter || !OwningMovementComponent) return;
 
-	GroundSpeed = OwningCharacter->GetVelocity().Size2D();
-	bHasAcceleration = OwningMovementComponent->GetCurrentAcceleration().SizeSquared2D() > 0.f;
-	LocomotionDirection = UKismetAnimationLibrary::CalculateDirection(GetOwningActor()->GetVelocity(),
-	                                                                  GetOwningActor()->GetActorRotation());
+	GetGroundSpeed();
+	GetShouldMove();
+
+	LocomotionDirection = UKismetAnimationLibrary::CalculateDirection(
+		GetOwningActor()->GetVelocity(),
+		GetOwningActor()->GetActorRotation()
+	);
+
+	GetAirSpeed();
+	GetIsFalling();
+}
+
+void UCharacterAnimInstance::GetGroundSpeed()
+{
+	GroundSpeed = UKismetMathLibrary::VSizeXY(OwningCharacter->GetVelocity());
+}
+
+void UCharacterAnimInstance::GetAirSpeed()
+{
+	AirSpeed = OwningCharacter->GetVelocity().Z;
+}
+
+void UCharacterAnimInstance::GetShouldMove()
+{
+	bShouldMove =
+		OwningMovementComponent->GetCurrentAcceleration().Size() > 0 &&
+		GroundSpeed > 5.f &&
+		!bIsFalling;
+}
+
+void UCharacterAnimInstance::GetIsFalling()
+{
+	bIsFalling = OwningMovementComponent->IsFalling();
 }

@@ -6,6 +6,7 @@
 #include "AnimInstances/BaseAnimInstance.h"
 #include "CharacterAnimInstance.generated.h"
 
+class UCustomMovementComponent;
 class UCharacterMovementComponent;
 class ABaseCharacter;
 /**
@@ -28,12 +29,21 @@ protected:
 	UCharacterMovementComponent* OwningMovementComponent;
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="AnimData|LocomotionData")
-	float GroundSpeed;
-
-	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="AnimData|LocomotionData")
-	bool bHasAcceleration;
-
-	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="AnimData|LocomotionData")
 	float LocomotionDirection;
-	
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category = Reference,meta = (AllowPrivateAccess = "true"))
+	float GroundSpeed;
+	void GetGroundSpeed();
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category = Reference,meta = (AllowPrivateAccess = "true"))
+	float AirSpeed;
+	void GetAirSpeed();
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category = Reference,meta = (AllowPrivateAccess = "true"))
+	bool bShouldMove;
+	void GetShouldMove();
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category = Reference,meta = (AllowPrivateAccess = "true"))
+	bool bIsFalling;
+	void GetIsFalling();
 };
