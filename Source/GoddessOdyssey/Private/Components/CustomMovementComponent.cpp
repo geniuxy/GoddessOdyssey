@@ -7,6 +7,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "DebugHelper.h"
 #include "Components/CapsuleComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 #pragma region OverridenFunctions
 void UCustomMovementComponent::BeginPlay()
@@ -15,10 +16,10 @@ void UCustomMovementComponent::BeginPlay()
 
 	OwningPlayerAnimInstance = CharacterOwner->GetMesh()->GetAnimInstance();
 
-	if(OwningPlayerAnimInstance)
+	if (OwningPlayerAnimInstance)
 	{
-		OwningPlayerAnimInstance->OnMontageEnded.AddDynamic(this,&UCustomMovementComponent::OnClimbMontageEnded);
-		OwningPlayerAnimInstance->OnMontageBlendingOut.AddDynamic(this,&UCustomMovementComponent::OnClimbMontageEnded);
+		OwningPlayerAnimInstance->OnMontageEnded.AddDynamic(this, &UCustomMovementComponent::OnClimbMontageEnded);
+		OwningPlayerAnimInstance->OnMontageBlendingOut.AddDynamic(this, &UCustomMovementComponent::OnClimbMontageEnded);
 	}
 }
 
@@ -172,6 +173,13 @@ void UCustomMovementComponent::ToggleClimbing(bool bEnableClimb)
 bool UCustomMovementComponent::IsClimbing() const
 {
 	return MovementMode == MOVE_Custom && CustomMovementMode == ECustomMovementMode::MOVE_Climb;
+}
+
+FVector UCustomMovementComponent::GetUnrotatedClimbVelocity() const
+{
+	// 假设一个角色在攀爬一个倾斜的墙壁，其速度向量在局部坐标系中是垂直向上的（相对于角色的视角）
+	// 通过这个函数，可以将这个局部速度向量转换到世界坐标系中
+	return UKismetMathLibrary::Quat_UnrotateVector(UpdatedComponent->GetComponentQuat(), Velocity);
 }
 
 bool UCustomMovementComponent::TraceClimbableSurfaces()
@@ -336,16 +344,16 @@ void UCustomMovementComponent::SnapMovementToClimableSurfaces(float DeltaTime)
 
 void UCustomMovementComponent::PlayClimbMontage(UAnimMontage* MontageToPlay)
 {
-	if(!MontageToPlay) return;
-	if(!OwningPlayerAnimInstance) return;
-	if(OwningPlayerAnimInstance->IsAnyMontagePlaying()) return;
+	if (!MontageToPlay) return;
+	if (!OwningPlayerAnimInstance) return;
+	if (OwningPlayerAnimInstance->IsAnyMontagePlaying()) return;
 
 	OwningPlayerAnimInstance->Montage_Play(MontageToPlay);
 }
 
 void UCustomMovementComponent::OnClimbMontageEnded(UAnimMontage* Montage, bool bInterrupted)
 {
-	if(Montage == IdleToClimbMontage)
+	if (Montage == IdleToClimbMontage)
 	{
 		StartClimbing();
 	}

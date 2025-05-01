@@ -34,7 +34,11 @@ protected:
 
 	float IdleElapsedTime; // 空闲已用时间
 
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category = Reference,meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Reference)
 	bool bIsClimbing;
 	void GetIsClimbing();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Reference)
+	FVector ClimbVelocity;
+	void GetClimbVelocity();
 };

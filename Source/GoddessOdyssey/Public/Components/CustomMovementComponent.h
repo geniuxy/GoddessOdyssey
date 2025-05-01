@@ -25,6 +25,7 @@ public:
 
 	void ToggleClimbing(bool bEnableClimb);
 	bool IsClimbing() const;
+	FVector GetUnrotatedClimbVelocity() const;
 
 #pragma endregion
 

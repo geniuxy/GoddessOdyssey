@@ -35,12 +35,17 @@ void UGoddessAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 		// 暂时取消进入relax state
 		bShouldEnterRelaxState = false;
 	}
-	
+	if (!GoddessMovementComponent) return;
 	GetIsClimbing();
+	GetClimbVelocity();
 }
 
 void UGoddessAnimInstance::GetIsClimbing()
 {
-	if (!GoddessMovementComponent) return;
 	bIsClimbing = GoddessMovementComponent->IsClimbing();
+}
+
+void UGoddessAnimInstance::GetClimbVelocity()
+{
+	ClimbVelocity = GoddessMovementComponent->GetUnrotatedClimbVelocity();
 }
