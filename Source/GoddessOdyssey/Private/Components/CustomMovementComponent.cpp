@@ -237,7 +237,7 @@ void UCustomMovementComponent::PhysClimb(float deltaTime, int32 Iterations)
 	ProcessClimableSurfaceInfo();
 
 	/*Check if we should stop climbing*/
-	if (CheckShouldStopClimbing())
+	if (CheckShouldStopClimbing()|| CheckHasReachedFloor())
 		StopClimbing();
 
 	RestorePreAdditiveRootMotionVelocity();
@@ -300,6 +300,33 @@ bool UCustomMovementComponent::CheckShouldStopClimbing()
 	if (DegreeDiff <= 60.f)
 	{
 		return true;
+	}
+
+	return false;
+}
+
+bool UCustomMovementComponent::CheckHasReachedFloor()
+{
+	const FVector DownVector = -UpdatedComponent->GetUpVector();
+	const FVector StartOffset = DownVector * 50.f;
+
+	const FVector Start = UpdatedComponent->GetComponentLocation() + StartOffset;
+	const FVector End = Start + DownVector;
+
+	TArray<FHitResult> PossibleFloorHits = DoCapsuleTraceMultiByObject(Start, End, true);
+
+	if (PossibleFloorHits.IsEmpty()) return false;
+
+	for (const FHitResult& PossibleFloorHit : PossibleFloorHits)
+	{
+		const bool bFloorReached =
+			FVector::Parallel(-PossibleFloorHit.ImpactNormal, FVector::UpVector) &&
+			GetUnrotatedClimbVelocity().Z < -10.f;
+
+		if (bFloorReached)
+		{
+			return true;
+		}
 	}
 
 	return false;
