@@ -161,6 +161,10 @@ private:
 		meta = (AllowPrivateAccess = "true"))
 	float ClimbDownLedgeTraceOffset = 100.f;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Character Movement: Climbing",
+		meta = (AllowPrivateAccess = "true"))
+	UAnimMontage* ClimbDownLedgeMontage;
+
 #pragma endregion
 
 public:
