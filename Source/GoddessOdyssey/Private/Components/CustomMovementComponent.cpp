@@ -27,8 +27,6 @@ void UCustomMovementComponent::TickComponent(float DeltaTime, enum ELevelTick Ti
                                              FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	CanClimbDownLedge();
 }
 
 void UCustomMovementComponent::OnMovementModeChanged(EMovementMode PreviousMovementMode, uint8 PreviousCustomMode)
@@ -246,12 +244,12 @@ bool UCustomMovementComponent::CanClimbDownLedge()
 		ComponentLocation + ComponentForward * ClimbDownWalkableSurfaceTraceOffset;
 	const FVector WalkableSurfaceTraceEnd = WalkableSurfaceTraceStart + DownVector * 150.f;
 
-	FHitResult WalkableSurfaceHit = DoLineTraceSingleByObject(WalkableSurfaceTraceStart, WalkableSurfaceTraceEnd, true);
+	FHitResult WalkableSurfaceHit = DoLineTraceSingleByObject(WalkableSurfaceTraceStart, WalkableSurfaceTraceEnd);
 
 	const FVector LedgeTraceStart = WalkableSurfaceHit.TraceStart + ComponentForward * ClimbDownLedgeTraceOffset;
 	const FVector LedgeTraceEnd = LedgeTraceStart + DownVector * 300.f;
 
-	FHitResult LedgeTraceHit = DoLineTraceSingleByObject(LedgeTraceStart, LedgeTraceEnd, true);
+	FHitResult LedgeTraceHit = DoLineTraceSingleByObject(LedgeTraceStart, LedgeTraceEnd);
 
 	if (WalkableSurfaceHit.bBlockingHit && !LedgeTraceHit.bBlockingHit)
 	{
