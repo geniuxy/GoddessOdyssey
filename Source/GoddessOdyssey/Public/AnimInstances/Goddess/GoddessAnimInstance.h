@@ -33,4 +33,8 @@ protected:
 	float EnterRelaxStateThreshold = 5.f;
 
 	float IdleElapsedTime; // 空闲已用时间
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category = Reference,meta = (AllowPrivateAccess = "true"))
+	bool bIsClimbing;
+	void GetIsClimbing();
 };

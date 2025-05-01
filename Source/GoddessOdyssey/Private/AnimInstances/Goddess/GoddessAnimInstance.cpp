@@ -4,6 +4,7 @@
 #include "AnimInstances/Goddess/GoddessAnimInstance.h"
 
 #include "Characters/Goddess.h"
+#include "Components/CustomMovementComponent.h"
 
 void UGoddessAnimInstance::NativeInitializeAnimation()
 {
@@ -12,9 +13,9 @@ void UGoddessAnimInstance::NativeInitializeAnimation()
 	if (OwningCharacter)
 		OwningGoddess = Cast<AGoddess>(OwningCharacter);
 	
-	if(OwningGoddess)
+	if(OwningMovementComponent)
 	{
-		GoddessMovementComponent = OwningGoddess->GetGoddessMovementComponent();
+		GoddessMovementComponent = Cast<UCustomMovementComponent>(OwningMovementComponent);
 	}
 }
 
@@ -34,4 +35,12 @@ void UGoddessAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 		// 暂时取消进入relax state
 		bShouldEnterRelaxState = false;
 	}
+	
+	GetIsClimbing();
+}
+
+void UGoddessAnimInstance::GetIsClimbing()
+{
+	if (!GoddessMovementComponent) return;
+	bIsClimbing = GoddessMovementComponent->IsClimbing();
 }
