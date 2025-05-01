@@ -30,6 +30,8 @@ public:
 
 protected:
 #pragma region OverridenFunctions
+	virtual void BeginPlay() override;
+
 	virtual void TickComponent(
 		float DeltaTime,
 		enum ELevelTick TickType,
@@ -86,9 +88,17 @@ private:
 
 	void SnapMovementToClimableSurfaces(float DeltaTime);
 
+	void PlayClimbMontage(UAnimMontage* MontageToPlay);
+
+	UFUNCTION()
+	void OnClimbMontageEnded(UAnimMontage* Montage, bool bInterrupted);
+
 #pragma endregion
 
 #pragma region ClimbCoreVariables
+
+	UPROPERTY()
+	UAnimInstance* OwningPlayerAnimInstance;
 
 	TArray<FHitResult> ClimbableSurfacesTracedResults;
 
@@ -123,8 +133,12 @@ private:
 		meta = (AllowPrivateAccess = "true"))
 	float MaxClimbAcceleration = 300.f;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Character Movement: Climbing",
+		meta = (AllowPrivateAccess = "true"))
+	UAnimMontage* IdleToClimbMontage;
+
 #pragma endregion
 
 public:
-	FORCEINLINE FVector GetClimbableSurfaceNormal() const {return CurrentClimbableSurfaceNormal;}
+	FORCEINLINE FVector GetClimbableSurfaceNormal() const { return CurrentClimbableSurfaceNormal; }
 };

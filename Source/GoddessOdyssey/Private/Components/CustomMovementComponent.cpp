@@ -9,6 +9,19 @@
 #include "Components/CapsuleComponent.h"
 
 #pragma region OverridenFunctions
+void UCustomMovementComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	OwningPlayerAnimInstance = CharacterOwner->GetMesh()->GetAnimInstance();
+
+	if(OwningPlayerAnimInstance)
+	{
+		OwningPlayerAnimInstance->OnMontageEnded.AddDynamic(this,&UCustomMovementComponent::OnClimbMontageEnded);
+		OwningPlayerAnimInstance->OnMontageBlendingOut.AddDynamic(this,&UCustomMovementComponent::OnClimbMontageEnded);
+	}
+}
+
 void UCustomMovementComponent::TickComponent(float DeltaTime, enum ELevelTick TickType,
                                              FActorComponentTickFunction* ThisTickFunction)
 {
@@ -30,7 +43,7 @@ void UCustomMovementComponent::OnMovementModeChanged(EMovementMode PreviousMovem
 
 		// 重置主角转向
 		const FRotator DirtyRotation = UpdatedComponent->GetComponentRotation();
-		const FRotator CleanStandRotation = FRotator(0.f,DirtyRotation.Yaw,0.f);
+		const FRotator CleanStandRotation = FRotator(0.f, DirtyRotation.Yaw, 0.f);
 		UpdatedComponent->SetRelativeRotation(CleanStandRotation);
 
 		StopMovementImmediately();
@@ -146,7 +159,8 @@ void UCustomMovementComponent::ToggleClimbing(bool bEnableClimb)
 	{
 		if (CanStartClimbing())
 		{
-			StartClimbing();
+			// StartClimbing();
+			PlayClimbMontage(IdleToClimbMontage);
 		}
 	}
 	else
@@ -213,7 +227,7 @@ void UCustomMovementComponent::PhysClimb(float deltaTime, int32 Iterations)
 	/*Process all the climbable surfaces info*/
 	TraceClimbableSurfaces();
 	ProcessClimableSurfaceInfo();
-	
+
 	/*Check if we should stop climbing*/
 	if (CheckShouldStopClimbing())
 		StopClimbing();
@@ -272,10 +286,10 @@ bool UCustomMovementComponent::CheckShouldStopClimbing()
 {
 	if (ClimbableSurfacesTracedResults.IsEmpty()) return true;
 
-	const float DotResult = FVector::DotProduct(CurrentClimbableSurfaceNormal,FVector::UpVector);
+	const float DotResult = FVector::DotProduct(CurrentClimbableSurfaceNormal, FVector::UpVector);
 	const float DegreeDiff = FMath::RadiansToDegrees(FMath::Acos(DotResult));
 
-	if(DegreeDiff<=60.f)
+	if (DegreeDiff <= 60.f)
 	{
 		return true;
 	}
@@ -318,6 +332,20 @@ void UCustomMovementComponent::SnapMovementToClimableSurfaces(float DeltaTime)
 		UpdatedComponent->GetComponentQuat(),
 		true
 	);
+}
+
+void UCustomMovementComponent::PlayClimbMontage(UAnimMontage* MontageToPlay)
+{
+	if(!MontageToPlay) return;
+	if(!OwningPlayerAnimInstance) return;
+	if(OwningPlayerAnimInstance->IsAnyMontagePlaying()) return;
+
+	OwningPlayerAnimInstance->Montage_Play(MontageToPlay);
+}
+
+void UCustomMovementComponent::OnClimbMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+{
+	Debug::Print(TEXT("Climb montage ended"));
 }
 
 #pragma endregion
