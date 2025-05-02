@@ -6,6 +6,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "CustomMovementComponent.generated.h"
 
+class AGoddess;
+
 UENUM(BlueprintType)
 namespace ECustomMovementMode
 {
@@ -102,12 +104,14 @@ private:
 
 	void TryStartVaulting();
 
-	bool CanStartVaulting(FVector& OutVaultStartPosition,FVector& OutVaultLandPosition);
+	bool CanStartVaulting(FVector& OutVaultStartPosition, FVector& OutVaultLandPosition);
 
 	void PlayClimbMontage(UAnimMontage* MontageToPlay);
 
 	UFUNCTION()
 	void OnClimbMontageEnded(UAnimMontage* Montage, bool bInterrupted);
+
+	void SetMotionWarpTarget(const FName& InWarpTargetName,const FVector& InTargetPosition);
 
 #pragma endregion
 
@@ -115,6 +119,9 @@ private:
 
 	UPROPERTY()
 	UAnimInstance* OwningPlayerAnimInstance;
+
+	UPROPERTY()
+	AGoddess* OwningPlayerCharacter;
 
 	TArray<FHitResult> ClimbableSurfacesTracedResults;
 
@@ -168,6 +175,10 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Character Movement: Climbing",
 		meta = (AllowPrivateAccess = "true"))
 	UAnimMontage* ClimbDownLedgeMontage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Character Movement: Climbing",
+		meta = (AllowPrivateAccess = "true"))
+	UAnimMontage* VaultMontage;
 
 #pragma endregion
 

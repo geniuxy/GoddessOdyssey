@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "DebugHelper.h"
+#include "MotionWarpingComponent.h"
+#include "Characters/Goddess.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -21,6 +23,8 @@ void UCustomMovementComponent::BeginPlay()
 		OwningPlayerAnimInstance->OnMontageEnded.AddDynamic(this, &UCustomMovementComponent::OnClimbMontageEnded);
 		OwningPlayerAnimInstance->OnMontageBlendingOut.AddDynamic(this, &UCustomMovementComponent::OnClimbMontageEnded);
 	}
+
+	OwningPlayerCharacter = Cast<AGoddess>(CharacterOwner);
 }
 
 void UCustomMovementComponent::TickComponent(float DeltaTime, enum ELevelTick TickType,
@@ -176,7 +180,7 @@ void UCustomMovementComponent::ToggleClimbing(bool bEnableClimb)
 			// StartClimbing();
 			PlayClimbMontage(IdleToClimbMontage);
 		}
-		else if(CanClimbDownLedge())
+		else if (CanClimbDownLedge())
 		{
 			PlayClimbMontage(ClimbDownLedgeMontage);
 		}
@@ -450,21 +454,19 @@ void UCustomMovementComponent::TryStartVaulting()
 	FVector VaultStartPosition;
 	FVector VaultLandPosition;
 
-	if(CanStartVaulting(VaultStartPosition,VaultLandPosition))
+	if (CanStartVaulting(VaultStartPosition, VaultLandPosition))
 	{
-		//Start vaulting
-		Debug::Print(TEXT("Start position: ") + VaultStartPosition.ToCompactString());
-		Debug::Print(TEXT("Land position: ") + VaultLandPosition.ToCompactString());
-	}
-	else
-	{
-		Debug::Print(TEXT("Unable to vault "));
+		SetMotionWarpTarget(FName("VaultStartPosition"), VaultStartPosition);
+		SetMotionWarpTarget(FName("VaultLandPosition"), VaultLandPosition);
+
+		StartClimbing();
+		PlayClimbMontage(VaultMontage);
 	}
 }
 
 bool UCustomMovementComponent::CanStartVaulting(FVector& OutVaultStartPosition, FVector& OutVaultLandPosition)
 {
-	if(IsFalling()) return false;
+	if (IsFalling()) return false;
 
 	OutVaultStartPosition = FVector::ZeroVector;
 	OutVaultLandPosition = FVector::ZeroVector;
@@ -474,31 +476,31 @@ bool UCustomMovementComponent::CanStartVaulting(FVector& OutVaultStartPosition, 
 	const FVector UpVector = UpdatedComponent->GetUpVector();
 	const FVector DownVector = -UpdatedComponent->GetUpVector();
 
-	for(int32 i = 0; i<5; i++)
+	for (int32 i = 0; i < 5; i++)
 	{
-		const FVector Start = ComponentLocation + UpVector * 100.f + 
-		ComponentForward * 100.f * (i+1);
+		const FVector Start = ComponentLocation + UpVector * 100.f +
+			ComponentForward * 100.f * (i + 1);
 
-		const FVector End = Start + DownVector * 100.f * (i+1);
+		const FVector End = Start + DownVector * 100.f * (i + 1);
 
-		FHitResult VaultTraceHit = DoLineTraceSingleByObject(Start,End,true,true);
+		FHitResult VaultTraceHit = DoLineTraceSingleByObject(Start, End, true, true);
 
-		if(i == 0 && VaultTraceHit.bBlockingHit)
+		if (i == 0 && VaultTraceHit.bBlockingHit)
 		{
 			OutVaultStartPosition = VaultTraceHit.ImpactPoint;
 		}
 
-		if(i == 4 && VaultTraceHit.bBlockingHit)
+		if (i == 4 && VaultTraceHit.bBlockingHit)
 		{
 			OutVaultLandPosition = VaultTraceHit.ImpactPoint;
 		}
 	}
 
-	if(OutVaultStartPosition!=FVector::ZeroVector && OutVaultLandPosition!=FVector::ZeroVector)
+	if (OutVaultStartPosition != FVector::ZeroVector && OutVaultLandPosition != FVector::ZeroVector)
 	{
 		return true;
 	}
-	
+
 	return false;
 }
 
@@ -513,16 +515,26 @@ void UCustomMovementComponent::PlayClimbMontage(UAnimMontage* MontageToPlay)
 
 void UCustomMovementComponent::OnClimbMontageEnded(UAnimMontage* Montage, bool bInterrupted)
 {
-	if(Montage == IdleToClimbMontage || Montage == ClimbDownLedgeMontage)
+	if (Montage == IdleToClimbMontage || Montage == ClimbDownLedgeMontage)
 	{
 		StartClimbing();
 		StopMovementImmediately();
 	}
-	
-	if(Montage == ClimbToTopMontage)
+
+	if (Montage == ClimbToTopMontage || Montage == VaultMontage)
 	{
 		SetMovementMode(MOVE_Walking);
 	}
+}
+
+void UCustomMovementComponent::SetMotionWarpTarget(const FName& InWarpTargetName, const FVector& InTargetPosition)
+{
+	if (!OwningPlayerCharacter) return;
+
+	OwningPlayerCharacter->GetMotionWarpingComponent()->AddOrUpdateWarpTargetFromLocation(
+		InWarpTargetName,
+		InTargetPosition
+	);
 }
 
 #pragma endregion
