@@ -222,6 +222,11 @@ void AGoddess::CallBack_Climb(const FInputActionValue& InputActionValue)
 	}
 }
 
+void AGoddess::CallBack_ClimbHop(const FInputActionValue& InputActionValue)
+{
+	Debug::Print(TEXT("Hopping Started"));
+}
+
 void AGoddess::CallBack_SwitchTargetTriggered(const FInputActionValue& InputActionValue)
 {
 	TargetSwitchDirection = InputActionValue.Get<FVector2D>();
@@ -379,6 +384,9 @@ void AGoddess::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	                                             ETriggerEvent::Started, this, &ThisClass::CallBack_Climb);
 	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_ClimbMove,
 	                                             ETriggerEvent::Triggered, this, &ThisClass::HandleClimbMovementInput);
+
+	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_ClimbHop,
+	                                             ETriggerEvent::Started, this, &ThisClass::CallBack_ClimbHop);
 
 	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_SwitchTarget,
 	                                             ETriggerEvent::Triggered, this,
