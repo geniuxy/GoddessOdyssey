@@ -28,7 +28,7 @@ class GODDESSODYSSEY_API UCustomMovementComponent : public UCharacterMovementCom
 public:
 	FOnEnterClimbState OnEnterClimbStateDelegate;
 	FOnExitClimbState OnExitClimbStateDelegate;
-	
+
 #pragma region ClimbCore
 
 	void ToggleClimbing(bool bEnableClimb);
@@ -85,7 +85,12 @@ private:
 
 	bool TraceClimbableSurfaces();
 
-	FHitResult TraceFromEyeHeight(float TraceDistance, float TraceStartOffset = 0.f);
+	FHitResult TraceFromEyeHeight(
+		float TraceDistance,
+		float TraceStartOffset = 0.f,
+		bool bShowDebugShape = false,
+		bool bDrawPersistantShapes = false
+	);
 
 	bool CanStartClimbing();
 
@@ -118,7 +123,11 @@ private:
 	UFUNCTION()
 	void OnClimbMontageEnded(UAnimMontage* Montage, bool bInterrupted);
 
-	void SetMotionWarpTarget(const FName& InWarpTargetName,const FVector& InTargetPosition);
+	void SetMotionWarpTarget(const FName& InWarpTargetName, const FVector& InTargetPosition);
+
+	void HandleHopUp();
+
+	bool CheckCanHopUp(FVector& OutHopUpTargetPosition);
 
 #pragma endregion
 
@@ -186,6 +195,10 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Character Movement: Climbing",
 		meta = (AllowPrivateAccess = "true"))
 	UAnimMontage* VaultMontage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Character Movement: Climbing",
+		meta = (AllowPrivateAccess = "true"))
+	UAnimMontage* HopUpMontage;
 
 #pragma endregion
 

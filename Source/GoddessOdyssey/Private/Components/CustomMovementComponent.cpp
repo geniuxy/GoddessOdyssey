@@ -206,18 +206,20 @@ void UCustomMovementComponent::ToggleClimbing(bool bEnableClimb)
 void UCustomMovementComponent::RequestHopping()
 {
 	const FVector UnrotatedLastInputVector =
-	UKismetMathLibrary::Quat_UnrotateVector(UpdatedComponent->GetComponentQuat(),GetLastInputVector());
-	
+		UKismetMathLibrary::Quat_UnrotateVector(UpdatedComponent->GetComponentQuat(), GetLastInputVector());
+
 	const float DotResult =
-	FVector::DotProduct(UnrotatedLastInputVector.GetSafeNormal(), FVector::UpVector);
+		FVector::DotProduct(UnrotatedLastInputVector.GetSafeNormal(), FVector::UpVector);
 
 	Debug::Print(TEXT("Dot result: ") + FString::SanitizeFloat(DotResult));
 
-	if(DotResult>=0.9f)
+	if (DotResult >= 0.9f)
 	{
 		Debug::Print(TEXT("Hop Up"));
+
+		HandleHopUp();
 	}
-	else if(DotResult<=-0.9f)
+	else if (DotResult <= -0.9f)
 	{
 		Debug::Print(TEXT("Hop Down"));
 	}
@@ -250,17 +252,21 @@ bool UCustomMovementComponent::TraceClimbableSurfaces()
 	return !ClimbableSurfacesTracedResults.IsEmpty();
 }
 
-FHitResult UCustomMovementComponent::TraceFromEyeHeight(float TraceDistance, float TraceStartOffset)
+FHitResult UCustomMovementComponent::TraceFromEyeHeight(
+	float TraceDistance,
+	float TraceStartOffset,
+	bool bShowDebugShape,
+	bool bDrawPersistantShapes)
 {
 	const FVector ComponentLocation = UpdatedComponent->GetComponentLocation();
 	// 这里获取眼睛位置要用CharacterOwner->BaseEyeHeight
-	const FVector EyeHeightOffset = UpdatedComponent->GetUpVector() * (CharacterOwner->BaseEyeHeight +
-		TraceStartOffset);
+	const FVector EyeHeightOffset =
+		UpdatedComponent->GetUpVector() * (CharacterOwner->BaseEyeHeight + TraceStartOffset);
 
 	const FVector Start = ComponentLocation + EyeHeightOffset;
 	const FVector End = Start + UpdatedComponent->GetForwardVector() * TraceDistance;
 
-	return DoLineTraceSingleByObject(Start, End);
+	return DoLineTraceSingleByObject(Start, End, bShowDebugShape, bDrawPersistantShapes);
 }
 
 bool UCustomMovementComponent::CanStartClimbing()
@@ -490,7 +496,7 @@ void UCustomMovementComponent::TryStartVaulting()
 	{
 		SetMotionWarpTarget(FName("VaultStartPosition"), VaultStartPosition);
 		SetMotionWarpTarget(FName("VaultLandPosition"), VaultLandPosition);
-		
+
 		// 整个翻越的过程： walking->custom->falling->walking->falling->walking
 		// 如果没有StartClimbing()，翻越的过程是一直walking，而walking似乎z方向的速度会被锁死为0,会导致跳不起来
 		StartClimbing();
@@ -570,6 +576,33 @@ void UCustomMovementComponent::SetMotionWarpTarget(const FName& InWarpTargetName
 		InWarpTargetName,
 		InTargetPosition
 	);
+}
+
+void UCustomMovementComponent::HandleHopUp()
+{
+	FVector HopUpTargetPoint;
+
+	if (CheckCanHopUp(HopUpTargetPoint))
+	{
+		SetMotionWarpTarget(FName("HopUpTargetPoint"), HopUpTargetPoint);
+
+		PlayClimbMontage(HopUpMontage);
+	}
+}
+
+bool UCustomMovementComponent::CheckCanHopUp(FVector& OutHopUpTargetPosition)
+{
+	FHitResult HopUpHit = TraceFromEyeHeight(100.f, -30.f, true, true);
+	FHitResult SaftyLedgeHit = TraceFromEyeHeight(100.f, 150.f, true, true);
+
+	if (HopUpHit.bBlockingHit && SaftyLedgeHit.bBlockingHit)
+	{
+		OutHopUpTargetPosition = HopUpHit.ImpactPoint + UpdatedComponent->GetUpVector() * 30.f;
+
+		return true;
+	}
+
+	return false;
 }
 
 #pragma endregion
