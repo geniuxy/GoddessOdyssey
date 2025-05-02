@@ -203,6 +203,30 @@ void UCustomMovementComponent::ToggleClimbing(bool bEnableClimb)
 	}
 }
 
+void UCustomMovementComponent::RequestHopping()
+{
+	const FVector UnrotatedLastInputVector =
+	UKismetMathLibrary::Quat_UnrotateVector(UpdatedComponent->GetComponentQuat(),GetLastInputVector());
+	
+	const float DotResult =
+	FVector::DotProduct(UnrotatedLastInputVector.GetSafeNormal(), FVector::UpVector);
+
+	Debug::Print(TEXT("Dot result: ") + FString::SanitizeFloat(DotResult));
+
+	if(DotResult>=0.9f)
+	{
+		Debug::Print(TEXT("Hop Up"));
+	}
+	else if(DotResult<=-0.9f)
+	{
+		Debug::Print(TEXT("Hop Down"));
+	}
+	else
+	{
+		Debug::Print(TEXT("Invalid Input Range"));
+	}
+}
+
 bool UCustomMovementComponent::IsClimbing() const
 {
 	return MovementMode == MOVE_Custom && CustomMovementMode == ECustomMovementMode::MOVE_Climb;
@@ -488,10 +512,11 @@ bool UCustomMovementComponent::CanStartVaulting(FVector& OutVaultStartPosition, 
 
 	for (int32 i = 0; i < 5; i++)
 	{
-		const FVector Start = ComponentLocation + UpVector * 100.f +
-			ComponentForward * 100.f * (i + 1);
+		// 这里的检测距离distance 75.f 是为了适当小于 检测能否start climb 的检测距离(30+50)
+		const FVector Start = ComponentLocation + UpVector * 75.f +
+			ComponentForward * 75.f * (i + 1);
 
-		const FVector End = Start + DownVector * 100.f * (i + 1);
+		const FVector End = Start + DownVector * 75.f * (i + 1);
 
 		FHitResult VaultTraceHit = DoLineTraceSingleByObject(Start, End);
 

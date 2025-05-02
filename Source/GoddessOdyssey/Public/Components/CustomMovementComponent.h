@@ -32,6 +32,7 @@ public:
 #pragma region ClimbCore
 
 	void ToggleClimbing(bool bEnableClimb);
+	void RequestHopping();
 	bool IsClimbing() const;
 	FVector GetUnrotatedClimbVelocity() const;
 

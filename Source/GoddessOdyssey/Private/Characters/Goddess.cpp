@@ -224,7 +224,10 @@ void AGoddess::CallBack_Climb(const FInputActionValue& InputActionValue)
 
 void AGoddess::CallBack_ClimbHop(const FInputActionValue& InputActionValue)
 {
-	Debug::Print(TEXT("Hopping Started"));
+	if(GoddessMovementComponent)
+	{
+		GoddessMovementComponent->RequestHopping();
+	}
 }
 
 void AGoddess::CallBack_SwitchTargetTriggered(const FInputActionValue& InputActionValue)
