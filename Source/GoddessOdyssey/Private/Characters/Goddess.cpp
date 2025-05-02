@@ -87,10 +87,10 @@ void AGoddess::BeginPlay()
 	Super::BeginPlay();
 
 	// InitFloatingWeapon();
-	if(GoddessMovementComponent)
+	if (GoddessMovementComponent)
 	{
-		GoddessMovementComponent->OnEnterClimbStateDelegate.BindUObject(this,&ThisClass::OnPlayerEnterClimbState);
-		GoddessMovementComponent->OnExitClimbStateDelegate.BindUObject(this,&ThisClass::OnPlayerExitClimbState);
+		GoddessMovementComponent->OnEnterClimbStateDelegate.BindUObject(this, &ThisClass::OnPlayerEnterClimbState);
+		GoddessMovementComponent->OnExitClimbStateDelegate.BindUObject(this, &ThisClass::OnPlayerExitClimbState);
 	}
 }
 
@@ -103,6 +103,28 @@ void AGoddess::PossessedBy(AController* NewController)
 		if (UDataAsset_StartUpData* StartUpData = CharacterStartUpData.LoadSynchronous())
 			StartUpData->GiveToAbilitySystemComponent(BaseAbilitySystemComponent, GetCurrentAbilityApplyLevel());
 	}
+}
+
+void AGoddess::AddInputMappingContext(UInputMappingContext* ContextToAdd, int32 InPriority)
+{
+	if (!ContextToAdd) return;
+	// 添加MappingContext
+	ULocalPlayer* LocalPlayer = GetController<APlayerController>()->GetLocalPlayer();
+	UEnhancedInputLocalPlayerSubsystem* Subsystem =
+		ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
+	check(Subsystem);
+	Subsystem->AddMappingContext(ContextToAdd, InPriority);
+}
+
+void AGoddess::RemoveInputMappingContext(UInputMappingContext* ContextToRemove)
+{
+	if (!ContextToRemove) return;
+	// 移除MappingContext
+	ULocalPlayer* LocalPlayer = GetController<APlayerController>()->GetLocalPlayer();
+	UEnhancedInputLocalPlayerSubsystem* Subsystem =
+		ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
+	check(Subsystem);
+	Subsystem->RemoveMappingContext(ContextToRemove);
 }
 
 void AGoddess::CallBack_Move(const FInputActionValue& InputActionValue)
@@ -165,12 +187,14 @@ void AGoddess::HandleClimbMovementInput(const FInputActionValue& InputActionValu
 
 void AGoddess::OnPlayerEnterClimbState()
 {
-	Debug::Print(TEXT("Entered climb state"));
+	checkf(InputConfigDataAsset, TEXT("Forgot to assign a valid data asset as input config"));
+	AddInputMappingContext(InputConfigDataAsset->ClimbMappingContext, 1);
 }
 
 void AGoddess::OnPlayerExitClimbState()
 {
-	Debug::Print(TEXT("Exited climb state"));
+	checkf(InputConfigDataAsset, TEXT("Forgot to assign a valid data asset as input config"));
+	RemoveInputMappingContext(InputConfigDataAsset->ClimbMappingContext);
 }
 
 void AGoddess::CallBack_Look(const FInputActionValue& InputActionValue)
@@ -343,20 +367,18 @@ void AGoddess::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	checkf(InputConfigDataAsset, TEXT("Forgot to assign a valid data asset as input config"));
 	// 添加MappingContext
-	ULocalPlayer* LocalPlayer = GetController<APlayerController>()->GetLocalPlayer();
-	UEnhancedInputLocalPlayerSubsystem* Subsystem =
-		ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
-	check(Subsystem);
-	Subsystem->AddMappingContext(InputConfigDataAsset->DefaultMappingContext, 0);
+	AddInputMappingContext(InputConfigDataAsset->DefaultMappingContext, 0);
 
 	// Bind InputActions
 	UGoddessInputComponent* GoddessInputComponent = CastChecked<UGoddessInputComponent>(PlayerInputComponent);
 	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_Move,
-	                                             ETriggerEvent::Triggered, this, &ThisClass::CallBack_Move);
+	                                             ETriggerEvent::Triggered, this, &ThisClass::HandleGroundMovementInput);
 	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_Look,
 	                                             ETriggerEvent::Triggered, this, &ThisClass::CallBack_Look);
 	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_Climb,
 	                                             ETriggerEvent::Started, this, &ThisClass::CallBack_Climb);
+	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_ClimbMove,
+	                                             ETriggerEvent::Triggered, this, &ThisClass::HandleClimbMovementInput);
 
 	GoddessInputComponent->BindNativeInputAction(InputConfigDataAsset, GoddessGameplayTags::Input_SwitchTarget,
 	                                             ETriggerEvent::Triggered, this,

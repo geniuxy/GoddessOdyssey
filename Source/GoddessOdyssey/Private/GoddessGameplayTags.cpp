@@ -10,6 +10,7 @@ namespace GoddessGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Input_Move, "Input.Move");
 	UE_DEFINE_GAMEPLAY_TAG(Input_Look, "Input.Look");
 	UE_DEFINE_GAMEPLAY_TAG(Input_Climb, "Input.Climb");
+	UE_DEFINE_GAMEPLAY_TAG(Input_ClimbMove, "Input.ClimbMove");
 	UE_DEFINE_GAMEPLAY_TAG(Input_Equip, "Input.Equip");
 	UE_DEFINE_GAMEPLAY_TAG(Input_UnEquip, "Input.UnEquip");
 	UE_DEFINE_GAMEPLAY_TAG(Input_Roll, "Input.Roll");

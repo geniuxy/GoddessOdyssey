@@ -85,6 +85,9 @@ protected:
 	UPROPERTY()
 	FVector2D TargetSwitchDirection = FVector2D::ZeroVector;
 
+	void AddInputMappingContext(UInputMappingContext* ContextToAdd,int32 InPriority);
+	void RemoveInputMappingContext(UInputMappingContext* ContextToRemove);
+
 	void CallBack_Move(const FInputActionValue& InputActionValue);
 	void HandleGroundMovementInput(const FInputActionValue& InputActionValue);
 	void HandleClimbMovementInput(const FInputActionValue& InputActionValue);
@@ -120,8 +123,8 @@ protected:
 
 	// virtual void InitFloatingWeapon();
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
-	UInputMappingContext* MappingContext;
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
+	// UInputMappingContext* MappingContext;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AWeapon> FloatingWeaponClass;

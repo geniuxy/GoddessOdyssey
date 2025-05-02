@@ -39,6 +39,9 @@ class GODDESSODYSSEY_API UDataAsset_InputConfig : public UDataAsset
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UInputMappingContext* DefaultMappingContext;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UInputMappingContext* ClimbMappingContext;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(TitleProperty = "InputTag"))
 	TArray<FGoddessInputActionConfig> NativeInputActions;
