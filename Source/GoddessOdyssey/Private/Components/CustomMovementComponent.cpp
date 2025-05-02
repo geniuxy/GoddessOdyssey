@@ -31,6 +31,10 @@ void UCustomMovementComponent::TickComponent(float DeltaTime, enum ELevelTick Ti
                                              FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	// 打印movement mode
+	// Debug::Print(FString::Printf(TEXT("Movement Mode: %s"), *UEnum::GetDisplayValueAsText(MovementMode).ToString()),
+	//              FColor::Red, 1);
 }
 
 void UCustomMovementComponent::OnMovementModeChanged(EMovementMode PreviousMovementMode, uint8 PreviousCustomMode)
@@ -41,7 +45,7 @@ void UCustomMovementComponent::OnMovementModeChanged(EMovementMode PreviousMovem
 		CharacterOwner->GetCapsuleComponent()->SetCapsuleHalfHeight(50.f);
 	}
 
-	if (PreviousMovementMode == EMovementMode::MOVE_Custom && PreviousCustomMode == ECustomMovementMode::MOVE_Climb)
+	if (PreviousMovementMode == MOVE_Custom && PreviousCustomMode == ECustomMovementMode::MOVE_Climb)
 	{
 		bOrientRotationToMovement = true;
 		CharacterOwner->GetCapsuleComponent()->SetCapsuleHalfHeight(100.f);
@@ -88,6 +92,7 @@ float UCustomMovementComponent::GetMaxAcceleration() const
 FVector UCustomMovementComponent::ConstrainAnimRootMotionVelocity(
 	const FVector& RootMotionVelocity, const FVector& CurrentVelocity) const
 {
+	// 这里就是为了falling状态时，考虑到根运动的速度，不考虑重力的影响
 	const bool bIsPlayingRMMontage =
 		IsFalling() && OwningPlayerAnimInstance && OwningPlayerAnimInstance->IsAnyMontagePlaying();
 	if (bIsPlayingRMMontage)
@@ -177,7 +182,6 @@ void UCustomMovementComponent::ToggleClimbing(bool bEnableClimb)
 	{
 		if (CanStartClimbing())
 		{
-			// StartClimbing();
 			PlayClimbMontage(IdleToClimbMontage);
 		}
 		else if (CanClimbDownLedge())
@@ -458,7 +462,9 @@ void UCustomMovementComponent::TryStartVaulting()
 	{
 		SetMotionWarpTarget(FName("VaultStartPosition"), VaultStartPosition);
 		SetMotionWarpTarget(FName("VaultLandPosition"), VaultLandPosition);
-
+		
+		// 整个翻越的过程： walking->custom->falling->walking->falling->walking
+		// 如果没有StartClimbing()，翻越的过程是一直walking，而walking似乎z方向的速度会被锁死为0,会导致跳不起来
 		StartClimbing();
 		PlayClimbMontage(VaultMontage);
 	}
