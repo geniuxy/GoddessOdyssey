@@ -87,6 +87,11 @@ void AGoddess::BeginPlay()
 	Super::BeginPlay();
 
 	// InitFloatingWeapon();
+	if(GoddessMovementComponent)
+	{
+		GoddessMovementComponent->OnEnterClimbStateDelegate.BindUObject(this,&ThisClass::OnPlayerEnterClimbState);
+		GoddessMovementComponent->OnExitClimbStateDelegate.BindUObject(this,&ThisClass::OnPlayerExitClimbState);
+	}
 }
 
 void AGoddess::PossessedBy(AController* NewController)
@@ -156,6 +161,16 @@ void AGoddess::HandleClimbMovementInput(const FInputActionValue& InputActionValu
 		);
 		AddMovementInput(RightVector, MoveVector.X);
 	}
+}
+
+void AGoddess::OnPlayerEnterClimbState()
+{
+	Debug::Print(TEXT("Entered climb state"));
+}
+
+void AGoddess::OnPlayerExitClimbState()
+{
+	Debug::Print(TEXT("Exited climb state"));
 }
 
 void AGoddess::CallBack_Look(const FInputActionValue& InputActionValue)

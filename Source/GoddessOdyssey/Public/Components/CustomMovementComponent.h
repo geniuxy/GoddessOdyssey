@@ -6,6 +6,9 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "CustomMovementComponent.generated.h"
 
+DECLARE_DELEGATE(FOnEnterClimbState)
+DECLARE_DELEGATE(FOnExitClimbState)
+
 class AGoddess;
 
 UENUM(BlueprintType)
@@ -23,6 +26,9 @@ class GODDESSODYSSEY_API UCustomMovementComponent : public UCharacterMovementCom
 	GENERATED_BODY()
 
 public:
+	FOnEnterClimbState OnEnterClimbStateDelegate;
+	FOnExitClimbState OnExitClimbStateDelegate;
+	
 #pragma region ClimbCore
 
 	void ToggleClimbing(bool bEnableClimb);

@@ -88,6 +88,9 @@ protected:
 	void CallBack_Move(const FInputActionValue& InputActionValue);
 	void HandleGroundMovementInput(const FInputActionValue& InputActionValue);
 	void HandleClimbMovementInput(const FInputActionValue& InputActionValue);
+
+	void OnPlayerEnterClimbState();
+	void OnPlayerExitClimbState();
 	
 	void CallBack_Look(const FInputActionValue& InputActionValue);
 	void CallBack_Climb(const FInputActionValue& InputActionValue);
